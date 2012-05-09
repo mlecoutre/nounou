@@ -21,4 +21,10 @@ public class TimeService {
 	public Time get(@PathParam("timezone") String timezone) {
 		return new Time(TimeZone.getTimeZone(timezone.toUpperCase()));
 	}
+
+	@GET
+	@Path("/{hello}")
+	public String hello(@PathParam("name") String name) {
+		return "Hello, World " + name;
+	}
 }
