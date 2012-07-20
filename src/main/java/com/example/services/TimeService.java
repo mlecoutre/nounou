@@ -22,9 +22,9 @@ public class TimeService {
 		return new Time(TimeZone.getTimeZone(timezone.toUpperCase()));
 	}
 
-	@GET
-	@Path("/{hello}")
-	public String hello(@PathParam("name") String name) {
-		return "Hello, World " + name;
-	}
+	//@GET
+	//@Path("/{hello}")
+	//public String hello(@PathParam("name") String name) {
+	//	return "Hello, World " + name;
+	//}
 }
