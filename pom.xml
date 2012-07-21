@@ -111,12 +111,11 @@
 
                     <deployables>
                         <deployable>
-                            <groupId>org.mat.sample</groupId>
-                            <artifactId>hello-mlecoutre-heroku</artifactId>
-                            <type>war</type>
-                            <properties>
+                            <location>${project.build.directory}/${project.build.finalName}.${project.packaging}</location>
+
+                            <!--<properties>
                                 <context>ROOT</context>
-                            </properties>
+                            </properties>-->
                         </deployable>
                     </deployables>
 
