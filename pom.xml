@@ -111,12 +111,13 @@
 
                     <deployables>
                         <deployable>
+                            <type>war</type>
                             <location>${project.build.directory}/${project.build.finalName}.${project.packaging}
                             </location>
 
-                            <!--<properties>
+                            <properties>
                                 <context>ROOT</context>
-                            </properties>-->
+                            </properties>
                         </deployable>
                     </deployables>
                     <configuration>
