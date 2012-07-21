@@ -111,6 +111,7 @@
 
                     <deployables>
                         <deployable>
+                            <id>default</id>
                             <location>${project.build.directory}/${project.build.finalName}.${project.packaging}</location>
 
                             <!--<properties>
