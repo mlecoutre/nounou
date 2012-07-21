@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.example</groupId>
     <version>1.0-SNAPSHOT</version>
@@ -61,6 +61,12 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+           <version>1.2.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -73,7 +79,9 @@
                     <execution>
                         <id>copy-dependencies</id>
                         <phase>package</phase>
-                        <goals><goal>copy-dependencies</goal></goals>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -86,7 +94,8 @@
                     <container>
                         <containerId>tomcat6x</containerId>
                         <zipUrlInstaller>
-                            <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
+                            <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip
+                            </url>
                         </zipUrlInstaller>
                         <dependencies>
                             <dependency>
@@ -99,19 +108,18 @@
                             </dependency>
                         </dependencies>
                     </container>
-                    <configuration>
-                        <type>standalone</type>
-                        <deployables>
-                            <deployable>
-                                <groupId>org.mat.sample</groupId>
-                                <artifactId>heroku-sample</artifactId>
-                                <type>war</type>
-                                <properties>
-                                    <context>ROOT</context>
-                                </properties>
-                            </deployable>
-                        </deployables>
-                    </configuration>
+
+                    <deployables>
+                        <deployable>
+                            <groupId>org.mat.sample</groupId>
+                            <artifactId>heroku-sample</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>ROOT</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+
                 </configuration>
                 <executions>
                     <execution>
