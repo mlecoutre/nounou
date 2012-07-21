@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-           <version>1.2.3</version>
+            <version>1.2.3</version>
         </dependency>
     </dependencies>
 
@@ -111,15 +111,17 @@
 
                     <deployables>
                         <deployable>
-                            <id>default</id>
-                            <location>${project.build.directory}/${project.build.finalName}.${project.packaging}</location>
+                            <location>${project.build.directory}/${project.build.finalName}.${project.packaging}
+                            </location>
 
                             <!--<properties>
                                 <context>ROOT</context>
                             </properties>-->
                         </deployable>
                     </deployables>
-
+                    <configuration>
+                        <type>standalone</type>
+                    </configuration>
                 </configuration>
                 <executions>
                     <execution>
