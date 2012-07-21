@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+    <persistence-unit name="default">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+            <!--
+               Note that there is no hibernate.connection.url specified here.
+                This is because Heroku specifies the database url that your app
+                 should use in the $DATABASE_URL environment variable.
+            -->
+
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show.sql" value="true"/>
+            <property name="hibernate.c3p0.acquire_increment" value="1"/>
+            <property name="hibernate.c3p0.idle_test_period" value="10"/>
+            <property name="hibernate.c3p0.max_size" value="20"/>
+            <property name="hibernate.c3p0.max_statements" value="40"/>
+            <property name="hibernate.c3p0.min_size" value="1"/>
+            <property name="hibernate.c3p0.timeout" value="30"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
+
+
+</persistence>
