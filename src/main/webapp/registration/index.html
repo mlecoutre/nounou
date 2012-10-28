@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Nounou app</title>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" a data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Nounou App!</a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <p>&nbsp;</p><br/>
+
+    <h2>Registration</h2>
+
+    <p>Add quick, dynamic tab functionality to transition through panes of local content, even via dropdown menus.</p>
+
+    <ul class="nav nav-tabs" id="registerTab">
+        <li class="active"><a href="#home">What</a></li>
+        <li><a href="#you">You</a></li>
+        <li><a href="#nurse">Your nurse</a></li>
+        <li><a href="#kids">Your kids </a></li>
+
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">That's here where you can enter all registration stuff. <br/>
+
+            <p>Please detail here
+            <ul>
+                <li>Your family and authorized people that get back at home your kids</li>
+                <li>List of your kids</li>
+                <li>Nurses you have employed</li>
+
+            </ul>
+            </p>
+            <p><a class="btn btn-primary" id="registrationStart">Start</a></p>
+        </div>
+        <div class="tab-pane" id="you"> <!--  TAB YOU -->
+            <div class="row">
+                <div class="span4">
+                    <form>
+                        <label>First name</label>
+                        <input type="text" id="userFirstName" placeholder="your first name">
+                        <label>Last name</label>
+                        <input type="text" id="userLastName" placeholder="your last name">
+                        <label>Phone number</label>
+                        <input type="text" id="userPhoneNumber" placeholder="phone number">
+                        <label>Password</label>
+                        <input type="password" id="userPassword" placeholder="your password">
+                        <label>Re password</label>
+                        <input type="password" placeholder="re enter your password">    <!-- not used at this time -->
+                        <label>Who</label>
+                        <select id="userType">
+                            <option>Mother</option>
+                            <option>Father</option>
+                            <option>Mammy</option>
+                            <option>Pappy</option>
+                            <option>Friend</option>
+                            <option>Other</option>
+                        </select>
+                        <button type="submit" class="btn" id="registerUser">Add</button>
+                    </form>
+                </div>
+                <div class="span8">
+                    <legend>White access list</legend>
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>email</th>
+                            <th>Phone</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>aa@mdo</td>
+                            <td>09876543</td>
+                            <td>edit</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+
+
+            <p><a class="btn btn-primary" id="youPrevious">Previous</a><a class="btn btn-primary" id="youNext">
+                Next </a></p>
+        </div>
+        <div class="tab-pane" id="nurse">
+            <div class="row">
+                <div class="span4">
+                    <form>
+                        <label>First name</label>
+                        <input type="text" placeholder="First name">
+                        <label>Last name</label>
+                        <input type="text" placeholder="Last name">
+
+                        <button type="submit" class="btn">Save</button>
+
+                    </form>
+                </div>
+                <div class="span8">
+                    <legend>Actual list</legend>
+                </div>
+            </div>
+            <p><a class="btn btn-primary" id="nursePrevious">Previous</a>
+                <a class="btn btn-primary" id="nurseNext">
+                    Next </a>
+            </p></div>
+        <div class="tab-pane" id="kids">
+            <div class="row">
+                <div class="span4">
+                    <form>
+                        <label>Kid name</label>
+                        <input type="text" placeholder="kid name">
+                        <label>Birthday</label>
+                        <input type="text" id="birthday">
+                        <label>Nurse</label>
+                        <select>
+                            <option>None</option>
+
+                        </select>
+                        <button type="submit" class="btn">Add</button>
+
+                    </form>
+                </div>
+                <div class="span8">
+                    <legend>Actual list</legend>
+                </div>
+            </div>
+            <p><a class="btn btn-primary" id="kidsPrevious">Previous</a></p>
+        </div>
+
+    </div>
+
+
+    <hr>
+
+    <footer>
+        <p>&copy; Mat 2012</p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
+<script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+<script src="../js/registration.js"></script>
+
+
+</body>
+</html>

@@ -1,6 +1,29 @@
-# JAX-RS Template Application
+# Nounou Application
 
-This is a template for a lightweight RESTful API using JAX-RS. The sample code is a call for getting the current time.
+This application aims to manage planning and reports for the nurse.
+
+
+## Use cases
+* Declare some User of type [Nurse, Father, Mother, Friend, Family, Child]
+** list of users that have rights to get the child.
+* Each time you get your child, you start the app and declare the action
+* At _posteriory_ modify or create the declaration
+* Manage planning
+* Manage reports per month
+* Manage alerts (declare event on your personal calendar)
+
+
+## Architecture
+* _nounou-app_ gather the core services hosted on a tomcat7 in the cloud (heroku platform)
+** Rest API services to declare User, Planning and Reports
+** Web Interface for PC & mobile
+* We will define a bit later some specific client on android and iTrucs
+
+## Technologies
+* Rest services
+* JPA
+* CDI
+* Twitter bootstrap, coffee scripts
     
 ## Running the application locally
 Run your application

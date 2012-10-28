@@ -17,17 +17,15 @@ public class Appointment {
     @GenericGenerator(name="increment", strategy = "increment")
     private Integer appointmentId;
 
-    @Column(name="arrival")
     private Date arrivalDate;
-
-    @Column(name="arrivalPlanned")
+    private User arrivalUser;
     private Date arrivalPlannedDate;
+    private User plannedArrivalUser;
 
-    @Column(name ="PlannedUser")
-    private User plannedUser;
-
-    @Column(name ="User")
-    private User user;
+    private Date departureDate;
+    private User departureUser;
+    private Date departurePlannedDate;
+    private User plannedDepartureUser;
 
     private String notes;
 
@@ -36,4 +34,123 @@ public class Appointment {
 
     }
 
+    public Appointment(User user, boolean isFuture, Date arrival, Date departure){
+           if (isFuture){
+               this.departurePlannedDate = departure;
+               this.arrivalPlannedDate = arrival;
+           }else{
+              this.departureDate=departure;
+               this.arrivalDate=arrival;
+           }
+    }
+
+    public Integer getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Integer appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public Date getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(Date arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public User getArrivalUser() {
+        return arrivalUser;
+    }
+
+    public void setArrivalUser(User arrivalUser) {
+        this.arrivalUser = arrivalUser;
+    }
+
+    public Date getArrivalPlannedDate() {
+        return arrivalPlannedDate;
+    }
+
+    public void setArrivalPlannedDate(Date arrivalPlannedDate) {
+        this.arrivalPlannedDate = arrivalPlannedDate;
+    }
+
+    public User getPlannedArrivalUser() {
+        return plannedArrivalUser;
+    }
+
+    public void setPlannedArrivalUser(User plannedArrivalUser) {
+        this.plannedArrivalUser = plannedArrivalUser;
+    }
+
+    public Date getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(Date departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public User getDepartureUser() {
+        return departureUser;
+    }
+
+    public void setDepartureUser(User departureUser) {
+        this.departureUser = departureUser;
+    }
+
+    public Date getDeparturePlannedDate() {
+        return departurePlannedDate;
+    }
+
+    public void setDeparturePlannedDate(Date departurePlannedDate) {
+        this.departurePlannedDate = departurePlannedDate;
+    }
+
+    public User getPlannedDepartureUser() {
+        return plannedDepartureUser;
+    }
+
+    public void setPlannedDepartureUser(User plannedDepartureUser) {
+        this.plannedDepartureUser = plannedDepartureUser;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Appointment that = (Appointment) o;
+
+        if (appointmentId != null ? !appointmentId.equals(that.appointmentId) : that.appointmentId != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return appointmentId != null ? appointmentId.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "arrivalDate=" + arrivalDate +
+                ", appointmentId=" + appointmentId +
+                ", arrivalUser=" + arrivalUser +
+                ", departureDate=" + departureDate +
+                ", departureUser=" + departureUser +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }

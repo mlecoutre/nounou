@@ -37,10 +37,10 @@ public class UserService {
 
 
     @GET
-    @Path("/create/{name}")
-    public User create(@PathParam("name") String name) {
-        System.out.println("create service for user " + name);
-        User user = new User(name);
+    @Path("/create/{firstName}/${lastName}")
+    public User create(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName) {
+        System.out.printf("create service for user %s %s \n", firstName, lastName);
+        User user = new User(firstName, lastName);
         try {
 
             EntityManager entityManager = entityManagerFactory.createEntityManager();
