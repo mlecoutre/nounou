@@ -1,7 +1,7 @@
 # Nounou Application
 
 This application aims to manage planning and reports for the nurse.
-
+the application is available on heroku http://hello-mlecoutre.herokuapp.com/
 
 ## Use cases
 * Declare some User of type [Nurse, Father, Mother, Friend, Family, Child]
@@ -23,7 +23,7 @@ This application aims to manage planning and reports for the nurse.
 * Rest services
 * JPA
 * CDI
-* Twitter bootstrap, coffee scripts
+* Twitter bootstrap, backbone.js coffee scripts
     
 ## Running the application locally
 Run your application
