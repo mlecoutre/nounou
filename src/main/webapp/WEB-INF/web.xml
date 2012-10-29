@@ -27,4 +27,8 @@
     <url-pattern>/services/*</url-pattern>
   </servlet-mapping>
 
+    <listener>
+        <listener-class>org.mat.nounou.servlets.EntityManagerLoaderListener</listener-class>
+    </listener>
+
 </web-app>

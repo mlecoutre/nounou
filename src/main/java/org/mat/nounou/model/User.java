@@ -103,7 +103,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", type=" + type +
+                ", type='" + type  + '\'' +
                 '}';
     }
 

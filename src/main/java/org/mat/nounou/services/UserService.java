@@ -1,11 +1,13 @@
 package org.mat.nounou.services;
 
 import org.mat.nounou.model.User;
+import org.mat.nounou.servlets.EntityManagerLoaderListener;
 
 import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -14,21 +16,15 @@ import java.util.List;
  * Time: 12:01
  */
 @Path("/users")
+@Produces(MediaType.APPLICATION_JSON)
 public class UserService {
-
-    private static EntityManagerFactory entityManagerFactory;
-
-    static {
-        entityManagerFactory = Persistence.createEntityManagerFactory("default");
-
-    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> get() {
         System.out.println("Get Users service");
         List<User> users = null;
-        EntityManager em = entityManagerFactory.createEntityManager();
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         TypedQuery<User> query = em.createQuery("FROM User", User.class);
         query.setMaxResults(200);
         users = query.getResultList();
@@ -37,46 +33,45 @@ public class UserService {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public User registerUser(User user) {
+    public Response registerUser(User user) {
         System.out.println("register " + user);
         try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            entityManager.getTransaction().begin();
-            entityManager.persist(user);
+            EntityManager em = EntityManagerLoaderListener.createEntityManager();
+            em.getTransaction().begin();
+            em.persist(user);
 
-            entityManager.getTransaction().commit();
+            em.getTransaction().commit();
 
-            entityManager.close();
+            em.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return user;
+        return Response.created(URI.create("/users/"+user.getUserId())).entity(user).build();
     }
 
-/*
+
     @GET
-    @Path("/{firstName}")
-    public User findByName(@PathParam("firstName") String firstName) {
+    @Path("/{userId}")
+    public User findByName(@PathParam("userId") String userId) {
         User u = null;
         try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-            TypedQuery<User> query = entityManager.createQuery("FROM User WHERE firstName=:firstName", User.class);
+            EntityManager em = EntityManagerLoaderListener.createEntityManager();
+            TypedQuery<User> query = em.createQuery("FROM User WHERE userId=:userId", User.class);
             query.setMaxResults(200);
-            query.setParameter("firstName", firstName);
+            query.setParameter("userId", userId);
             u = query.getSingleResult();
-            entityManager.close();
+            em.close();
 
         } catch (NoResultException nre) {
-            System.out.println("No result found for " + firstName);
+            System.out.println("No result found for userId=" + userId);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return u;
-    }*/
+    }
 
 
 }

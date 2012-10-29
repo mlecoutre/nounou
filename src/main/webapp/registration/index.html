@@ -3,12 +3,12 @@
 <head>
     <title>Nounou app - register</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="../css/jquery-ui-1.8.20.css" type="text/css" />
+    <link rel="stylesheet" href="../css/jquery-ui-1.9.1.custom.min.css" type="text/css" />
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="../js/jquery-1.8.2.js"></script>
+<script src="../js/jquery-ui-1.9.1.custom.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 
 
@@ -54,7 +54,7 @@
     <h2>Registration</h2>
 
     <ul class="nav nav-tabs" id="registerTab">
-        <li class="active"><a href="#home">What</a></li>
+        <li class="active"><a href="#what">What</a></li>
         <li><a href="#you">You</a></li>
         <li><a href="#nurse">Your nurse</a></li>
         <li><a href="#kids">Your kids </a></li>
@@ -62,7 +62,7 @@
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="home">That's here where you can enter all registration stuff. <br/>
+        <div class="tab-pane active" id="what">That's here where you can enter all registration stuff. <br/>
 
             <p>Please detail here
             <ul>
@@ -184,18 +184,36 @@
                         <label>Kid name</label>
                         <input type="text" id="kidName" placeholder="kid name">
                         <label>Birthday</label>
-                        <input type="text" id="birthday">
+                        <input type="text" id="kidBirthday"  placeholder="kid name">
                         <label>Nurse</label>
                         <select id="nurseId">
                             <option>None</option>
 
                         </select>
-                        <button type="submit" class="btn">Add</button>
+                        <button type="submit" id="addKid" class="btn">Add</button>
 
                     </form>
                 </div>
                 <div class="span8">
                     <legend>Actual list</legend>
+                    <table class="table table-striped" id="kidList">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                            <th>Edit</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>...</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <p><a class="btn btn-primary" id="kidsPrevious">Previous</a></p>
@@ -205,7 +223,7 @@
 
 
     <hr>
-
+    <div class="log"></div>
     <footer>
         <p>&copy; Mat 2012</p>
     </footer>
@@ -216,11 +234,13 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.4/underscore-min.js"></script>
-<script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
+
+<!-- <script src="../js/underscore-min.js"></script>  1.4.2 -->
+<!-- <script src="../js/backbone-min.js"></script>    0.9.2 -->
+<script src="../js/jquery.json-2.3.js"></script>
+<script src="../js/mustache.js"></script>
 <script src="../js/registration.js"></script>
 
-<script src="../js/mustache.js"></script>
 <script type="text/x-template" id="whiteAccesUser-template">
     <tr>
         <td>{{userId}}</td>

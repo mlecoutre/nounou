@@ -1,35 +1,37 @@
 package org.mat.nounou.services;
 
+import org.mat.nounou.model.Child;
 import org.mat.nounou.model.Nurse;
-import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 /**
  * User: mlecoutre
  * Date: 27/10/12
  * Time: 12:01
  */
-@Path("/nurses")
-public class NurseService {
+@Path("/children")
+public class ChildrenService {
+
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Nurse registerNurse(Nurse nurse) {
-        System.out.println("register " + nurse);
+    public Child registerNurse(Child child) {
+        System.out.println("register " + child);
         try {
             EntityManager em = EntityManagerLoaderListener.createEntityManager();
             em.getTransaction().begin();
-            em.persist(nurse);
+            em.persist(child);
 
             em.getTransaction().commit();
 
@@ -38,7 +40,7 @@ public class NurseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return nurse;
+        return child;
     }
 
 /*

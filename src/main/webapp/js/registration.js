@@ -1,126 +1,99 @@
 (function($) {
 
-         Child = Backbone.Model.extend({
-         		childId     : null,
-           		firstName   : null,
-                nurseId     : null
-         });
-
-         User = Backbone.Model.extend({
-         		userId     : null,
-         		firstName  : null,
-         		lastName   : null,
-         		phoneNumber: null,
-         		password   : null,
-         		type       : null
-          });
-
-         Nurse = Backbone.Model.extend({
-           		nurseId     : null,
-           		firstName  : null,
-           		lastName   : null,
-           		phoneNumber: null
-         });
+      /* $(document).ajaxError(function(e, xhr, settings, exception) {
+            alert('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
+       });*/
 
       /*  $('#nav-main ul li').hoverIntent(function () {
             $(this).find('.dropdown').stop(true,true).slideToggle('500');
-        }, function(){});*/
+      }, function(){});*/
 
-        $('#registerTab a').click(function (e) {
+       $('#registerTab a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
+       })
+       $('#registrationStart').click(function (e) {
+            $('#registerTab a[href="#you"]').tab('show');
+       })
+       $('#youPrevious').click(function (e) {
+           $('#registerTab a[href="#what"]').tab('show');
+       })
+       $('#youNext').click(function (e) {
+           $('#registerTab a[href="#nurse"]').tab('show');
+       })
+       $('#nursePrevious').click(function (e) {
+           $('#registerTab a[href="#you"]').tab('show');
+       })
+       $('#kidsPrevious').click(function (e) {
+           $('#registerTab a[href="#nurse"]').tab('show');
+       })
+       $('#nurseNext').click(function (e) {
+            $('#registerTab a[href="#kids"]').tab('show');
+       })
+
+        $('#registerUser').click(function (e) {
+               console.log("[START] registerUser "+$('#userFirstName').val());
+               var mUser ={ firstName   : $('#userFirstName').val(),
+                            lastName    : $('#userLastName').val(),
+                            phoneNumber : $('#userPhoneNumber').val(),
+                            password    : 'toto',
+                            type        : $('#userType').val()
+               };
+
+               var data = $.toJSON( mUser );
+               console.log("create mUser object "+data)
+              var req =  $.ajax({
+                           type: 'POST',
+                           contentType: 'application/json',
+                           url: '/services/users',
+                           dataType: "json",
+                           data: data,
+
+               });
+
+             req.done(function(user){
+                    $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
+               });
+
+               console.log("[END] register user");
         })
 
-        $( "#birthday" ).datepicker();
+        $('#addNurse').click(function (e) {
+                var mNurse = {
+                               	firstName   : $('#nurseFirstName').val(),
+                                lastName    : $('#nurseLastName').val(),
+                                phoneNumber : $('#nursePhoneNumber').val()
+                };
+                var data = $.toJSON(mNurse);
+                var req = $.ajax({
+                            type: 'POST',
+                            contentType: 'application/json',
+                            url: '/services/nurses',
+                            dataType: "json",
+                            data: data,
 
-    	AppView = Backbone.View.extend({
-    		el : $("body"),
-    		initialize : function() {
-    			console.log('Initialize registration View');
-    		},
-    		events : {
-    		    "click #registrationStart": "showYouTab",
-    		    "click #youPrevious"      : "showWhatTab",
-    		    "click #youNext"          : "showNurseTab",
-    		    "click #nursePrevious"    : "showYouTab",
-    		    "click #kidsPrevious"     : "showNurseTab",
-    		    "click #nurseNext"        : "showKidsTab",
-    		    "click #you"              : "startRegistration",
-    		    "click #registerUser"     : "registerUser",
-    		    "click #addNurse"         : "registerNurse"
-    		},
-    		registerNurse: function(){
-    		    var mNurse = new Nurse();
-                 mNurse.set({
-                 	firstName   : $('#nurseFirstName').val(),
-                    lastName    : $('#nurseLastName').val(),
-                    phoneNumber : $('#nursePhoneNumber').val()
-                  });
-                 var data = JSON.stringify(mNurse);
-                 $.ajax({
+                });
+                req.done(function(nurse){
+                            $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
+                });
+        })
+
+        $('#addKid').click(function (e) {
+               var mKid = {
+                            firstName   : $('#kidName').val(),
+                            birthday    : $('#kidBirthday').val(),
+               };
+               var data = $.toJSON(mKid);
+               $.ajax({
                         type: 'POST',
                         contentType: 'application/json',
-                        url: '/services/nurses',
+                        url: '/services/children',
                         dataType: "json",
                         data: data,
-                        success: function(data, textStatus, jqXHR){
-                            $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), mNurse.toJSON()));
-                        },
-                        error: function (jqXHR, textStatus, errorThrown){
-                            alert("error: "+textStatus+'/'+errorThrown);
-                        }
-                 });
-    		}
-    		,registerUser: function(){
-                console.log("registerUser "+$('#userFirstName').val());
-                var mUser = new User();
-                mUser.set({
-                	firstName   : $('#userFirstName').val(),
-                    lastName    : $('#userLastName').val(),
-                    phoneNumber : $('#userPhoneNumber').val(),
-                    password    : $('#userPassword').val(),
-                    type        : $('#userType').val()
-                });
-                var data = JSON.stringify(mUser);
-                console.log("create mUser object "+data)
-                $.ajax({
-                        type: 'POST',
-                        contentType: 'application/json',
-                        url: '/services/users',
-                        dataType: "json",
-                        data: data,
-                        success: function(data, textStatus, jqXHR){
-                            //console.log('User created successfully');
-                            $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), mUser.toJSON()));
-                        },
-                        error: function (jqXHR, textStatus, errorThrown){
-                            alert("error: "+textStatus+'/'+errorThrown);
-                        }
-                });
-                console.log("[END] register user");
-    		},
-    		showWhatTab: function(){
-              $('#registerTab a[href="#home"]').tab('show');
-            },
-    		showYouTab: function(){
-    		  $('#registerTab a[href="#you"]').tab('show');
-    		},
-    		showYouTab: function() {
-              $('#registerTab a[href="#you"]').tab('show');
-    		},
-    		showHomeTab: function() {
-    		  $('#registerTab a[href="#home"]').tab('show');
-    		},
-            showKidsTab: function() {
-              $('#registerTab a[href="#kids"]').tab('show');
-            },
-            showNurseTab: function() {
-              $('#registerTab a[href="#nurse"]').tab('show');
-            }
-    	});
-
-    	var appview = new AppView;
-
-
-
+               });
+               req.done(function(kid){
+                         $('#kidList').append(Mustache.to_html($('#kid-template').html(), kid));
+               });
+        })
+       //$( "#kidBirthday" ).datepicker();
 })(jQuery);

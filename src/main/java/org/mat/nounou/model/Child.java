@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,10 +23,19 @@ public class Child {
 
     private String firstName;
     private String lastName;
+    private Date birthday;
 
     @ManyToOne(optional=true)
     @JoinColumn(name = "nurseId", unique = false, nullable = true, updatable = true)
     private Nurse nurse;
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
     public Integer getChildId() {
         return childId;
@@ -82,6 +92,7 @@ public class Child {
                 "childId=" + childId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", birthday=" + birthday +
                 ", nurse=" + nurse +
                 '}';
     }
