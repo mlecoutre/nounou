@@ -8,28 +8,32 @@ import java.util.List;
 
 @XmlRootElement
 @Entity
-@Table( name = "User")
+@Table(name = "User")
 public class User {
 
     @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Integer userId;
 
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String password;
+
+   /* @OneToOne(optional = true)
+    @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
     private Address address;
-    private List<User> children;
+
+    @OneToMany(mappedBy="childId")
+    private List<Child> children;*/
 
     /*
      * P  for parent
      * O for friend and other
      * F for family
      */
-    private char type;
-
-
+    private String type;
 
 
     public User() {
@@ -37,7 +41,7 @@ public class User {
     }
 
     public User(String firstName, String lastName) {
-       this.firstName = firstName;
+        this.firstName = firstName;
         this.lastName = lastName;
     }
 
@@ -73,27 +77,22 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
+
+
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public List<User> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<User> children) {
-        this.children = children;
-    }
-
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -104,8 +103,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", address=" + address +
-                ", children=" + children +
                 ", type=" + type +
                 '}';
     }

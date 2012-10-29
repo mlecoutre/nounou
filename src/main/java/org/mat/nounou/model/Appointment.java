@@ -18,13 +18,22 @@ public class Appointment {
     private Integer appointmentId;
 
     private Date arrivalDate;
+    @OneToOne(optional = true)
+    @JoinColumn(name = "arrivalUser", unique = false, nullable = true)
     private User arrivalUser;
     private Date arrivalPlannedDate;
+    @OneToOne(optional = true)
+    @JoinColumn(name = "plannedArrivalUser", unique = false, nullable = true)
     private User plannedArrivalUser;
 
     private Date departureDate;
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "departureUser", unique = false, nullable = true)
     private User departureUser;
     private Date departurePlannedDate;
+    @OneToOne(optional = true)
+    @JoinColumn(name = "plannedDepartureUser", unique = false, nullable = true)
     private User plannedDepartureUser;
 
     private String notes;

@@ -2,8 +2,8 @@ package org.mat.nounou.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
@@ -11,6 +11,8 @@ import java.util.List;
  * Date: 28/10/12
  * Time: 12:24
  */
+@XmlRootElement
+@Entity
 public class Nurse {
 
     @Id
@@ -21,9 +23,10 @@ public class Nurse {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private Address address;
-    private List<Child> children;
-    private List<User> employers;
+
+   /* @OneToOne(optional = true)
+    @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
+    private Address address;*/
 
 
     public Integer getNurseId() {
@@ -58,29 +61,13 @@ public class Nurse {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
+  /*  public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public List<Child> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Child> children) {
-        this.children = children;
-    }
-
-    public List<User> getEmployers() {
-        return employers;
-    }
-
-    public void setEmployers(List<User> employers) {
-        this.employers = employers;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -106,9 +93,6 @@ public class Nurse {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", address=" + address +
-                ", children=" + children +
-                ", employers=" + employers +
                 '}';
     }
 }
