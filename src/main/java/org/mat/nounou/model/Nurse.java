@@ -28,7 +28,6 @@ public class Nurse {
     @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
     private Address address;*/
 
-
     public Integer getNurseId() {
         return nurseId;
     }
@@ -61,13 +60,7 @@ public class Nurse {
         this.phoneNumber = phoneNumber;
     }
 
-  /*  public Address getAddress() {
-        return address;
-    }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }*/
 
     @Override
     public boolean equals(Object o) {

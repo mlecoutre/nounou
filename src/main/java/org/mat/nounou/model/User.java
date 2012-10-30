@@ -19,7 +19,9 @@ public class User {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String email;
     private String password;
+
 
    /* @OneToOne(optional = true)
     @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
@@ -34,7 +36,6 @@ public class User {
      * F for family
      */
     private String type;
-
 
     public User() {
 
@@ -51,6 +52,14 @@ public class User {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -77,9 +86,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-
-
-
     public String getPassword() {
         return password;
     }
@@ -103,7 +109,8 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", type='" + type  + '\'' +
+                ", email='" + email + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 

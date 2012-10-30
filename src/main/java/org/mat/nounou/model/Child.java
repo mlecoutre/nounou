@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.security.PrivateKey;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +26,13 @@ public class Child {
     private String lastName;
     private Date birthday;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "nurseId", unique = false, nullable = true, updatable = true)
+    @ManyToOne
+    @JoinColumn(name="nurseId", nullable=false)
     private Nurse nurse;
+
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "userId", unique = false, nullable = false, updatable = true)
+    private User accountUser;
 
     public Date getBirthday() {
         return birthday;
@@ -67,6 +72,14 @@ public class Child {
 
     public void setNurse(Nurse nurse) {
         this.nurse = nurse;
+    }
+
+    public User getAccountUser() {
+        return accountUser;
+    }
+
+    public void setAccountUser(User accountUser) {
+        this.accountUser = accountUser;
     }
 
     @Override

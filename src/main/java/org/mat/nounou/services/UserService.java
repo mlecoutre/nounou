@@ -60,7 +60,7 @@ public class UserService {
             EntityManager em = EntityManagerLoaderListener.createEntityManager();
             TypedQuery<User> query = em.createQuery("FROM User WHERE userId=:userId", User.class);
             query.setMaxResults(200);
-            query.setParameter("userId", userId);
+            query.setParameter("userId", new Integer(userId));
             u = query.getSingleResult();
             em.close();
 

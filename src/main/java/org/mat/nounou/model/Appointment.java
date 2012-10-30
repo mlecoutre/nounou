@@ -17,6 +17,10 @@ public class Appointment {
     @GenericGenerator(name="increment", strategy = "increment")
     private Integer appointmentId;
 
+    @OneToOne(optional = true)
+    @JoinColumn(name = "accountUser", unique = false, nullable = true)
+    private User accountUser;
+
     private Date arrivalDate;
     @OneToOne(optional = true)
     @JoinColumn(name = "arrivalUser", unique = false, nullable = true)

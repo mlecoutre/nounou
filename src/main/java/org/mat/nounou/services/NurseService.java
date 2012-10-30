@@ -4,10 +4,7 @@ import org.mat.nounou.model.Nurse;
 import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -18,8 +15,20 @@ import java.util.List;
  * Time: 12:01
  */
 @Path("/nurses")
+@Produces(MediaType.APPLICATION_JSON)
 public class NurseService {
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Nurse> get() {
+        System.out.println("Get Nurse service");
+        List<Nurse> nurses = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        TypedQuery<Nurse> query = em.createQuery("FROM Nurse", Nurse.class);
+        query.setMaxResults(200);
+        nurses = query.getResultList();
+        return nurses;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -41,28 +50,28 @@ public class NurseService {
         return nurse;
     }
 
-/*
-    @GET
-    @Path("/{firstName}")
-    public User findByName(@PathParam("firstName") String firstName) {
-        User u = null;
-        try {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-            TypedQuery<User> query = entityManager.createQuery("FROM User WHERE firstName=:firstName", User.class);
-            query.setMaxResults(200);
-            query.setParameter("firstName", firstName);
-            u = query.getSingleResult();
-            entityManager.close();
+    @GET
+    @Path("/user/{userId}")
+    public List<Nurse> findByName(@PathParam("userId") Integer userId) {
+        List<Nurse> nurses = null;
+        try {
+            EntityManager em = EntityManagerLoaderListener.createEntityManager();
+
+            TypedQuery<Nurse> query = em.createQuery("Select n FROM Nurse n,  User u, Child c WHERE n.nurseId= c.nurse.nurseId AND c.accountUser.userId=:userId", Nurse.class);
+            query.setMaxResults(20);
+            query.setParameter("userId", userId);
+            nurses = query.getResultList();
+            em.close();
 
         } catch (NoResultException nre) {
-            System.out.println("No result found for " + firstName);
+            System.out.println("No result found for userId:= " + userId);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return u;
-    }*/
+        return nurses;
+    }
 
 
 }
