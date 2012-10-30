@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * User: mlecoutre
+ * UserVO: mlecoutre
  * Date: 27/10/12
  * Time: 12:01
  */
@@ -21,10 +21,10 @@ public class NurseService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Nurse> get() {
-        System.out.println("Get Nurse service");
+        System.out.println("Get NurseVO service");
         List<Nurse> nurses = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        TypedQuery<Nurse> query = em.createQuery("FROM Nurse", Nurse.class);
+        TypedQuery<Nurse> query = em.createQuery("FROM NurseVO", Nurse.class);
         query.setMaxResults(200);
         nurses = query.getResultList();
         return nurses;
@@ -58,7 +58,7 @@ public class NurseService {
         try {
             EntityManager em = EntityManagerLoaderListener.createEntityManager();
 
-            TypedQuery<Nurse> query = em.createQuery("Select n FROM Nurse n,  User u, Child c WHERE n.nurseId= c.nurse.nurseId AND c.accountUser.userId=:userId", Nurse.class);
+            TypedQuery<Nurse> query = em.createQuery("Select n FROM NurseVO n,  UserVO u, ChildVO c WHERE n.nurseId= c.nurse.nurseId AND c.accountUser.userId=:userId", Nurse.class);
             query.setMaxResults(20);
             query.setParameter("userId", userId);
             nurses = query.getResultList();

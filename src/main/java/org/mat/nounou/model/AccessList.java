@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * User: E010925
+ * UserVO: E010925
  * Date: 29/10/12
  * Time: 18:33
  */

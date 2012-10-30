@@ -64,9 +64,9 @@ public class EntityManagerIllustrationTest extends TestCase {
         // now lets pull events from the database and list them
         entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        List<User> result = entityManager.createQuery( "from User", User.class ).getResultList();
+        List<User> result = entityManager.createQuery( "from UserVO", User.class ).getResultList();
         for ( User user : result ) {
-            System.out.println( "User (" + user.getFirstName() + ") " );
+            System.out.println( "UserVO (" + user.getFirstName() + ") " );
         }
         entityManager.getTransaction().commit();
         entityManager.close();

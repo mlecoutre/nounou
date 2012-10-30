@@ -1,10 +1,11 @@
-package org.mat.nounou.model;
+package org.mat.nounou.vo;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 /**
  * UserVO: mlecoutre
@@ -12,21 +13,13 @@ import java.util.List;
  * Time: 12:24
  */
 @XmlRootElement
-@Entity
-public class Nurse {
+public class NurseVO {
 
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
     private Integer nurseId;
-
     private String firstName;
     private String lastName;
     private String phoneNumber;
 
-   /* @OneToOne(optional = true)
-    @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
-    private Address address;*/
 
     public Integer getNurseId() {
         return nurseId;
@@ -58,25 +51,6 @@ public class Nurse {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Nurse nurse = (Nurse) o;
-
-        if (nurseId != null ? !nurseId.equals(nurse.nurseId) : nurse.nurseId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return nurseId != null ? nurseId.hashCode() : 0;
     }
 
     @Override

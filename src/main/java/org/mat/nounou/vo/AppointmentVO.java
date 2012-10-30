@@ -3,7 +3,7 @@ package org.mat.nounou.vo;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * User: E010925
+ * UserVO: E010925
  * Date: 30/10/12
  * Time: 11:49
  */

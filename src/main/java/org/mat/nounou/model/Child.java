@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * User: mlecoutre
+ * UserVO: mlecoutre
  * Date: 28/10/12
  * Time: 12:25
  */
@@ -101,7 +101,7 @@ public class Child {
 
     @Override
     public String toString() {
-        return "Child{" +
+        return "ChildVO{" +
                 "childId=" + childId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

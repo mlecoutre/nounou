@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 
 /**
- * User: E010925
+ * UserVO: E010925
  * Date: 29/10/12
  * Time: 18:18
  */
@@ -29,7 +29,7 @@ public class AuthenticationService {
         User u ;
         try {
            EntityManager em = EntityManagerLoaderListener.createEntityManager();
-            TypedQuery<User> query = em.createQuery("FROM User WHERE email=:email", User.class);
+            TypedQuery<User> query = em.createQuery("FROM UserVO WHERE email=:email", User.class);
             query.setMaxResults(1);
             query.setParameter("email", user.getEmail());
             u = query.getSingleResult();

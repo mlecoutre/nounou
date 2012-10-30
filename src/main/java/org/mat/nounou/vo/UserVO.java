@@ -1,50 +1,31 @@
-package org.mat.nounou.model;
+package org.mat.nounou.vo;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 @XmlRootElement
-@Entity
-public class User {
+public class UserVO {
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Integer userId;
+    private Integer accountId;
 
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name="accountId", nullable=false)
-    private Account account;
-
-
-   /* @OneToOne(optional = true)
-    @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
-    private Address address;
-
-    @OneToMany(mappedBy="childId")
-    private List<ChildVO> children;*/
-
-    /*
-     * P  for parent
-     * O for friend and other
-     * F for family
-     */
     private String type;
 
-    public User() {
+    public UserVO() {
 
     }
 
-    public User(String firstName, String lastName) {
+    public UserVO(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -105,45 +86,25 @@ public class User {
         this.type = type;
     }
 
-    public Account getAccount() {
-        return account;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserVO{" +
                 "userId=" + userId +
+                ", accountId=" + accountId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", type='" + type + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (!userId.equals(user.userId)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = userId.hashCode();
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
     }
 }

@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * User: mlecoutre
+ * UserVO: mlecoutre
  * Date: 28/10/12
  * Time: 11:13
  */
@@ -80,7 +80,7 @@ public class AppointmentService {
     public AppointmentVO getCurrentAppointment(@PathParam("userId") Integer userId) {
 
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
+        TypedQuery<User> qUser = em.createQuery("FROM UserVO c WHERE userId=:userId", User.class);
         qUser.setParameter("userId", userId);
         User u = qUser.getSingleResult();
         AppointmentVO vo = new AppointmentVO();
@@ -131,7 +131,7 @@ public class AppointmentService {
 
 
             //TODO update to attach children to other nurse and accountUser than 1
-            TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
+            TypedQuery<User> qUser = em.createQuery("FROM UserVO c WHERE userId=:userId", User.class);
             qUser.setParameter("userId", appointment.getUserId());
             User u = qUser.getSingleResult();
             Date d = null;
