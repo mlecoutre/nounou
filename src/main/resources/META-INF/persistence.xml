@@ -21,7 +21,7 @@
 
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.show.sql" value="true"/>
             <property name="hibernate.c3p0.acquire_increment" value="1"/>
             <property name="hibernate.c3p0.idle_test_period" value="10"/>
