@@ -4,7 +4,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 @XmlRootElement
 @Entity
@@ -22,16 +21,16 @@ public class User {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name="accountId", nullable=false)
+    @JoinColumn(name = "accountId")
     private Account account;
 
 
-   /* @OneToOne(optional = true)
-    @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
-    private Address address;
+    /* @OneToOne(optional = true)
+  @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
+  private Address address;
 
-    @OneToMany(mappedBy="childId")
-    private List<ChildVO> children;*/
+  @OneToMany(mappedBy="childId")
+  private List<ChildVO> children;*/
 
     /*
      * P  for parent

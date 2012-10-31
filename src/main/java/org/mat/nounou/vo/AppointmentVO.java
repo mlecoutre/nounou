@@ -1,6 +1,7 @@
 package org.mat.nounou.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * UserVO: E010925
@@ -10,9 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AppointmentVO {
 
-    private Integer existingAppointmentId;
-    private Integer userId;   //will be accountId
+    private Integer appointmentId; //may be null if not exist
+    private Integer accountId;   //will be accountId
     private String currentUserName;
+    private Integer currentUserId;
     private String arrivalUserName;
     private String arrivalDate;
     private String departureUserName;
@@ -21,13 +23,44 @@ public class AppointmentVO {
     private String kidName;
     private String notes;
     private String declarationType;
+    private String date;
 
-    public Integer getUserId() {
-        return userId;
+    private String duration;
+
+    private List<UserVO> users;
+    private List<ChildVO> children;
+
+
+    public String getDate() {
+        return date;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public Integer getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public void setCurrentUserId(Integer currentUserId) {
+        this.currentUserId = currentUserId;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getDeclarationType() {
@@ -38,12 +71,12 @@ public class AppointmentVO {
         this.declarationType = declarationType;
     }
 
-    public Integer getExistingAppointmentId() {
-        return existingAppointmentId;
+    public Integer getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setExistingAppointmentId(Integer existingAppointmentId) {
-        this.existingAppointmentId = existingAppointmentId;
+    public void setAppointmentId(Integer appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public String getKidName() {
@@ -110,11 +143,29 @@ public class AppointmentVO {
         this.departureUserName = departureUserName;
     }
 
+    public List<UserVO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserVO> users) {
+        this.users = users;
+    }
+
+    public List<ChildVO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<ChildVO> children) {
+        this.children = children;
+    }
+
     @Override
     public String toString() {
         return "AppointmentVO{" +
-                "existingAppointmentId=" + existingAppointmentId +
-                ", userId=" + userId +
+                "appointmentId=" + appointmentId +
+                ", accountId=" + accountId +
+                ", currentUserName='" + currentUserName + '\'' +
+                ", currentUserId=" + currentUserId +
                 ", arrivalUserName='" + arrivalUserName + '\'' +
                 ", arrivalDate='" + arrivalDate + '\'' +
                 ", departureUserName='" + departureUserName + '\'' +

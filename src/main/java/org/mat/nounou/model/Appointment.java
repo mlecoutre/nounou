@@ -18,8 +18,12 @@ public class Appointment {
     private Integer appointmentId;
 
     @OneToOne(optional = true)
-    @JoinColumn(name = "accountUser", unique = false, nullable = true)
-    private User accountUser;
+    @JoinColumn(name = "accountId", unique = false, nullable = true)
+    private Account account;
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "kidId", unique = false)
+    private Child child;
 
     private Date arrivalDate;
     @OneToOne(optional = true)
@@ -155,14 +159,36 @@ public class Appointment {
         return appointmentId != null ? appointmentId.hashCode() : 0;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Child getChild() {
+        return child;
+    }
+
+    public void setChild(Child child) {
+        this.child = child;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
-                "arrivalDate=" + arrivalDate +
-                ", appointmentId=" + appointmentId +
+                "appointmentId=" + appointmentId +
+                ", account=" + account +
+                ", child=" + child +
+                ", arrivalDate=" + arrivalDate +
                 ", arrivalUser=" + arrivalUser +
+                ", arrivalPlannedDate=" + arrivalPlannedDate +
+                ", plannedArrivalUser=" + plannedArrivalUser +
                 ", departureDate=" + departureDate +
                 ", departureUser=" + departureUser +
+                ", departurePlannedDate=" + departurePlannedDate +
+                ", plannedDepartureUser=" + plannedDepartureUser +
                 ", notes='" + notes + '\'' +
                 '}';
     }

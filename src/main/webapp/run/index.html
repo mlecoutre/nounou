@@ -62,7 +62,6 @@
                         <input type="text" id="departureDate" placeholder="Departure date time">
                         <label>Kid name</label>
                         <select id="kidName">
-                            <option value="1">Amael</option>
                         </select>
                         <label>Declaration type</label>
                         <select id="declarationType">
@@ -80,12 +79,13 @@
                     <table class="table table-striped" id="lastAppointments">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Date</th>
                             <th>Arrival User</th>
-                            <th>Arrival time</th>
+                            <th>Arrival</th>
                             <th>Departure User</th>
-                            <th>Departure time</th>
-                            <th>Kid name</th>
+                            <th>Departure</th>
+                            <th>Kid</th>
+                            <th>Duration</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -120,9 +120,9 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Arrival User</th>
-                            <th>Arrival time</th>
+                            <th>Arrival</th>
                             <th>Departure User</th>
-                            <th>Departure time</th>
+                            <th>Departure</th>
                             <th>Kid name</th>
                         </tr>
                         </thead>
@@ -157,17 +157,22 @@
 <script src="../js/run.js"></script>
 
 <script type="text/x-template" id="live-appointment-template">
-    <option value="{{userId}}">{{currentUserName}}</option>
+    <option value="{{currentUserId}}">{{currentUserName}}</option>
+</script>
+
+<script type="text/x-template" id="kid-appointment-template">
+    <option value="{{kidId}}">{{kidName}}</option>
 </script>
 
 <script type="text/x-template" id="last-appointments-template">
     <tr>
-        <td>{{existingAppointmentId}}</td>
+        <td>{{date}}</td>
         <td>{{arrivalUserName}}</td>
         <td>{{arrivalDate}}</td>
         <td>{{departureUserName}}</td>
         <td>{{departureDate}}</td>
         <td>{{kidName}}</td>
+        <td>{{duration}}</td>
     </tr>
 </script>
 <script type="text/x-template" id="appointments-template">

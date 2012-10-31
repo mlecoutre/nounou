@@ -158,10 +158,12 @@
             <div class="row">
                 <div class="span4">
                     <form>
-                        <label>Kid name</label>
-                        <input type="text" id="kidName" placeholder="kid name">
+                        <label>Kid first name</label>
+                        <input type="text" id="kidFirstName" placeholder="kid first name">
+                        <label>Kid last name</label>
+                        <input type="text" id="kidLastName" placeholder="kid last name">`
                         <label>Birthday</label>
-                        <input type="text" id="kidBirthday"  placeholder="kid name">
+                        <input type="text" id="kidBirthday"  placeholder="birthday">
                         <label>Nurse</label>
                         <select id="nurseId">
                              <option id=""></option>
@@ -247,7 +249,7 @@
         <td>{{childId}}</td>
         <td>{{firstName}}</td>
         <td>{{birthday}}</td>
-        <td>{{nurse.firstName}} {{nurse.lastName}}</td>
+        <td>{{nurseName}}</td>
         <td><i class="icon-edit"></i>
             <i class="icon-search"></i>
             <i class="icon-trash"></i></td>

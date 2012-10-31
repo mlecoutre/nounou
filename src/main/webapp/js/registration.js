@@ -1,28 +1,62 @@
 (function ($) {
 
+    //TODO initialize accountId using cookie and authentication mechanism
+    //should be null when the user is not authentified
+    var accountId = 1;
 
     /** PAGE INITIALIZATION **/
     $("#kidBirthday").datepicker();
+
     $(document).ready(function () {
+        //get Account
+        var reqAccount = $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/services/users/account/' + accountId,
+            //       async: false
+        });
+        reqAccount.done(function (users) {
+            for (i = 0; i < users.length; i++) {
+                var user = users[i];
+                $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
+            };
+        });
+
+        //get Nurse data.
+        var reqNurse = $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/services/nurses',
+            //       async: false
+        });
+        reqNurse.done(function (nurses) {
+            for (i = 0; i < nurses.length; i++) {
+                var nurse = nurses[i]
+                $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));// update list nurse
+                $('#nurseId').append(Mustache.to_html($('#selectNurse-template').html(), nurse)); //populate kids nurse list
+            };
+        });
+
+
+
         // Get Kid data
         var reqKid = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/children/user/1',
+            url: '/services/children/account/' + accountId,
             //       async: false
         });
         reqKid.done(function (children) {
-            console.log("update kid");
+            console.log("populate kids list");
             for (i = 0; i < children.length; i++) {
                 var child = children[i];
-                var nurse = child.nurse;
-                var accountUser = child.accountUser;
-                $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), accountUser));
+                //var nurse = child.nurse;
+                //var accountUser = child.accountUser;
+               // $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), accountUser));
 
                 $('#kidList').append(Mustache.to_html($('#kid-template').html(), child));
-                //TODO (should do a DISTINCT nounou)
-                $('#nurseId').append(Mustache.to_html($('#selectNurse-template').html(), nurse));
-                $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
+
+               // $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
             }
         });
     });
@@ -62,7 +96,9 @@
             email: $('#userEmail').val(),
             phoneNumber: $('#userPhoneNumber').val(),
             password: 'toto',
-            type: $('#userType').val()
+            type: $('#userType').val(),
+            accountId: accountId,
+
         };
 
         var data = $.toJSON(mUser);
@@ -73,10 +109,10 @@
             url: '/services/users',
             dataType: "json",
             data: data,
-            async: false
         });
 
         req.done(function (user) {
+            console.log("User created "+user);
             $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
         });
 
@@ -96,7 +132,7 @@
             url: '/services/nurses',
             dataType: "json",
             data: data,
-            async: false
+            // async: false
         });
         req.done(function (nurse) {
             $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
@@ -106,19 +142,22 @@
 
     $('#addKid').click(function (e) {
         var mKid = {
-            firstName: $('#kidName').val(),
-            birthday: $('#kidBirthday').val(),
+            firstName : $('#kidFirstName').val(),
+            lastName : $('#kidLastName').val(),
+            birthday  : $('#kidBirthday').val(),
+            nurseId   : $('#nurseId').val(),
+            accountId : accountId
         };
         var data = $.toJSON(mKid);
-        $.ajax({
+        var reqKid = $.ajax({
             type: 'POST',
             contentType: 'application/json',
             url: '/services/children',
             dataType: "json",
             data: data,
-            async: false
+            //async: false
         });
-        req.done(function (kid) {
+        reqKid.done(function (kid) {
             $('#kidList').append(Mustache.to_html($('#kid-template').html(), kid));
         });
     })

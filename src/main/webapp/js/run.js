@@ -1,21 +1,25 @@
 (function ($) {
+    var userId=1;
+    var accountId=1;
+
     /** PAGE INITIALIZATION **/
     $(document).ready(function () {
         // Get Current Appointment data
         var reqKid = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/appointments/current/1',
+            url: '/services/appointments/current/account/'+accountId+'/userId/'+userId,
             //       async: false
         });
         reqKid.done(function (appointment) {
             console.log("appointment");
             $('#userId').append(Mustache.to_html($('#live-appointment-template').html(), appointment));
+            $('#kidName').append(Mustache.to_html($('#kid-appointment-template').html(), appointment));
 
             $('#arrivalDate').val(appointment.arrivalDate);
             $('#departureDate').val(appointment.departureDate);
             $('#kidName').val(appointment.kidName);
-            $('#userId').val(appointment.userId);
+            $('#userId').val(appointment.currentUserId);
             $('#declarationType').val(appointment.declarationType);
         });
 
@@ -23,7 +27,7 @@
         var reqA = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/appointments/user/1/searchType/last',
+            url: '/services/appointments/account/'+accountId+'/searchType/last',
 
         });
         reqA.done(function (appointments) {
@@ -44,11 +48,13 @@
     $('#goLive').click(function (e) {
         console.log("[START] goLive");
         var mAppointment = {
-            userId: $('#userId').val(),
+            accountId: accountId,
+            currentUserId: $('#userId').val(),
             arrivalDate: $('#arrivalDate').val(),
             departureDate: $('#departureDate').val(),
             kidId: $('#kidName').val(),
             declarationType: $('#declarationType').val(),
+            //TODO add notes here
         };
 
         var data = $.toJSON(mAppointment);

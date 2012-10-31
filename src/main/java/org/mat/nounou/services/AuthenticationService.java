@@ -22,6 +22,8 @@ import java.net.URI;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationService {
 
+    private static Integer accountId =1;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(User user) {
@@ -39,4 +41,10 @@ public class AuthenticationService {
         }
         return Response.created(URI.create("/users/" + user.getUserId())).entity(user).build();
     }
+
+    public static Integer getAccountId(){
+        return accountId;
+    }
+
+
 }

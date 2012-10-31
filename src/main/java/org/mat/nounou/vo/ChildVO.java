@@ -4,7 +4,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
- * UserVO: mlecoutre
+ * Value Object for a child
+ * ChildVO: mlecoutre
  * Date: 28/10/12
  * Time: 12:25
  */
@@ -15,7 +16,7 @@ public class ChildVO {
     private String lastName;
     private String birthday;
     private String nurseName;
-    private String nurseId;
+    private Integer nurseId;
     private Integer accountId;
 
     public String getBirthday() {
@@ -66,11 +67,11 @@ public class ChildVO {
         this.nurseName = nurseName;
     }
 
-    public String getNurseId() {
+    public Integer getNurseId() {
         return nurseId;
     }
 
-    public void setNurseId(String nurseId) {
+    public void setNurseId(Integer nurseId) {
         this.nurseId = nurseId;
     }
 

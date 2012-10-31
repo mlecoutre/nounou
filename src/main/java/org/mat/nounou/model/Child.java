@@ -30,9 +30,9 @@ public class Child {
     @JoinColumn(name="nurseId", nullable=false)
     private Nurse nurse;
 
-    @ManyToOne(optional=true)
-    @JoinColumn(name = "userId", unique = false, nullable = false, updatable = true)
-    private User accountUser;
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "accountId", unique = false, nullable = false, updatable = true)
+    private Account account;
 
     public Date getBirthday() {
         return birthday;
@@ -74,14 +74,6 @@ public class Child {
         this.nurse = nurse;
     }
 
-    public User getAccountUser() {
-        return accountUser;
-    }
-
-    public void setAccountUser(User accountUser) {
-        this.accountUser = accountUser;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,6 +86,14 @@ public class Child {
         return true;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public int hashCode() {
         return childId != null ? childId.hashCode() : 0;
@@ -101,12 +101,13 @@ public class Child {
 
     @Override
     public String toString() {
-        return "ChildVO{" +
+        return "Child{" +
                 "childId=" + childId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday=" + birthday +
                 ", nurse=" + nurse +
+                ", account=" + account +
                 '}';
     }
 }
