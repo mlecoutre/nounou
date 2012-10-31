@@ -1,15 +1,20 @@
 (function ($) {
-    var userId=1;
-    var accountId=1;
 
     /** PAGE INITIALIZATION **/
+    var value = sessionStorage.getItem('apptoken');
+    var accountId = null;
+    var userId = null;
+    if(value != null && value != ""){
+            var token = $.parseJSON(value);
+            accountId = token.accountId;
+            userId  = token.userId;
+    }
     $(document).ready(function () {
         // Get Current Appointment data
         var reqKid = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/appointments/current/account/'+accountId+'/userId/'+userId,
-            //       async: false
+            url: '/services/appointments/current/account/'+accountId+'/userId/'+userId
         });
         reqKid.done(function (appointment) {
             console.log("appointment");
@@ -27,13 +32,13 @@
         var reqA = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/appointments/account/'+accountId+'/searchType/last',
+            url: '/services/appointments/report/account/'+accountId+'/searchType/last',
 
         });
-        reqA.done(function (appointments) {
+        reqA.done(function (report) {
             console.log("get last appointments");
-            for (i = 0; i < appointments.length; i++) {
-                $('#lastAppointments').append(Mustache.to_html($('#last-appointments-template').html(), appointments[i]));
+            for (i = 0; i < report.appointments.length; i++) {
+                $('#lastAppointments').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments[i]));
             }
         });
     });
@@ -67,9 +72,16 @@
             data: data,
         });
 
-        req.done(function (user) {
-            //update last appointment list
-            //       $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
+        req.done(function (appointment) {
+           //reload the location in order to reinitialize the content
+           $.ajax({
+             url: "",
+             context: document.body,
+             success: function(s,x){
+               $(this).html(s);
+             }
+           });
+
         });
 
         console.log("[END] goLive");

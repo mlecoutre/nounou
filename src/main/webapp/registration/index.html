@@ -28,6 +28,14 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <p class="navbar-text pull-right" id="authBox">
+
+                </p>
+                <p class="navbar-text pull-right hide" id="authBox_request">
+                    <input class="span2" type="text" id="uid" placeholder="Email">
+                    <input class="span2" type="text" id="pwd" placeholder="Password">
+                    <button type="submit" class="btn" id="signIn">Sign in</button>
+                </p>
 
             </div>
             <!--/.nav-collapse -->
@@ -65,7 +73,7 @@
         <div class="tab-pane" id="you"> <!--  TAB YOU -->
             <div class="row">
                 <div class="span4">
-                    <form>
+
                         <label>First name</label>
                         <input type="text" id="userFirstName" placeholder="your first name">
                         <label>Last name</label>
@@ -88,7 +96,7 @@
                             <option>Other</option>
                         </select>
                         <button type="submit" class="btn" id="registerUser">Add</button>
-                    </form>
+
                 </div>
                 <div class="span8">
                     <legend>White access list</legend>
@@ -118,7 +126,7 @@
         <div class="tab-pane" id="nurse">
             <div class="row">
                 <div class="span4">
-                    <form>
+
                         <label>First name</label>
                         <input type="text" id="nurseFirstName" placeholder="First name">
                         <label>Last name</label>
@@ -128,7 +136,7 @@
 
                         <button type="submit" id="addNurse" class="btn">Add</button>
 
-                    </form>
+
                 </div>
                 <div class="span8">
                     <legend>Nurse list</legend>
@@ -157,7 +165,7 @@
         <div class="tab-pane" id="kids">
             <div class="row">
                 <div class="span4">
-                    <form>
+
                         <label>Kid first name</label>
                         <input type="text" id="kidFirstName" placeholder="kid first name">
                         <label>Kid last name</label>
@@ -170,7 +178,7 @@
                         </select>
                         <button type="submit" id="addKid" class="btn">Add</button>
 
-                    </form>
+
                 </div>
                 <div class="span8">
                     <legend>Your kids</legend>
@@ -213,6 +221,7 @@
 <script src="../js/jquery.json-2.3.js"></script>
 <script src="../js/mustache.js"></script>
 <script src="../js/registration.js"></script>
+<script src="../js/auth.js"></script>
 
 <script type="text/x-template" id="whiteAccesUser-template">
     <tr>

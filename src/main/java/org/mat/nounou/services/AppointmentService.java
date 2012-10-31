@@ -6,6 +6,7 @@ import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
+import org.mat.nounou.vo.ReportVO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -57,11 +58,17 @@ public class AppointmentService {
 
 
     @GET
-    @Path("/account/{accountId}/searchType/{searchType}")
-    public List<AppointmentVO> getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
+    @Path("/report/account/{accountId}/searchType/{searchType}")
+    public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
         System.out.println("getLastAppointments service");
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        TypedQuery<Appointment> query = em.createQuery("FROM Appointment WHERE accountId=:accountId ORDER BY arrivalDate DESC", Appointment.class);
+        StringBuffer buff = new StringBuffer("FROM Appointment WHERE accountId=:accountId");
+
+        if ("currentMonth".equals(searchType)) {
+            buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE)");
+        }
+        buff.append(" ORDER BY arrivalDate DESC");
+        TypedQuery<Appointment> query = em.createQuery(buff.toString(), Appointment.class);
         query.setParameter("accountId", accountId);
         if ("last".equals(searchType)) {
             query.setMaxResults(5);
@@ -70,6 +77,7 @@ public class AppointmentService {
         }
         List<Appointment> appointments = query.getResultList();
         List<AppointmentVO> vos = new ArrayList<AppointmentVO>();
+        long totalDuration = 0;
         for (Appointment app : appointments) {
             AppointmentVO vo = new AppointmentVO();
             vo.setAppointmentId(app.getAppointmentId());
@@ -79,7 +87,7 @@ public class AppointmentService {
                 vo.setArrivalDate(Constants.sdfTime.format(app.getArrivalDate()));
                 vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
             }
-            if (app.getDepartureDate() != null){
+            if (app.getDepartureDate() != null) {
                 vo.setDepartureDate(Constants.sdfTime.format(app.getDepartureDate()));
                 vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
             }
@@ -98,13 +106,20 @@ public class AppointmentService {
             if (app.getDepartureDate() != null && app.getArrivalDate() != null) {
                 long timeMilli = app.getDepartureDate().getTime() - app.getArrivalDate().getTime();
                 Date duration = new Date(timeMilli);
+                totalDuration = totalDuration + timeMilli;
                 vo.setDuration(Constants.sdfTime.format(duration));
             } else {
                 vo.setDuration("n/a");
             }
 
         }
-        return vos;
+        ReportVO reportVO = new ReportVO();
+        reportVO.setAppointments(vos);
+        reportVO.setReportTitle("Total duration");
+        reportVO.setTotalDuration(TimeService.getDurationBreakdown(totalDuration));
+
+
+        return reportVO;
     }
 
     /**

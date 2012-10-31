@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Nounou app</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/jquery-ui-1.9.1.custom.min.css" type="text/css" />
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<script src="../js/jquery-1.8.2.js"></script>
-<script src="../js/jquery-ui-1.9.1.custom.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-ui-1.9.1.custom.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,11 +27,15 @@
                     <li><a href="/about">About</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
-                <form class="navbar-form pull-right">
-                    <input class="span2" type="text" id="email" placeholder="Email">
-                    <input class="span2" type="password" id="pwd" placeholder="Password">
+                <p class="navbar-text pull-right" id="authBox">
+
+                </p>
+                <p class="navbar-text pull-right hide" id="authBox_request">
+                    <input class="span2" type="text" id="uid" placeholder="Email">
+                    <input class="span2" type="text" id="pwd" placeholder="Password">
                     <button type="submit" class="btn" id="signIn">Sign in</button>
-                </form>
+               </p>
+
             </div><!--/.nav-collapse -->
         </div>
     </div>
@@ -76,8 +80,9 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="../js/jquery.json-2.3.js"></script>
-<script src="../js/mustache.js"></script>
-<script src="../js/index.js"></script>
+<script src="js/jquery.json-2.3.js"></script>
+<script src="js/mustache.js"></script>
+<script src="js/index.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>
