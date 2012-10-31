@@ -15,6 +15,8 @@ public class EntityManagerLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.out.println("WebListener start entity manager");
+    //ClassNotFoundException: org/postgresql/ssl/NonValidatingFactory;
+
         emf = Persistence.createEntityManagerFactory("default");
     }
 
