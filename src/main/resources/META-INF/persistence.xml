@@ -7,7 +7,6 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>org.mat.nounou.model.Account</class>
         <class>org.mat.nounou.model.User</class>
-        <class>org.mat.nounou.model.Address</class>
         <class>org.mat.nounou.model.Child</class>
         <class>org.mat.nounou.model.Appointment</class>
         <class>org.mat.nounou.model.Nurse</class>
@@ -20,15 +19,7 @@
             <property name="javax.persistence.jdbc.password" value="d5Oi6dMEQiWST0sTAscd7Laynt" />
 
             <property name="hibernate.archive.autodetection" value="class"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-            <property name="hibernate.show.sql" value="true"/>
-            <property name="hibernate.c3p0.acquire_increment" value="1"/>
-            <property name="hibernate.c3p0.idle_test_period" value="10"/>
-            <property name="hibernate.c3p0.max_size" value="20"/>
-            <property name="hibernate.c3p0.max_statements" value="40"/>
-            <property name="hibernate.c3p0.min_size" value="1"/>
-            <property name="hibernate.c3p0.timeout" value="30"/>
+
         </properties>
     </persistence-unit>
 </persistence>
