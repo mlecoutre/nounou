@@ -26,6 +26,7 @@
                  should use in the $DATABASE_URL environment variable.
                  String url = "jdbc:postgresql://ec2-54-243-224-88.compute-1.amazonaws.com:5432/dbkr2ja86ak7km?user=uyjjtxkduayqdl&password=d5Oi6dMEQiWST0sTAscd7Laynt&ssl=true";
             -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <!--
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test" />
