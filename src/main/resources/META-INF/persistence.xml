@@ -14,6 +14,11 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-54-243-224-88.compute-1.amazonaws.com:5432/dbkr2ja86ak7km?ssl=true" />
+            <property name="javax.persistence.jdbc.user" value="uyjjtxkduayqdl" />
+            <property name="javax.persistence.jdbc.password" value="d5Oi6dMEQiWST0sTAscd7Laynt" />
+
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>

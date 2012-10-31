@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -Dhibernate.connection.url=jdbc:postgresql://ec2-54-243-224-88.compute-1.amazonaws.com:5432/dbkr2ja86ak7km?user=uyjjtxkduayqdl&password=d5Oi6dMEQiWST0sTAscd7Laynt&ssl=true  -Ddb.default.driver=org.postgresql.Driver -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
+web:    java $JAVA_OPTS -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
