@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -Dhibernate.connection.url=$DATABASE_URL -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
+web:    java $JAVA_OPTS -Dhibernate.connection.url=$DATABASE_URL -Ddb.default.driver=org.postgresql.Driver -jar target/dependency/webapp-runner.jar --port $PORT target/*.war
