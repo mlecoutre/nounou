@@ -128,7 +128,7 @@ public class AppointmentService {
 
             }
         } catch (NoResultException nre) {
-
+            System.out.printf("ERROR: No result found with accountId:%d, searchType: %s\n", accountId, searchType);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -168,7 +168,7 @@ public class AppointmentService {
             //get User
             TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
             qUser.setParameter("userId", userId);
-             u = qUser.getSingleResult();
+            u = qUser.getSingleResult();
         } catch (NoResultException nre) {
             System.out.printf("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId);
             return null;
@@ -292,8 +292,7 @@ public class AppointmentService {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             em.close();
         }
         return Response.ok().build();

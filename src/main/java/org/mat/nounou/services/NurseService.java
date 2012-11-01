@@ -52,13 +52,16 @@ public class NurseService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Nurse registerNurse(Nurse nurse) {
-        System.out.println("register " + nurse);
+    public NurseVO registerNurse(NurseVO nurse) {
+        System.out.println("Register " + nurse);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        Nurse entity = new Nurse();
         try {
+            BeanUtils.populate(entity, BeanUtils.describe(nurse));
             em.getTransaction().begin();
             em.persist(nurse);
             em.getTransaction().commit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }  finally {
@@ -73,7 +76,7 @@ public class NurseService {
         List<NurseVO> nurses = new ArrayList<NurseVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            TypedQuery<Nurse> query = em.createQuery("SELECT n FROM Nurse n,  User u, Child c WHERE n.nurseId=c.nurse.nurseId AND c.account.accountId=:accountId", Nurse.class);
+            TypedQuery<Nurse> query = em.createQuery("SELECT n FROM Nurse n, User u, Child c WHERE n.nurseId=c.nurse.nurseId AND c.account.accountId=:accountId", Nurse.class);
             query.setMaxResults(20);
             query.setParameter("accountId", accountId);
             List<Nurse> ns = query.getResultList();

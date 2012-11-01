@@ -1,10 +1,5 @@
 package org.mat.nounou.vo;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -19,6 +14,10 @@ public class NurseVO {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+
+    public String getNurseName() {
+        return getFirstName().concat(" ").concat(getLastName());
+    }
 
 
     public Integer getNurseId() {
