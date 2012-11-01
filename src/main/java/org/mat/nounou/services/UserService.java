@@ -41,7 +41,7 @@ public class UserService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(UserVO user) {
-        System.out.println("register " + user);
+        System.out.println("Register " + user);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             User u = new User();
@@ -63,6 +63,7 @@ public class UserService {
             em.persist(u);
             em.getTransaction().commit();
             user.setAccountId(u.getAccount().getAccountId());
+            user.setUserId(u.getUserId());
         } catch (NoResultException nre) {
             System.out.println("ERROR no account found with accountId: " + user.getAccountId());
         } catch (Exception e) {
