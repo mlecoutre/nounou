@@ -120,6 +120,7 @@
                     var token = {
                           userId      :  user.userId;
                           accountId   :  user.accountId;
+                    }
                            data = $.toJSON(token);
                            sessionStorage.setItem('apptoken', data);
                             //reload the location in order to reinitialize the content

@@ -70,7 +70,7 @@ public class AppointmentService {
     public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
         System.out.println("getLastAppointments service");
         //Check input parameters
-        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsNotEmptyOrNull(searchType)) {
+        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsEmptyOrNull(searchType)) {
             System.out.printf("WARNING: Incorrect parameters accountId:%d, searchType:%s\n", accountId, searchType);
             return null;
         }
@@ -153,7 +153,7 @@ public class AppointmentService {
     @Path("/current/account/{accountId}/userId/{userId}")
     public AppointmentVO getCurrentAppointment(@PathParam("accountId") Integer accountId, @PathParam("userId") Integer userId) {
         //Check input parameters
-        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsNotEmptyOrNull(userId)) {
+        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsEmptyOrNull(userId)) {
             System.out.printf("WARNING: Incorrect parameters accountId:%d, userId:%d\n", accountId, userId);
             return null;
         }
