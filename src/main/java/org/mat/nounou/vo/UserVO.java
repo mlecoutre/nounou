@@ -20,9 +20,18 @@ public class UserVO {
     private String email;
     private String password;
     private String type;
+    private boolean newUser = false;
 
     public UserVO() {
 
+    }
+
+    public boolean isNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        this.newUser = newUser;
     }
 
     public UserVO(String firstName, String lastName) {

@@ -49,10 +49,8 @@ public class AuthenticationService {
         } finally {
             em.close();
         }
-        NewCookie cookie = new NewCookie("token", "{\"accountId\": \"" + token.getAccountId() +
-                "\", \"userId\":\"" + token.getUserId() + "\"}");
 
-        return Response.ok(token).cookie(cookie).build();
+        return Response.ok(token).build();
 
     }
 

@@ -51,6 +51,7 @@ public class UserService {
             em.getTransaction().begin();
             if (user.getAccountId() == null) {
                 System.out.println("Create a new account.");
+                user.setNewUser(true);
                 account = new Account();
                 em.persist(account);
             } else {

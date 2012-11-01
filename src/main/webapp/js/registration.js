@@ -116,6 +116,23 @@
         req.done(function (user) {
             console.log("User created "+user);
             $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
+              if(user.newUser){
+                    var token = {
+                          userId      :  user.userId;
+                          accountId   :  user.accountId;
+                           data = $.toJSON(token);
+                           sessionStorage.setItem('apptoken', data);
+                            //reload the location in order to reinitialize the content
+                            $.ajax({
+                                        url: "",
+                                        context: document.body,
+                                        success: function(s,x){
+                                          $(this).html(s);
+                             }
+                            });
+                    };
+              }
+            //
         });
         console.log("[END] register user");
     })

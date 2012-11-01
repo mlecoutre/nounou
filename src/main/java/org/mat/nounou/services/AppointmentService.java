@@ -4,11 +4,13 @@ import org.mat.nounou.model.Appointment;
 import org.mat.nounou.model.Child;
 import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
+import org.mat.nounou.util.Check;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
 import org.mat.nounou.vo.ReportVO;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.*;
@@ -34,24 +36,30 @@ public class AppointmentService {
         System.out.println("Appointment service");
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         TypedQuery<Appointment> query = em.createQuery("FROM Appointment", Appointment.class);
-        query.setMaxResults(Constants.MAX_RESULT);
-        List<Appointment> appointments = query.getResultList();
         List<AppointmentVO> apps = new ArrayList<AppointmentVO>();
-        for (Appointment a : appointments) {
-            AppointmentVO appVo = new AppointmentVO();
-            appVo.setAppointmentId(a.getAppointmentId());
-            if (a.getArrivalDate() != null)
-                appVo.setArrivalDate(Constants.sdf.format(a.getArrivalDate()));
-            if (a.getArrivalUser() != null)
-                appVo.setArrivalUserName(a.getArrivalUser().getFirstName().concat(" ").concat(a.getArrivalUser().getLastName()));
-            if (a.getDepartureUser() != null)
-                appVo.setDepartureDate(Constants.sdf.format(a.getDepartureDate()));
-            if (a.getDepartureUser() != null)
-                appVo.setDepartureUserName(a.getDepartureUser().getFirstName().concat(" ").concat(a.getDepartureUser().getLastName()));
-            appVo.setKidId(a.getChild().getChildId());
-            appVo.setKidName(a.getChild().getFirstName());
-            apps.add(appVo);
-            //TODO map Planned date when it will be available
+        try {
+            query.setMaxResults(Constants.MAX_RESULT);
+            List<Appointment> appointments = query.getResultList();
+            for (Appointment a : appointments) {
+                AppointmentVO appVo = new AppointmentVO();
+                appVo.setAppointmentId(a.getAppointmentId());
+                if (a.getArrivalDate() != null)
+                    appVo.setArrivalDate(Constants.sdf.format(a.getArrivalDate()));
+                if (a.getArrivalUser() != null)
+                    appVo.setArrivalUserName(a.getArrivalUser().getFirstName().concat(" ").concat(a.getArrivalUser().getLastName()));
+                if (a.getDepartureUser() != null)
+                    appVo.setDepartureDate(Constants.sdf.format(a.getDepartureDate()));
+                if (a.getDepartureUser() != null)
+                    appVo.setDepartureUserName(a.getDepartureUser().getFirstName().concat(" ").concat(a.getDepartureUser().getLastName()));
+                appVo.setKidId(a.getChild().getChildId());
+                appVo.setKidName(a.getChild().getFirstName());
+                apps.add(appVo);
+                //TODO map Planned date when it will be available
+            }
+        } catch (NoResultException nre) {
+            System.out.println("No appointment at this time");
+        } finally {
+            em.close();
         }
         return apps;
     }
@@ -61,57 +69,70 @@ public class AppointmentService {
     @Path("/report/account/{accountId}/searchType/{searchType}")
     public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
         System.out.println("getLastAppointments service");
+        //Check input parameters
+        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsNotEmptyOrNull(searchType)) {
+            System.out.printf("WARNING: Incorrect parameters accountId:%d, searchType:%s\n", accountId, searchType);
+            return null;
+        }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        StringBuffer buff = new StringBuffer("FROM Appointment WHERE accountId=:accountId");
-
-        if ("currentMonth".equals(searchType)) {
-            buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE)");
-        }
-        buff.append(" ORDER BY arrivalDate DESC");
-        TypedQuery<Appointment> query = em.createQuery(buff.toString(), Appointment.class);
-        query.setParameter("accountId", accountId);
-        if ("last".equals(searchType)) {
-            query.setMaxResults(5);
-        } else {
-            query.setMaxResults(31);
-        }
-        List<Appointment> appointments = query.getResultList();
         List<AppointmentVO> vos = new ArrayList<AppointmentVO>();
         long totalDuration = 0;
-        for (Appointment app : appointments) {
-            AppointmentVO vo = new AppointmentVO();
-            vo.setAppointmentId(app.getAppointmentId());
-            vo.setDepartureUserName(app.getDepartureUser().getFirstName().concat(" ").concat(app.getDepartureUser().getLastName()));
+        try {
+            StringBuffer buff = new StringBuffer("FROM Appointment WHERE accountId=:accountId");
 
-            if (app.getArrivalDate() != null) {
-                vo.setArrivalDate(Constants.sdfTime.format(app.getArrivalDate()));
-                vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
+            if ("currentMonth".equals(searchType)) {
+                buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE)");
             }
-            if (app.getDepartureDate() != null) {
-                vo.setDepartureDate(Constants.sdfTime.format(app.getDepartureDate()));
-                vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
-            }
-            vo.setArrivalUserName(app.getArrivalUser().getFirstName().concat(" ").concat(app.getArrivalUser().getLastName()));
-
-            TypedQuery<Child> qChild = em.createQuery("FROM Child WHERE accountId=:accountId", Child.class);
-            qChild.setParameter("accountId", accountId);
-            List<Child> children = qChild.getResultList();
-            if (children.size() > 0) {
-                vo.setKidId(children.get(0).getChildId());
-                vo.setKidName(children.get(0).getFirstName());
-                vos.add(vo);
-            }
-
-            //calculate duration
-            if (app.getDepartureDate() != null && app.getArrivalDate() != null) {
-                long timeMilli = app.getDepartureDate().getTime() - app.getArrivalDate().getTime();
-                Date duration = new Date(timeMilli);
-                totalDuration = totalDuration + timeMilli;
-                vo.setDuration(Constants.sdfTime.format(duration));
+            buff.append(" ORDER BY arrivalDate DESC");
+            TypedQuery<Appointment> query = em.createQuery(buff.toString(), Appointment.class);
+            query.setParameter("accountId", accountId);
+            if ("last".equals(searchType)) {
+                query.setMaxResults(5);
             } else {
-                vo.setDuration("n/a");
+                query.setMaxResults(31);
             }
+            List<Appointment> appointments = query.getResultList();
+            for (Appointment app : appointments) {
+                AppointmentVO vo = new AppointmentVO();
+                vo.setAppointmentId(app.getAppointmentId());
+                vo.setDepartureUserName(app.getDepartureUser().getFirstName().concat(" ").concat(app.getDepartureUser().getLastName()));
 
+                if (app.getArrivalDate() != null) {
+                    vo.setArrivalDate(Constants.sdfTime.format(app.getArrivalDate()));
+                    vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
+                }
+                if (app.getDepartureDate() != null) {
+                    vo.setDepartureDate(Constants.sdfTime.format(app.getDepartureDate()));
+                    vo.setDate(Constants.sdfDate.format(app.getArrivalDate()));
+                }
+                vo.setArrivalUserName(app.getArrivalUser().getFirstName().concat(" ").concat(app.getArrivalUser().getLastName()));
+
+                TypedQuery<Child> qChild = em.createQuery("FROM Child WHERE accountId=:accountId", Child.class);
+                qChild.setParameter("accountId", accountId);
+                List<Child> children = qChild.getResultList();
+                if (children.size() > 0) {
+                    vo.setKidId(children.get(0).getChildId());
+                    vo.setKidName(children.get(0).getFirstName());
+                    vos.add(vo);
+                }
+
+                //calculate duration
+                if (app.getDepartureDate() != null && app.getArrivalDate() != null) {
+                    long timeMilli = app.getDepartureDate().getTime() - app.getArrivalDate().getTime();
+                    Date duration = new Date(timeMilli);
+                    totalDuration = totalDuration + timeMilli;
+                    vo.setDuration(Constants.sdfTime.format(duration));
+                } else {
+                    vo.setDuration("n/a");
+                }
+
+            }
+        } catch (NoResultException nre) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
         }
         ReportVO reportVO = new ReportVO();
         reportVO.setAppointments(vos);
@@ -131,20 +152,33 @@ public class AppointmentService {
     @GET
     @Path("/current/account/{accountId}/userId/{userId}")
     public AppointmentVO getCurrentAppointment(@PathParam("accountId") Integer accountId, @PathParam("userId") Integer userId) {
-
+        //Check input parameters
+        if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsNotEmptyOrNull(userId)) {
+            System.out.printf("WARNING: Incorrect parameters accountId:%d, userId:%d\n", accountId, userId);
+            return null;
+        }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-
-        //get Possible Childs
-        TypedQuery<Child> qChild = em.createQuery("FROM Child c WHERE c.account.accountId=:accountId", Child.class);
-        qChild.setParameter("accountId", accountId);
-        List<Child> children = qChild.getResultList();
-
-
-        //get User
-        TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
-        qUser.setParameter("userId", userId);
-        User u = qUser.getSingleResult();
-
+        User u = null;
+        List<Child> children = null;
+        try {
+            //get Possible Children
+            TypedQuery<Child> qChild = em.createQuery("FROM Child c WHERE c.account.accountId=:accountId", Child.class);
+            qChild.setParameter("accountId", accountId);
+            children = qChild.getResultList();
+            //get User
+            TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
+            qUser.setParameter("userId", userId);
+             u = qUser.getSingleResult();
+        } catch (NoResultException nre) {
+            System.out.printf("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId);
+            return null;
+        } catch (Exception e) {
+            System.out.printf("ERROR: Exception with parameters accountId:%d, userId:%d\n", accountId, userId);
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
 
         AppointmentVO vo = new AppointmentVO();
         vo.setAccountId(accountId);
@@ -184,10 +218,10 @@ public class AppointmentService {
     @Produces(MediaType.APPLICATION_JSON)
     public AppointmentVO registerAppointment(AppointmentVO appointment) {
         System.out.println("register appointment " + appointment);
-
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        Appointment entity = null;
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
-            Appointment entity = null;
+
             if (appointment.getAppointmentId() != null) {
                 //TODO check
                 TypedQuery<Appointment> qApp = em.createQuery("FROM Appointment a WHERE a.account.accountId=:accountId AND a.arrivalDate EQUALS CURRENT_DATE", Appointment.class);
@@ -222,7 +256,7 @@ public class AppointmentService {
                 d = Constants.sdf.parse(appointment.getDepartureDate());
                 entity.setDepartureDate(d);
             } else {
-                System.out.println("ERROR unknown declaration type: " + appointment.getDeclarationType());
+                System.out.println("ERROR: Unknown declaration type: " + appointment.getDeclarationType());
                 return null;
             }
             entity.setAccount(u.getAccount());
@@ -234,7 +268,10 @@ public class AppointmentService {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
+
 
         return appointment;
     }
@@ -243,8 +280,8 @@ public class AppointmentService {
     @Path("/delete/{appointmentId}")
     public Response deleteById(@PathParam("appointmentId") Integer appointmentId) {
         List<Child> c = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM Appointment WHERE appointmentId=:appointmentId");
 
@@ -255,6 +292,9 @@ public class AppointmentService {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            em.close();
         }
         return Response.ok().build();
     }
