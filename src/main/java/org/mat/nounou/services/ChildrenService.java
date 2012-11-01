@@ -31,11 +31,18 @@ public class ChildrenService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<ChildVO> get() {
         System.out.println("Get Child service");
+        List<Child> kids = null;
         List<ChildVO> children = new ArrayList<ChildVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        TypedQuery<Child> query = em.createQuery("FROM Child", Child.class);
-        query.setMaxResults(200);
-        List<Child> kids = query.getResultList();
+        try {
+            TypedQuery<Child> query = em.createQuery("FROM Child", Child.class);
+            query.setMaxResults(Constants.MAX_RESULT);
+          kids = query.getResultList();
+        } catch (NoResultException nre) {
+            System.out.println("No children found in db.");
+        } finally {
+            em.close();
+        }
         for (Child c : kids) {
             ChildVO vo = new ChildVO();
             vo.setAccountId(c.getAccount().getAccountId());
@@ -66,10 +73,8 @@ public class ChildrenService {
         } catch (ParseException e) {
             e.printStackTrace();  //TODO manage error
         }
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
-
-
             TypedQuery<Account> qAccount = em.createQuery("FROM Account a WHERE accountId=:accountId", Account.class);
             qAccount.setParameter("accountId", child.getAccountId());
             Account account = qAccount.getSingleResult();
@@ -78,28 +83,25 @@ public class ChildrenService {
             TypedQuery<Nurse> qNurse = em.createQuery("FROM Nurse n WHERE nurseId=:nurseId", Nurse.class);
             qNurse.setParameter("nurseId", child.getNurseId());
             Nurse nurse = qNurse.getSingleResult();
-
             childEntity.setNurse(nurse);
             em.getTransaction().begin();
             em.persist(childEntity);
             em.getTransaction().commit();
-            em.close();
             child.setChildId(childEntity.getChildId());
-
         } catch (Exception e) {
             e.printStackTrace();
+        }    finally {
+            em.close();
         }
         return child;
     }
-
 
     @GET
     @Path("/account/{accountId}")
     public List<ChildVO> findByAccountId(@PathParam("accountId") Integer accountId) {
         List<ChildVO> cList = new ArrayList<ChildVO>();
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
-
             TypedQuery<Child> query = em.createQuery("FROM Child c WHERE c.account.accountId=:accountId", Child.class);
             query.setMaxResults(Constants.MAX_RESULT);
             query.setParameter("accountId", accountId);
@@ -118,15 +120,15 @@ public class ChildrenService {
                     vo.setNurseName(c.getNurse().getFirstName().concat(" ").concat(c.getNurse().getLastName()));
                 }
                 cList.add(vo);
-
             }
-            em.close();
-
         } catch (NoResultException nre) {
             System.out.println("No result found for accountId:= " + accountId);
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            em.close();
         }
         return cList;
     }
@@ -136,18 +138,19 @@ public class ChildrenService {
     @Path("/delete/{childId}")
     public Response deleteById(@PathParam("childId") Integer childId) {
         List<Child> c = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM Child WHERE childId=:childId");
 
             query.setParameter("childId", childId);
             query.executeUpdate();
             em.getTransaction().commit();
-            em.close();
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return Response.ok().build();
     }

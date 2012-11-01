@@ -5,6 +5,7 @@ import org.mat.nounou.model.Account;
 import org.mat.nounou.model.Child;
 import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
+import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.UserVO;
 
 import javax.persistence.EntityManager;
@@ -41,9 +42,8 @@ public class UserService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(UserVO user) {
         System.out.println("register " + user);
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
-
             User u = new User();
             Account account = null;
             BeanUtils.populate(u, BeanUtils.describe(user));
@@ -62,12 +62,12 @@ public class UserService {
             em.persist(u);
             em.getTransaction().commit();
             user.setAccountId(u.getAccount().getAccountId());
-            em.close();
-
         } catch (NoResultException nre) {
-            System.out.println("ERROR no account found with accoundId: " + user.getAccountId());
+            System.out.println("ERROR no account found with accountId: " + user.getAccountId());
         } catch (Exception e) {
             e.printStackTrace();
+        }    finally {
+            em.close();
         }
         return Response.created(URI.create("/services/users/" + user.getUserId())).entity(user).build();
     }
@@ -85,12 +85,11 @@ public class UserService {
     public UserVO findByUserId(@PathParam("userId") Integer userId) {
         UserVO u = null;
         User user = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
             TypedQuery<User> query = em.createQuery("FROM User WHERE userId=:userId", User.class);
             query.setParameter("userId", userId);
             user = query.getSingleResult();
-            em.close();
             BeanUtils.populate(u, BeanUtils.describe(user));
             if (user.getAccount() != null) {
                 u.setAccountId(user.getAccount().getAccountId());
@@ -101,6 +100,8 @@ public class UserService {
             System.out.println("No result found for userId=" + userId);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return u;
     }
@@ -115,8 +116,9 @@ public class UserService {
     private List<UserVO> executeUserRequestList(String queryString, HashMap<String, Object> parameters) {
         List<User> users = null;
         List<UserVO> vos = new ArrayList<UserVO>();
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
+
             TypedQuery<User> query = em.createQuery(queryString, User.class);
             if (parameters != null) {
                 Iterator<String> it = parameters.keySet().iterator();
@@ -125,7 +127,7 @@ public class UserService {
                     query.setParameter(pName, parameters.get(pName));
                 }
             }
-            query.setMaxResults(200);
+            query.setMaxResults(Constants.MAX_RESULT);
             users = query.getResultList();
 
             /* Populate the value object */
@@ -139,6 +141,8 @@ public class UserService {
             System.out.println("No result found while search users " + nre.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return vos;
     }
@@ -148,18 +152,19 @@ public class UserService {
     @Path("/delete/{userId}")
     public Response deleteById(@PathParam("userId") Integer userId) {
         List<Child> c = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            EntityManager em = EntityManagerLoaderListener.createEntityManager();
+
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM User WHERE userId=:userId");
 
             query.setParameter("userId", userId);
             query.executeUpdate();
             em.getTransaction().commit();
-            em.close();
-
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return Response.ok().build();
     }

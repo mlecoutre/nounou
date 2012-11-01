@@ -1,7 +1,7 @@
 package org.example.models;
 
-import org.mat.nounou.model.Time;
 import org.junit.Test;
+import org.mat.nounou.model.Time;
 
 import java.util.TimeZone;
 

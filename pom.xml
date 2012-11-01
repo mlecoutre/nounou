@@ -69,6 +69,33 @@
             <version>9.0-801.jdbc4</version>
         </dependency>
 
+        <!-- dbunit -->
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.4.8</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <version>1.0.0.CR7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-tomcat-managed-7</artifactId>
+            <version>1.0.0.CR4</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -109,7 +136,7 @@
     </dependencies>
 
     <build>
-    <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -141,7 +168,9 @@
                 <executions>
                     <execution>
                         <phase>package</phase>
-                        <goals><goal>copy</goal></goals>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
@@ -157,5 +186,187 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>TOMCAT7</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                    <version>2.2</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jcdi_1.0_spec</artifactId>
+                    <version>1.0</version>
+                    <scope>provided</scope>
+                    <!-- provided for tomcat -->
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-atinject_1.0_spec</artifactId>
+                    <version>1.0</version>
+                    <scope>provided</scope>
+                    <!-- provided for tomcat -->
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+                    <version>1.0</version>
+                    <scope>provided</scope>
+                    <!-- provided for tomcat -->
+                </dependency>
+
+
+            </dependencies>
+
+            <build>
+                <plugins>
+
+                    <!-- TOMCAT PLUGIN -->
+
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.0-beta-1</version>
+                        <configuration>
+                            <systemProperties>
+                             <!--   <java.security.auth.login.config>src/test/resources/tomcat/jaas.config
+                                </java.security.auth.login.config>    -->
+                            </systemProperties>
+                            <!-- Embedded port -->
+                            <port>8888</port>
+                            <configurationDir>${project.build.directory}/tomcat</configurationDir>
+                            <contextFile>src/test/resources/tomcat/context.xml</contextFile>
+                            <!--
+                            <additionalConfigFilesDir>src/test/resources/tomcat</additionalConfigFilesDir>
+                            <tomcatWebXml>src/test/resources/tomcat/web.xml</tomcatWebXml>
+                            -->
+                            <warFile>${project.build.directory}/${project.artifactId}.war</warFile>
+                            <path>/${project.artifactId}</path>
+                        </configuration>
+                        <!--
+                        <executions>
+                            <execution>
+                                <id>tomcat-run</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <fork>true</fork>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>tomcat-shutdown</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>shutdown</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        -->
+                        <dependencies>
+                            <!-- add drivers resources for the container -->
+
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derby</artifactId>
+                                <version>10.9.1.0</version>
+                            </dependency>
+
+                            <!-- EL 2.2 -->
+
+                            <dependency>
+                                <groupId>org.glassfish.web</groupId>
+                                <artifactId>el-impl</artifactId>
+                                <version>2.2</version>
+                            </dependency>
+
+                            <!-- WS aware -->
+                            <dependency>
+                                <groupId>com.sun.xml.ws</groupId>
+                                <artifactId>jaxws-rt</artifactId>
+                                <version>2.1.7</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>javax.annotation</groupId>
+                                <artifactId>jsr250-api</artifactId>
+                                <version>1.0</version>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>javax.jws</groupId>
+                                <artifactId>jsr181-api</artifactId>
+                                <version>1.0-MR1</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.geronimo.specs</groupId>
+                                <artifactId>geronimo-ejb_3.0_spec</artifactId>
+                                <version>1.0</version>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>axis</groupId>
+                                <artifactId>axis</artifactId>
+                                <version>1.4</version>
+                            </dependency>
+
+                            <!-- loggers adapters -->
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>log4j-over-slf4j</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>jcl-over-slf4j</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+
+                            <!-- effective logger impl -->
+                            <dependency>
+                                <groupId>ch.qos.logback</groupId>
+                                <artifactId>logback-classic</artifactId>
+                                <version>1.0.1</version>
+                            </dependency>
+                            <!-- End : Logging dependencies -->
+
+                            <!-- Mail Service -->
+                            <dependency>
+                                <groupId>javax.mail</groupId>
+                                <artifactId>javax.mail-api</artifactId>
+                                <version>1.4.4</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>javax.mail</groupId>
+                                <artifactId>mail</artifactId>
+                                <version>1.4.4</version>
+                            </dependency>
+
+                            <!-- Bean Validation -->
+                            <dependency>
+                                <groupId>org.hibernate</groupId>
+                                <artifactId>hibernate-validator</artifactId>
+                                <version>4.0.2.GA</version>
+                            </dependency>
+
+                            <!-- webservice stack -->
+
+                        </dependencies>
+                    </plugin>
+
+
+                </plugins>
+            </build>
+
+        </profile>
+    </profiles>
 
 </project>

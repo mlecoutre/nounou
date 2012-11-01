@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<dataset>
+    <account accountId='1' />
+    <nusers userId='1' accountId='1' firstname='Richard' lastname='Wright' type='father' email='rwright@heroku.com' phonenumber='06543423' password='password' />
+    <nurse nurseId='1' firstname='nurseFirstName' lastname='nurseLastName' phoneNumber='0676545676'/>
+    <child childId='1' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='1'/>
+    <appointment/>
+</dataset>

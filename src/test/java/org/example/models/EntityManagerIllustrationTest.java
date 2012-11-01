@@ -23,13 +23,13 @@
  */
 package org.example.models;
 
-import java.util.List;
+import junit.framework.TestCase;
+import org.mat.nounou.model.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import junit.framework.TestCase;
-import org.mat.nounou.model.User;
+import java.util.List;
 
 
 /**

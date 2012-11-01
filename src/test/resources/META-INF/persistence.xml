@@ -32,7 +32,6 @@
         </description>
         <class>org.mat.nounou.model.Account</class>
         <class>org.mat.nounou.model.User</class>
-        <class>org.mat.nounou.model.Address</class>
         <class>org.mat.nounou.model.Child</class>
         <class>org.mat.nounou.model.Appointment</class>
         <class>org.mat.nounou.model.Nurse</class>
