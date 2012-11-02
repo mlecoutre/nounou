@@ -58,10 +58,11 @@ public class NurseService {
         Nurse entity = new Nurse();
         try {
             BeanUtils.populate(entity, BeanUtils.describe(nurse));
+            entity.setNurseId(null);
             em.getTransaction().begin();
-            em.persist(nurse);
+            em.persist(entity);
             em.getTransaction().commit();
-
+            nurse.setNurseId(entity.getNurseId());
         } catch (Exception e) {
             e.printStackTrace();
         }  finally {

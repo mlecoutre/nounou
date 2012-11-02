@@ -200,7 +200,7 @@ public class AppointmentService {
         Date currentDate = new Date();
 
         String dateStr = Constants.sdf.format(currentDate);
-        if (Calendar.HOUR_OF_DAY > 12) {
+        if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 12) {
             //we consider that is the arrival
             vo.setArrivalDate(dateStr);
             vo.setDeclarationType("arrival");
@@ -264,7 +264,6 @@ public class AppointmentService {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
-            em.close();
 
         } catch (Exception e) {
             e.printStackTrace();

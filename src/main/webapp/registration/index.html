@@ -31,6 +31,9 @@
                 <p class="navbar-text pull-right" id="authBox">
 
                 </p>
+                <p class="navbar-text pull-right hide" id="loadingIndicator">
+                    <img src="../img/ajax-loader.gif" />
+                </p>
                 <p class="navbar-text pull-right hide" id="authBox_request">
                     <input class="span2" type="text" id="uid" placeholder="Email">
                     <input class="span2" type="text" id="pwd" placeholder="Password">
@@ -222,6 +225,7 @@
 <script src="../js/mustache.js"></script>
 <script src="../js/registration.js"></script>
 <script src="../js/auth.js"></script>
+<script src="../js/utilities.js"></script>
 
 <script type="text/x-template" id="whiteAccesUser-template">
     <tr>

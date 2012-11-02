@@ -88,6 +88,7 @@ public class ChildrenService {
             em.persist(childEntity);
             em.getTransaction().commit();
             child.setChildId(childEntity.getChildId());
+            child.setNurseName(nurse.getFirstName());
         } catch (Exception e) {
             e.printStackTrace();
         }    finally {
