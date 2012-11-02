@@ -80,12 +80,27 @@ public class AppointmentService {
         try {
             StringBuffer buff = new StringBuffer("FROM Appointment WHERE accountId=:accountId");
 
-            if ("currentMonth".equals(searchType)) {
-                buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE)");
+            TypedQuery<Appointment> query = null;
+            if ("last".equals(searchType)) {
+                query = em.createQuery(buff.toString(), Appointment.class);
+            } else if ("currentMonth".equals(searchType)) {
+                buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE) ORDER BY arrivalDate DESC");
+                query = em.createQuery(buff.toString(), Appointment.class);
+            } else if ("currentWeek".equals(searchType)) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                Date d1 = c.getTime();
+                c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                Date d2 = c.getTime();
+                buff.append(" AND  arrivalDate > :startDate AND arrivalDate < :endDate");
+                buff.append(" ORDER BY arrivalDate DESC");
+                query = em.createQuery(buff.toString(), Appointment.class);
+                query.setParameter("startDate", d1);
+                query.setParameter("endDate", d2);
             }
-            buff.append(" ORDER BY arrivalDate DESC");
-            TypedQuery<Appointment> query = em.createQuery(buff.toString(), Appointment.class);
+
             query.setParameter("accountId", accountId);
+
             if ("last".equals(searchType)) {
                 query.setMaxResults(5);
             } else {
@@ -119,9 +134,8 @@ public class AppointmentService {
                 //calculate duration
                 if (app.getDepartureDate() != null && app.getArrivalDate() != null) {
                     long timeMilli = app.getDepartureDate().getTime() - app.getArrivalDate().getTime();
-                    Date duration = new Date(timeMilli);
                     totalDuration = totalDuration + timeMilli;
-                    vo.setDuration(Constants.sdfTime.format(duration));
+                    vo.setDuration(TimeService.getDurationBreakdown(timeMilli));
                 } else {
                     vo.setDuration("n/a");
                 }

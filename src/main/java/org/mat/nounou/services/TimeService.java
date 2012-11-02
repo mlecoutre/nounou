@@ -32,16 +32,17 @@ public class TimeService {
         millis -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
+         hours = hours+ days*24;
         StringBuilder sb = new StringBuilder(64);
-        sb.append(days);
-        sb.append(" Days ");
+
         sb.append(hours);
-        sb.append(" Hours ");
+        sb.append(" H ");
         sb.append(minutes);
-        sb.append(" Minutes ");
+        sb.append(" Mn");
 //        sb.append(seconds);
 //        sb.append(" Seconds");
 
         return(sb.toString());
     }
+
 }

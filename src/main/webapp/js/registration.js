@@ -9,6 +9,9 @@
             var token = $.parseJSON(value);
             accountId = token.accountId;
             userId  = token.userId;
+
+            //go directly on you tab if logged in
+            $('#registerTab a[href="#you"]').tab('show');
     }
 
     $(document).ready(function () {

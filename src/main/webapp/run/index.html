@@ -122,24 +122,24 @@
                     <label>Search Interval</label>
 
                     <p><select id="searchDate">
-                        <option selected="true">Current week</option>
-                        <option>Last week</option>
-                        <option>Current month</option>
-                        <option>Previous month</option>
-                        <option>Other</option>
+                        <option value="currentWeek" selected="true">Current week</option>
+                        <option value="lastWeek">Last week</option>
+                        <option value="currentMonth">Current month</option>
+                        <option value="prevMonth">Previous month</option>
+                        <option id="other">Other</option>
                     </select>
                         <a class="btn" id="search">Search</a></p>
                     <hr/>
                     <table class="table table-striped" id="appointmentResultList">
                         <thead>
                         <tr>
-                            <th>#</th>
                             <th>Date</th>
                             <th>Arrival User</th>
                             <th>Arrival</th>
                             <th>Departure User</th>
                             <th>Departure</th>
                             <th>Kid name</th>
+                            <th>Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -193,12 +193,15 @@
 </script>
 <script type="text/x-template" id="appointments-template">
     <tr>
-        <td>{{existingAppointmentId}}</td>
+        <td>{{date}}</td>
         <td>{{arrivalUserName}}</td>
         <td>{{arrivalDate}}</td>
         <td>{{departureUserName}}</td>
         <td>{{departureDate}}</td>
         <td>{{kidName}}</td>
+        <td><a href="{{existingAppointmentId}}"><i class="icon-edit"></i></a>
+            <a href="{{existingAppointmentId}}"><i  class="icon-search"></i></a>
+            <a href="{{existingAppointmentId}}"><i class="icon-trash"></i></a></td>
     </tr>
 </script>
 </body>

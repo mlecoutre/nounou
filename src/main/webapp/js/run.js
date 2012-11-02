@@ -83,10 +83,25 @@
            });
 
         });
-
         console.log("[END] goLive");
     })
 
+      $('#search').click(function (e) {
+            var searchType= $('#searchDate').val();
+                 console.log("[START] search on "+searchType);
+            var reqA = $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                url: '/services/appointments/report/account/'+accountId+'/searchType/'+searchType,
+            });
+            reqA.done(function (report) {
+                $('#appointmentResultList>tbody').empty();
+                for (i = 0; i < report.appointments.length; i++) {
+                    $('#appointmentResultList').append(Mustache.to_html($('#appointments-template').html(), report.appointments[i]));
+                }
+            });
+        })
 
+        $('del').click
 
 })(jQuery);
