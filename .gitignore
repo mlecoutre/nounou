@@ -7,3 +7,5 @@ build
 .env
 *.iml
 .idea/
+.clover
+
