@@ -26,21 +26,22 @@ public class EntityManagerLoaderListener implements ServletContextListener {
         System.out.println("WebListener start entity manager");
         //ClassNotFoundException: org/postgresql/ssl/NonValidatingFactory;
         String databaseUrl = System.getenv("DATABASE_URL");
-        System.out.println("db url :" + databaseUrl);
-        if (databaseUrl != null) {
+        if (databaseUrl == null) {
+            System.out.println("No DATANASE_URL set. Use default config in persistence.xml");
+            emf = Persistence.createEntityManagerFactory("default");
+        } else {
             HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
             Map<String, String> properties = new HashMap<String, String>();
             properties.put("javax.persistence.jdbc.url", analyser.generateJDBCUrl());
             properties.put("javax.persistence.jdbc.user", analyser.getUserName());
             properties.put("javax.persistence.jdbc.password", analyser.getPassword());
             emf = Persistence.createEntityManagerFactory("default", properties);
-        } else {
-            emf = Persistence.createEntityManagerFactory("default");
         }
     }
 
     /**
      * Close the entity manager
+     *
      * @param event ServletContextEvent not used
      */
     @Override
@@ -50,7 +51,8 @@ public class EntityManagerLoaderListener implements ServletContextListener {
 
     /**
      * Create the EntityManager
-     * @return      EntityManager
+     *
+     * @return EntityManager
      */
     public static EntityManager createEntityManager() {
         if (emf == null) {

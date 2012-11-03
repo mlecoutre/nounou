@@ -37,7 +37,7 @@ public class ChildrenService {
         try {
             TypedQuery<Child> query = em.createQuery("FROM Child", Child.class);
             query.setMaxResults(Constants.MAX_RESULT);
-          kids = query.getResultList();
+            kids = query.getResultList();
         } catch (NoResultException nre) {
             System.out.println("No children found in db.");
         } finally {
@@ -46,7 +46,8 @@ public class ChildrenService {
         for (Child c : kids) {
             ChildVO vo = new ChildVO();
             vo.setAccountId(c.getAccount().getAccountId());
-            vo.setBirthday(Constants.sdf.format(c.getBirthday()));
+            if (c.getBirthday() != null)
+                vo.setBirthday(Constants.sdfDate.format(c.getBirthday()));
             vo.setChildId(c.getChildId());
             vo.setFirstName(c.getFirstName());
             vo.setLastName(c.getLastName());
@@ -91,7 +92,7 @@ public class ChildrenService {
             child.setNurseName(nurse.getFirstName());
         } catch (Exception e) {
             e.printStackTrace();
-        }    finally {
+        } finally {
             em.close();
         }
         return child;
@@ -112,7 +113,8 @@ public class ChildrenService {
             for (Child c : children) {
                 ChildVO vo = new ChildVO();
                 vo.setAccountId(c.getAccount().getAccountId());
-                vo.setBirthday(Constants.sdfDate.format(c.getBirthday()));
+                if (c.getBirthday() != null) //birthday is an optional parameter
+                    vo.setBirthday(Constants.sdfDate.format(c.getBirthday()));
                 vo.setChildId(c.getChildId());
                 vo.setFirstName(c.getFirstName());
                 vo.setLastName(c.getLastName());
@@ -127,8 +129,7 @@ public class ChildrenService {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             em.close();
         }
         return cList;

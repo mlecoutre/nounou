@@ -1,6 +1,7 @@
 package org.mat.nounou.services;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.mat.nounou.model.Child;
 import org.mat.nounou.model.Nurse;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Constants;
@@ -8,9 +9,11 @@ import org.mat.nounou.vo.NurseVO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +76,11 @@ public class NurseService {
 
     @GET
     @Path("/account/{accountId}")
-    public List<NurseVO> findByUserId(@PathParam("accountId") Integer accountId) {
+    public List<NurseVO> findByAccountId(@PathParam("accountId") Integer accountId) {
         List<NurseVO> nurses = new ArrayList<NurseVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-            TypedQuery<Nurse> query = em.createQuery("SELECT n FROM Nurse n, User u, Child c WHERE n.nurseId=c.nurse.nurseId AND c.account.accountId=:accountId", Nurse.class);
+            TypedQuery<Nurse> query = em.createQuery("SELECT c.nurse FROM Child c WHERE c.account.accountId=:accountId", Nurse.class);
             query.setMaxResults(20);
             query.setParameter("accountId", accountId);
             List<Nurse> ns = query.getResultList();
@@ -96,5 +99,26 @@ public class NurseService {
         return nurses;
     }
 
+    @GET
+    @Path("/delete/{nurseId}")
+    public Response deleteById(@PathParam("nurseId") Integer nurseId) {
+        List<Child> c = null;
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        try {
+
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM Nurse WHERE nurseId=:nurseId");
+
+            query.setParameter("nurseId", nurseId);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        } finally {
+            em.close();
+        }
+        return Response.ok().build();
+    }
 
 }

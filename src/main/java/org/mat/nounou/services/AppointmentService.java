@@ -30,7 +30,6 @@ import java.util.List;
 @Path("/appointments")
 @Produces(MediaType.APPLICATION_JSON)
 public class AppointmentService {
-
     @GET
     public List<AppointmentVO> get() {
         System.out.println("Appointment service");
@@ -278,7 +277,7 @@ public class AppointmentService {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
-
+            appointment.setAppointmentId(entity.getAppointmentId());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -297,12 +296,9 @@ public class AppointmentService {
         try {
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM Appointment WHERE appointmentId=:appointmentId");
-
             query.setParameter("appointmentId", appointmentId);
             query.executeUpdate();
             em.getTransaction().commit();
-            em.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

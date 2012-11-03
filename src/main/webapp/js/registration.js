@@ -100,7 +100,7 @@
             lastName: $('#userLastName').val(),
             email: $('#userEmail').val(),
             phoneNumber: $('#userPhoneNumber').val(),
-            password: 'toto',
+            password: $('#userPassword').val(),
             type: $('#userType').val(),
             accountId: accountId,
 

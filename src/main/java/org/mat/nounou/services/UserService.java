@@ -85,7 +85,7 @@ public class UserService {
     @GET
     @Path("/{userId}")
     public UserVO findByUserId(@PathParam("userId") Integer userId) {
-        UserVO u = null;
+        UserVO u = new UserVO();
         User user = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
@@ -165,6 +165,7 @@ public class UserService {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            return Response.serverError().build();
         } finally {
             em.close();
         }
