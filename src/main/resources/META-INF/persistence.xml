@@ -5,29 +5,10 @@
 
     <persistence-unit name="default">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>org.mat.nounou.model.Account</class>
-        <class>org.mat.nounou.model.User</class>
-        <class>org.mat.nounou.model.Child</class>
-        <class>org.mat.nounou.model.Appointment</class>
-        <class>org.mat.nounou.model.Nurse</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <!--
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-54-243-224-88.compute-1.amazonaws.com:5432/dbkr2ja86ak7km?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory" />
-            <property name="javax.persistence.jdbc.user" value="uyjjtxkduayqdl" />
-            <property name="javax.persistence.jdbc.password" value="d5Oi6dMEQiWST0sTAscd7Laynt" />
-
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-                  -->
-            <!-- This properties are only used if DATABASE_URL is not set
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test.db" />
-            <property name="javax.persistence.jdbc.user" value="sa" />
-            <property name="javax.persistence.jdbc.password" value="" />
-             -->
             <property name="hibernate.archive.autodetection" value="class"/>
-
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>

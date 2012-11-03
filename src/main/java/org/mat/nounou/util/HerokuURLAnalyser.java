@@ -3,14 +3,14 @@ package org.mat.nounou.util;
 import java.util.StringTokenizer;
 
 /**
- * Allow to generate a proper JDBC URL (only for postgresl at this time)
+ * Allow to generate a proper JDBC UR. Transform only for postgresl at this time.
  * <p/>
  * User: mlecoutre
  * Date: 03/11/12
  * Time: 14:13
  */
 public class HerokuURLAnalyser {
-// String format = "postgres://username:password@host:port/database_name";
+    // String format = "postgres://username:password@host:port/database_name";
 
     private String userName;
     private String password;
@@ -18,6 +18,7 @@ public class HerokuURLAnalyser {
     private String port;
     private String databaseName;
     private String dbVendor;
+    private String jdbcUrl;
 
 
     public HerokuURLAnalyser(String herokuURL) {
@@ -30,21 +31,28 @@ public class HerokuURLAnalyser {
      *
      * @return valid JDBC URL
      */
-    public String generateJDBCUrl() {
-        return String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory", host, port, databaseName);
+    public String getJdbcURL() {
+        return jdbcUrl;
 
     }
 
-    private void analyse(String herokuURL) {
 
-        //   herokuURL = herokuURL.substring(11, herokuURL.length());
-        StringTokenizer st = new StringTokenizer(herokuURL, ":@/");
-        dbVendor = st.nextToken();
-        userName = st.nextToken();
-        password = st.nextToken();
-        host = st.nextToken();
-        port = st.nextToken();
-        databaseName = st.nextToken();
+    private void analyse(String databaseUrl) {
+        StringTokenizer st = new StringTokenizer(databaseUrl, ":@/");
+        dbVendor = st.nextToken(); //if DATABASE_URL is set
+        if ("postgres".equals(dbVendor)) {
+            userName = st.nextToken();
+            password = st.nextToken();
+            host = st.nextToken();
+            port = st.nextToken();
+            databaseName = st.nextToken();
+            jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory", host, port, databaseName);
+        } else {
+            //we consider the URL as valid jdbc
+            dbVendor = st.nextToken();
+            jdbcUrl = databaseUrl;
+            userName = "sa";
+        }
     }
 
     public String getUserName() {

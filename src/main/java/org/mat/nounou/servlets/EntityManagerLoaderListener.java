@@ -19,32 +19,35 @@ import java.util.Map;
  */
 public class EntityManagerLoaderListener implements ServletContextListener {
 
+    private String DEFAULT_DB_URL = "jdbc:h2:~/test.db";
     private static EntityManagerFactory emf;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.out.println("WebListener start entity manager");
-        //ClassNotFoundException: org/postgresql/ssl/NonValidatingFactory;
         String databaseUrl = System.getenv("DATABASE_URL");
         if (databaseUrl == null) {
-            System.out.println("No DATABASE_URL set. Use default config in persistence.xml");
-            emf = Persistence.createEntityManagerFactory("default");
-        } else {
-            HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
-            Map<String, String> properties = new HashMap<String, String>();
-            System.out.println("SET JDBC URL TO " + analyser.generateJDBCUrl());
-            properties.put("javax.persistence.jdbc.url", analyser.generateJDBCUrl());
-            properties.put("javax.persistence.jdbc.user", analyser.getUserName());
-            properties.put("javax.persistence.jdbc.password", analyser.getPassword());
-
-            if (analyser.getDbVendor().equals("postgres")) {
-                System.out.println("set driver for postgres");
-                properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
-                properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-            }
-            emf = Persistence.createEntityManagerFactory("default", properties);
-
+            System.out.println("No DATABASE_URL set. Use default config in persistence.xml with " + DEFAULT_DB_URL);
+            databaseUrl = DEFAULT_DB_URL;
         }
+        HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
+        Map<String, String> properties = new HashMap<String, String>();
+        System.out.println("SET JDBC URL TO " + analyser.getJdbcURL());
+        properties.put("javax.persistence.jdbc.url", analyser.getJdbcURL());
+        properties.put("javax.persistence.jdbc.user", analyser.getUserName());
+        properties.put("javax.persistence.jdbc.password", analyser.getPassword());
+
+        if ("postgres".equals(analyser.getDbVendor())) {
+            System.out.println("SET DRIVER FOR postgres");
+            properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+            properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        } else if ("h2".equals(analyser.getDbVendor())) {
+            System.out.println("SET DRIVER FOR h2");
+            properties.put("javax.persistence.jdbc.driver", "org.h2.Driver");
+        }
+        emf = Persistence.createEntityManagerFactory("default", properties);
+
+
     }
 
     /**
