@@ -21,11 +21,11 @@
 
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
                   -->
-            <!-- This properties are only used if DATABASE_URL is not set -->
+            <!-- This properties are only used if DATABASE_URL is not set
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/test.db" />
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
-
+             -->
             <property name="hibernate.archive.autodetection" value="class"/>
 
             <property name="hibernate.show_sql" value="false" />
