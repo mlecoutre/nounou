@@ -32,6 +32,7 @@ public class EntityManagerLoaderListener implements ServletContextListener {
         } else {
             HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
             Map<String, String> properties = new HashMap<String, String>();
+            System.out.println("SET JDBC URL TO " + analyser.generateJDBCUrl());
             properties.put("javax.persistence.jdbc.url", analyser.generateJDBCUrl());
             properties.put("javax.persistence.jdbc.user", analyser.getUserName());
             properties.put("javax.persistence.jdbc.password", analyser.getPassword());
@@ -39,8 +40,10 @@ public class EntityManagerLoaderListener implements ServletContextListener {
             if (analyser.getDbVendor().equals("postgres")) {
                 System.out.println("set driver for postgres");
                 properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+                properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             }
             emf = Persistence.createEntityManagerFactory("default", properties);
+
         }
     }
 
