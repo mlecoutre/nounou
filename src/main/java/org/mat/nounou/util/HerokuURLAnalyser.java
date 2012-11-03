@@ -31,7 +31,7 @@ public class HerokuURLAnalyser {
      * @return valid JDBC URL
      */
     public String generateJDBCUrl() {
-        return String.format("jdbc:postgresql://%s:%s/%s?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory", host, port, databaseName);
+        return String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory", host, port, databaseName);
 
     }
 
