@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 public class HerokuURLAnalyserTest {
+    //String formatH2= "h2://sa:@host:port/~/test.db";
     private String format = "postgres://username:password@host:port/database_name";
     private String jdbcUrlTarget = "jdbc:postgresql://username:password@host:port/database_name";
 
