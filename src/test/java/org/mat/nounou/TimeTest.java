@@ -1,4 +1,4 @@
-package org.example.models;
+package org.mat.nounou;
 
 import org.junit.Test;
 import org.mat.nounou.model.Time;

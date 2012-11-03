@@ -2,8 +2,14 @@
 
 <dataset>
     <account accountId='1' />
+    <account accountId='2' />
     <nusers userId='1' accountId='1' firstname='Richard' lastname='Wright' type='father' email='rwright@heroku.com' phonenumber='06543423' password='password' />
+    <nusers userId='2' accountId='1' firstname='Natacha' lastname='Wright' type='mother' email='nwright@heroku.com' phonenumber='06543423' password='password' />
+    <nusers userId='3' accountId='2' firstname='Mickael' lastname='White' type='father' email='mwhite@heroku.com' phonenumber='06543423' password='password' />
+    <nusers userId='4' accountId='2' firstname='Juste' lastname='Leblanc' type='father' email='justleblanc@heroku.com' phonenumber='06543423' password='password' />
     <nurse nurseId='1' firstname='nurseFirstName' lastname='nurseLastName' phoneNumber='0676545676'/>
+    <nurse nurseId='2' firstname='nurseFirstName2' lastname='nurseLastName2' phoneNumber='0676545676'/>
     <child childId='1' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='1'/>
-    <appointment/>
+    <child childId='2' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='2'/>
+    <appointment appointmentId='1' accountId='1' kidId='1' arrivalUser='1' departureUser='1' arrivalDate='2012-11-02 09:00:00.000000000' departureDate='2012-11-02 18:00:00.000000000'/>
 </dataset>

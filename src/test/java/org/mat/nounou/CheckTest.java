@@ -1,8 +1,10 @@
-package org.example.models;
+package org.mat.nounou;
 
 import org.junit.Test;
 import org.mat.nounou.util.Check;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: mlecoutre
