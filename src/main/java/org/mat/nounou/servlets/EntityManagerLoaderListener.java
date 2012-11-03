@@ -27,7 +27,7 @@ public class EntityManagerLoaderListener implements ServletContextListener {
         //ClassNotFoundException: org/postgresql/ssl/NonValidatingFactory;
         String databaseUrl = System.getenv("DATABASE_URL");
         if (databaseUrl == null) {
-            System.out.println("No DATANASE_URL set. Use default config in persistence.xml");
+            System.out.println("No DATABASE_URL set. Use default config in persistence.xml");
             emf = Persistence.createEntityManagerFactory("default");
         } else {
             HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
@@ -35,6 +35,11 @@ public class EntityManagerLoaderListener implements ServletContextListener {
             properties.put("javax.persistence.jdbc.url", analyser.generateJDBCUrl());
             properties.put("javax.persistence.jdbc.user", analyser.getUserName());
             properties.put("javax.persistence.jdbc.password", analyser.getPassword());
+
+            if (analyser.getDbVendor().equals("postgres")) {
+                System.out.println("set driver for postgres");
+                properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+            }
             emf = Persistence.createEntityManagerFactory("default", properties);
         }
     }

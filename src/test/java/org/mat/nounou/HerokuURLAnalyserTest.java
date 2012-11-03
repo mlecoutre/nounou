@@ -22,6 +22,7 @@ public class HerokuURLAnalyserTest {
         HerokuURLAnalyser analyser = new HerokuURLAnalyser(format);
         System.out.println(analyser);
         System.out.println(analyser.generateJDBCUrl());
+        assertTrue(analyser.getDbVendor().equals("postgres"));
         assertTrue("We should obtain a valid jdbc URL.", jdbcUrlTarget.equals(analyser.generateJDBCUrl()));
     }
 }

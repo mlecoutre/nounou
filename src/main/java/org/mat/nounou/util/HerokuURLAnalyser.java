@@ -17,6 +17,7 @@ public class HerokuURLAnalyser {
     private String host;
     private String port;
     private String databaseName;
+    private String dbVendor;
 
 
     public HerokuURLAnalyser(String herokuURL) {
@@ -38,12 +39,36 @@ public class HerokuURLAnalyser {
 
         //   herokuURL = herokuURL.substring(11, herokuURL.length());
         StringTokenizer st = new StringTokenizer(herokuURL, ":@/");
-        String bd = st.nextToken();
+        dbVendor = st.nextToken();
         userName = st.nextToken();
         password = st.nextToken();
         host = st.nextToken();
         port = st.nextToken();
         databaseName = st.nextToken();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public String getDbVendor() {
+        return dbVendor;
     }
 
     @Override
@@ -54,46 +79,7 @@ public class HerokuURLAnalyser {
                 ", host='" + host + '\'' +
                 ", port='" + port + '\'' +
                 ", databaseName='" + databaseName + '\'' +
+                ", dbVendor='" + dbVendor + '\'' +
                 '}';
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-    public String getDatabaseName() {
-        return databaseName;
-    }
-
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
     }
 }
