@@ -19,6 +19,9 @@ the application is available on heroku http://hello-mlecoutre.herokuapp.com/
 ** Web Interface for PC & mobile
 * We will define a bit later some specific client on android and iTrucs
 
+## Continuous Integration with travis ##
+[![Build Status](https://secure.travis-ci.org/mlecoutre/nounou.png)](http://travis-ci.org/mlecoutre/nounou)
+
 ## Technologies
 * Rest services
 * JPA
