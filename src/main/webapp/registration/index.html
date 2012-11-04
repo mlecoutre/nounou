@@ -234,22 +234,19 @@
         <td>{{lastName}}</td>
         <td>{{email}}</td>
         <td>{{phoneNumber}}</td>
-        <td><i class="icon-edit"></i>
-            <i class="icon-search"></i>
-            <i class="icon-trash"></i>
-        </td>
+        <td><a class="edit" data-target="{{userId}}" href="#"><i class="icon-edit"></i></a>
+            <a class="del" data-target="{{userId}}" href="#"><i class="icon-trash"></i></a></td>
     </tr>
 </script>
 
 <script type="text/x-template" id="nurse-template">
     <tr>
-        <td>{{userId}}</td>
+        <td>{{nurseId}}</td>
         <td>{{firstName}}</td>
         <td>{{lastName}}</td>
         <td>{{phoneNumber}}</td>
-        <td><i class="icon-edit"></i>
-            <i class="icon-search"></i>
-            <i class="icon-trash"></i></td>
+        <td><a class="edit" data-target="{{nurseId}}" href="#"><i class="icon-edit"></i></a>
+            <a class="del" data-target="{{nurseId}}" href="#"><i class="icon-trash"></i></a></td>
     </tr>
 </script>
 
@@ -263,9 +260,8 @@
         <td>{{firstName}}</td>
         <td>{{birthday}}</td>
         <td>{{nurseName}}</td>
-        <td><i class="icon-edit"></i>
-            <i class="icon-search"></i>
-            <i class="icon-trash"></i></td>
+        <td><a class="edit" data-target="{{childId}}" href="#"><i class="icon-edit"></i></a>
+            <a class="del" data-target="{{childId}}" href="#"><i class="icon-trash"></i></a></td>
     </tr>
 </script>
 

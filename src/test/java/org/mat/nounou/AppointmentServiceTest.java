@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -38,8 +39,7 @@ public class AppointmentServiceTest {
     /**
      * initTable
      *
-     * @throws Exception
-     *             on error
+     * @throws Exception on error
      */
     @Before
     public void initTable() throws Exception {
@@ -76,36 +76,42 @@ public class AppointmentServiceTest {
             // dbUnitConn.close();
         } catch (Throwable th) {
             th.printStackTrace();
-        }   finally {
+        } finally {
             em.close();
         }
     }
 
     @After
-    public void close(){
-       listener.contextDestroyed(null);
+    public void close() {
+        listener.contextDestroyed(null);
 
     }
 
-
     @Test
-    public void testGetLastAppointments(){
+    public void testGetLastAppointments() {
         AppointmentService apps = new AppointmentService();
-        ReportVO report = apps.getLastAppointments(1,"last");
-        assertTrue("We should have one apps", report.getAppointments().size()==1);
-        System.out.println("Total duration: "+report.getTotalDuration());
+        ReportVO report = apps.getLastAppointments(1, "last");
+        assertTrue("We should have one apps", report.getAppointments().size() == 1);
+        System.out.println("Total duration: " + report.getTotalDuration());
         assertTrue("", report.getTotalDuration() != null);
     }
 
     @Test
-    public void testGetCurrentAppointment(){
+    public void testGetByAppointmentId() {
         AppointmentService apps = new AppointmentService();
-        AppointmentVO vo = apps.getCurrentAppointment(1,1);
+        AppointmentVO vo = apps.getByAppointmentId(1);
+        assertNotNull("Appointment with id 1 should exist", vo);
+    }
+
+    @Test
+    public void testGetCurrentAppointment() {
+        AppointmentService apps = new AppointmentService();
+        AppointmentVO vo = apps.getCurrentAppointment(1, 1);
         assertTrue("We should have one apps", vo.getCurrentUserName().equals("Richard Wright"));
     }
 
     @Test
-    public void testRegisterAppointment(){
+    public void testRegisterAppointment() {
         AppointmentService apps = new AppointmentService();
         AppointmentVO vo = new AppointmentVO();
         vo.setAccountId(1);
@@ -114,20 +120,20 @@ public class AppointmentServiceTest {
         vo.setArrivalDate("11-10-2012 08:00");
         vo.setDepartureDate("11-10-2012 19:00");
         vo.setDeclarationType("both");
-        vo =  apps.registerAppointment(vo);
+        vo = apps.registerAppointment(vo);
         assertTrue("AppointmentId should not be null", vo.getAppointmentId() != null);
     }
 
     @Test
-    public void testListAppointments(){
+    public void testListAppointments() {
         AppointmentService apps = new AppointmentService();
         List<AppointmentVO> appointmentVOLists = apps.get();
-        assertTrue("We should have one apps", appointmentVOLists.size()==1);
+        assertTrue("We should have several apps", appointmentVOLists.size() > 0);
 
     }
 
     @Test
-    public void testDeleteById(){
+    public void testDeleteById() {
         AppointmentService apps = new AppointmentService();
         apps.deleteById(1);
         assertTrue("Appointment should be deleted", true);

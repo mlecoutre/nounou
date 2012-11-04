@@ -15,6 +15,8 @@ public class AppointmentVO {
     private Integer accountId;   //will be accountId
     private String currentUserName;
     private Integer currentUserId;
+    private Integer arrivalUserId;
+    private Integer departureUserId;
     private String arrivalUserName;
     private String arrivalDate;
     private String departureUserName;
@@ -30,6 +32,22 @@ public class AppointmentVO {
     private List<UserVO> users;
     private List<ChildVO> children;
 
+
+    public Integer getArrivalUserId() {
+        return arrivalUserId;
+    }
+
+    public void setArrivalUserId(Integer arrivalUserId) {
+        this.arrivalUserId = arrivalUserId;
+    }
+
+    public Integer getDepartureUserId() {
+        return departureUserId;
+    }
+
+    public void setDepartureUserId(Integer departureUserId) {
+        this.departureUserId = departureUserId;
+    }
 
     public String getDate() {
         return date;
@@ -159,6 +177,8 @@ public class AppointmentVO {
         this.children = children;
     }
 
+
+
     @Override
     public String toString() {
         return "AppointmentVO{" +
@@ -166,6 +186,8 @@ public class AppointmentVO {
                 ", accountId=" + accountId +
                 ", currentUserName='" + currentUserName + '\'' +
                 ", currentUserId=" + currentUserId +
+                ", arrivalUserId=" + arrivalUserId +
+                ", departureUserId=" + departureUserId +
                 ", arrivalUserName='" + arrivalUserName + '\'' +
                 ", arrivalDate='" + arrivalDate + '\'' +
                 ", departureUserName='" + departureUserName + '\'' +
@@ -174,6 +196,10 @@ public class AppointmentVO {
                 ", kidName='" + kidName + '\'' +
                 ", notes='" + notes + '\'' +
                 ", declarationType='" + declarationType + '\'' +
+                ", date='" + date + '\'' +
+                ", duration='" + duration + '\'' +
+                ", users=" + users +
+                ", children=" + children +
                 '}';
     }
 }
