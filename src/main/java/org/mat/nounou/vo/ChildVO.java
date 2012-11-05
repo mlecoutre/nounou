@@ -1,7 +1,6 @@
 package org.mat.nounou.vo;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 /**
  * Value Object for a child

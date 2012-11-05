@@ -1,22 +1,28 @@
 package org.mat.nounou.services;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.mat.nounou.model.Account;
 import org.mat.nounou.model.Child;
 import org.mat.nounou.model.Nurse;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.ChildVO;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * UserVO: mlecoutre
@@ -139,7 +145,6 @@ public class ChildrenService {
     @GET
     @Path("/delete/{childId}")
     public Response deleteById(@PathParam("childId") Integer childId) {
-        List<Child> c = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
