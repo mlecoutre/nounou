@@ -1,12 +1,6 @@
 package org.mat.nounou.services;
 
-import org.mat.nounou.model.Time;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 
 
 public class TimeService {
@@ -30,7 +24,7 @@ public class TimeService {
         millis -= TimeUnit.HOURS.toMillis(hours);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
         millis -= TimeUnit.MINUTES.toMillis(minutes);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        //long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
 
          hours = hours+ days*24;
         StringBuilder sb = new StringBuilder(64);

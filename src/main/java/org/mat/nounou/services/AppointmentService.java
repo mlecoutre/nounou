@@ -1,5 +1,23 @@
 package org.mat.nounou.services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.joda.time.DateTime;
 import org.mat.nounou.model.Appointment;
 import org.mat.nounou.model.Child;
@@ -9,18 +27,6 @@ import org.mat.nounou.util.Check;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
 import org.mat.nounou.vo.ReportVO;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Value Object for Appointment
@@ -373,7 +379,6 @@ public class AppointmentService {
     @GET
     @Path("/delete/{appointmentId}")
     public Response deleteById(@PathParam("appointmentId") Integer appointmentId) {
-        List<Child> c = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
