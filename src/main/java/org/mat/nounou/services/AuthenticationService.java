@@ -1,9 +1,5 @@
 package org.mat.nounou.services;
 
-import org.mat.nounou.model.User;
-import org.mat.nounou.servlets.EntityManagerLoaderListener;
-import org.mat.nounou.vo.Token;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -12,8 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+
+import org.mat.nounou.model.User;
+import org.mat.nounou.servlets.EntityManagerLoaderListener;
+import org.mat.nounou.vo.Token;
 
 /**
  * Basic auth service

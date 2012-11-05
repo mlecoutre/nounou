@@ -1,21 +1,26 @@
 package org.mat.nounou.services;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.mat.nounou.model.Child;
-import org.mat.nounou.model.Nurse;
-import org.mat.nounou.servlets.EntityManagerLoaderListener;
-import org.mat.nounou.util.Constants;
-import org.mat.nounou.vo.NurseVO;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.mat.nounou.model.Nurse;
+import org.mat.nounou.servlets.EntityManagerLoaderListener;
+import org.mat.nounou.util.Constants;
+import org.mat.nounou.vo.NurseVO;
 
 /**
  * Value Object for Nurse
@@ -102,7 +107,6 @@ public class NurseService {
     @GET
     @Path("/delete/{nurseId}")
     public Response deleteById(@PathParam("nurseId") Integer nurseId) {
-        List<Child> c = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
 
