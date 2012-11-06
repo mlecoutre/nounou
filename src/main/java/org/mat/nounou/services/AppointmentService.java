@@ -134,7 +134,7 @@ public class AppointmentService {
             query.setParameter("accountId", accountId);
 
             if ("last".equals(searchType)) {
-                query.setMaxResults(7);
+                query.setMaxResults(5);
             } else {
                 query.setMaxResults(31);
             }

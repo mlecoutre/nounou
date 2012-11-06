@@ -33,7 +33,7 @@ public class NurseServiceTest {
     private static final String DBUNIT_FILE = "/dataset.xml";
 
     private static IDatabaseConnection dbUnitConn;
-    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener();
+    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener(false);
 
     @Test
     public void testGet() {
@@ -49,6 +49,7 @@ public class NurseServiceTest {
         vo.setFirstName("nurseFirstName");
         vo.setLastName("nurseLastName");
         vo.setPhoneNumber("9877687677");
+        vo.setAccountId(1);
 
         vo = service.registerNurse(vo);
         assertTrue("A nurseId should be set.", vo.getNurseId() != null);
@@ -56,10 +57,10 @@ public class NurseServiceTest {
     }
 
     @Test
-    public void testFindByUserId() {
+    public void testFindByAccountId() {
         NurseService service = new NurseService();
         List<NurseVO> vos = service.findByAccountId(1);
-        assertTrue("The user with userId=1 has only one nurse.", vos.size() == 1);
+        assertTrue("The account with accountId=1 has two nurses.", vos.size() == 2);
 
     }
 

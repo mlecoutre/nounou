@@ -14,6 +14,7 @@ public class NurseVO {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private Integer accountId;
 
     public String getNurseName() {
         return getFirstName().concat(" ").concat(getLastName());
@@ -52,6 +53,14 @@ public class NurseVO {
         this.phoneNumber = phoneNumber;
     }
 
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     @Override
     public String toString() {
         return "NurseVO{" +
@@ -59,6 +68,7 @@ public class NurseVO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", accountId=" + accountId +
                 '}';
     }
 }

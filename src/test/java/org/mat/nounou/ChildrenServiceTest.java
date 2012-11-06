@@ -32,7 +32,7 @@ public class ChildrenServiceTest {
     private static final String DBUNIT_FILE = "/dataset.xml";
 
     private static IDatabaseConnection dbUnitConn;
-    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener();
+    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener(false);
 
 
     /**
@@ -114,7 +114,7 @@ public class ChildrenServiceTest {
         ChildVO vo = new ChildVO();
         vo.setNurseId(1);
         vo.setAccountId(2);
-        vo.setBirthday("22-01-2013");
+        vo.setBirthday("22/01/2013");
         vo.setFirstName("Azrael");
         vo.setLastName("L");
         vo = service.registerKid(vo);

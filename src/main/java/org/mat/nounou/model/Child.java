@@ -1,15 +1,10 @@
 package org.mat.nounou.model;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 /**
  * UserVO: mlecoutre

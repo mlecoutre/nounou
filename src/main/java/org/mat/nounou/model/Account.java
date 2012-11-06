@@ -2,10 +2,10 @@ package org.mat.nounou.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: mlecoutre
@@ -20,6 +20,19 @@ public class Account {
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer accountId;
+
+    @ManyToMany
+    @JoinTable(name="account_nurses")
+    private List<Nurse> nurses;
+
+
+    public List<Nurse> getNurses() {
+        return nurses;
+    }
+
+    public void setNurses(List<Nurse> nurses) {
+        this.nurses = nurses;
+    }
 
     public Integer getAccountId() {
         return accountId;

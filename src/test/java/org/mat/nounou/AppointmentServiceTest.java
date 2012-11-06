@@ -33,7 +33,7 @@ public class AppointmentServiceTest {
     private static final String DBUNIT_FILE = "/dataset.xml";
 
     private static IDatabaseConnection dbUnitConn;
-    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener();
+    private EntityManagerLoaderListener listener = new EntityManagerLoaderListener(false);
 
 
     /**

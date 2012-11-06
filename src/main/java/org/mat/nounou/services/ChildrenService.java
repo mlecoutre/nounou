@@ -75,13 +75,9 @@ public class ChildrenService {
         childEntity.setFirstName(child.getFirstName());
         childEntity.setLastName(child.getLastName());
 
-        try {
-            childEntity.setBirthday(Constants.sdfDate.parse(child.getBirthday()));
-        } catch (ParseException e) {
-            e.printStackTrace();  //TODO manage error
-        }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
+            childEntity.setBirthday(Constants.sdfDate.parse(child.getBirthday()));
             TypedQuery<Account> qAccount = em.createQuery("FROM Account a WHERE accountId=:accountId", Account.class);
             qAccount.setParameter("accountId", child.getAccountId());
             Account account = qAccount.getSingleResult();

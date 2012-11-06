@@ -1,19 +1,22 @@
 (function ($) {
 
+
     var accountId = null;
     var userId = null;
     var value = sessionStorage.getItem('apptoken');
 
-    if(value != null && value != ""){
-        var token = $.parseJSON(value);
-        accountId = token.accountId;
-        userId  = token.userId;
-        $('#authBox').html('Logged in as <a href="#" class="navbar-link" id="signOut">'+token.userName+'</a>');
-        $('#authBox_request').hide();
-    } else {
-           $('#authBox_request').show();
-           $('#authBox').hide();
-    }
+         if(value != null && value != ""){
+             var token = $.parseJSON(value);
+             accountId = token.accountId;
+             userId  = token.userId;
+             $('#authBox').html('Logged in as <a href="#" class="navbar-link" id="signOut">'+token.userName+'</a>');
+             $('#authBox_request').hide();
+         } else {
+                $('#authBox_request').show();
+                $('#authBox').hide();
+         }
+
+
 
     $('#signOut').click(function(e){
          sessionStorage.setItem('apptoken', '');

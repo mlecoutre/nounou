@@ -1,11 +1,11 @@
 package org.mat.nounou.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+import java.util.Set;
 
 /**
  * UserVO: mlecoutre
@@ -24,6 +24,10 @@ public class Nurse {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+
+
+    @ManyToMany(mappedBy="nurses")
+    private Set<Account> employers;
 
    /* @OneToOne(optional = true)
     @JoinColumn(name = "addressId", unique = false, nullable = true, updatable = true)
@@ -61,7 +65,13 @@ public class Nurse {
         this.phoneNumber = phoneNumber;
     }
 
+    public Set<Account> getEmployers() {
+        return employers;
+    }
 
+    public void setEmployers(Set<Account> employers) {
+        this.employers = employers;
+    }
 
     @Override
     public boolean equals(Object o) {

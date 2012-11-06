@@ -13,6 +13,9 @@
     <nurse nurseId='1' firstname='nurseFirstName' lastname='nurseLastName' phoneNumber='0676545676'/>
     <nurse nurseId='2' firstname='nurseFirstName2' lastname='nurseLastName2' phoneNumber='0676545676'/>
     <nurse nurseId='3' firstname='Nathalie' lastname='Berger' phoneNumber='0676545676'/>
+    <account_nurses employers_accountId='1' nurses_nurseId='1' />
+    <account_nurses employers_accountId='1' nurses_nurseId='2' />
+    <account_nurses employers_accountId='3' nurses_nurseId='3' />
     <child childId='1' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='1'/>
     <child childId='2' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='2'/>
     <child childId='3' nurseId='3'  firstname='Azrael' lastname='Lecoutre' accountId='3'/>

@@ -1,69 +1,106 @@
 (function ($) {
 
-    /** PAGE INITIALIZATION **/
-    $("#kidBirthday").datepicker();
-    var value = sessionStorage.getItem('apptoken');
+    /** SECURITY PART **/
+
     var accountId = null;
     var userId = null;
-    if(value != null && value != ""){
-            var token = $.parseJSON(value);
-            accountId = token.accountId;
-            userId  = token.userId;
 
-            //go directly on you tab if logged in
-            $('#registerTab a[href="#you"]').tab('show');
-    }
-
-    $(document).ready(function () {
-        //get Account
-        var reqAccount = $.ajax({
-            type: 'GET',
-            contentType: 'application/json',
-            url: '/services/users/account/' + accountId,
-            //       async: false
-        });
-        reqAccount.done(function (users) {
-            for (i = 0; i < users.length; i++) {
-                var user = users[i];
-                $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
-            };
-        });
-
-        //get Nurse data.
-        var reqNurse = $.ajax({
-            type: 'GET',
-            contentType: 'application/json',
-            url: '/services/nurses',
-            //       async: false
-        });
-        reqNurse.done(function (nurses) {
-            for (i = 0; i < nurses.length; i++) {
-                var nurse = nurses[i]
-                $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));// update list nurse
-                $('#nurseId').append(Mustache.to_html($('#selectNurse-template').html(), nurse)); //populate kids nurse list
-            };
-        });
-
-        // Get Kid data
+    /** GLOBAL FUNCTIONS **/
+    /*
+     * Used for initialization and also for actions  in the page.
+     **/
+    var displayKidData = function () {
         var reqKid = $.ajax({
             type: 'GET',
             contentType: 'application/json',
             url: '/services/children/account/' + accountId,
-            //       async: false
         });
         reqKid.done(function (children) {
-            console.log("populate kids list");
-            for (i = 0; i < children.length; i++) {
-                var child = children[i];
-                //var nurse = child.nurse;
-                //var accountUser = child.accountUser;
-               // $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), accountUser));
-
-                $('#kidList').append(Mustache.to_html($('#kid-template').html(), child));
-
-               // $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
-            }
+            $('#kidList').html(Mustache.to_html($('#kid-template').html(), children));
+            //DELETE a kid
+            $(".delKid").click(function () {
+                var kidId = $(this).attr('data-target');
+                console.log('Delete a kid:' + kidId);
+                var reqDel = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/children/delete/' + kidId
+                });
+                reqDel.done(function (e) {
+                    console.log("Kid deleted");
+                    displayKidData();
+                });
+            });
         });
+    }
+
+    var displayNurseData = function () {
+        //get Nurse data.
+        var reqNurse = $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/services/nurses/account/' + accountId,
+        });
+        reqNurse.done(function (nurses) {
+            $('#nurseList').html(Mustache.to_html($('#nurse-template').html(), nurses)); // update list nurse
+            $('#nurseId').html(Mustache.to_html($('#selectNurse-template').html(), nurses)); //populate kids nurse list
+            //DELETE a nurse in the list
+            $(".delNurse").click(function () {
+                var nurseId = $(this).attr('data-target');
+                console.log('Delete a nurse:' + nurseId);
+                var reqDel = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/nurses/delete/' + nurseId+'/accountId/'+accountId
+                });
+                reqDel.done(function (e) {
+                    console.log("Nurse deleted");
+                    displayNurseData();
+                });
+            });
+        });
+    }
+
+    var displayAccessListData = function () {
+        var reqAccount = $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/services/users/account/' + accountId,
+        });
+        reqAccount.done(function (users) {
+            $('#whiteAccessList').html(Mustache.to_html($('#whiteAccesUser-template').html(), users));
+            //DELETE a kid
+            $(".delUser").click(function () {
+                var userId = $(this).attr('data-target');
+                console.log('Delete a user:' + userId);
+                var reqDel = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/users/delete/' + userId
+                });
+                reqDel.done(function (e) {
+                    console.log("User deleted");
+                    displayAccessListData();
+                });
+            });
+        });
+    }
+
+    /** PAGE INITIALIZATION **/
+    $("#kidBirthday").datepicker();
+
+    $(document).ready(function () {
+        $.getScript("../js/auth.js", function () {});
+        var value = sessionStorage.getItem('apptoken');
+        if (value != null && value != "") {
+            var token = $.parseJSON(value);
+            accountId = token.accountId;
+            userId = token.userId;
+            $('#registerTab a[href="#you"]').tab('show');
+        }
+        displayAccessListData();
+        displayNurseData();
+        displayKidData();
     });
 
     /** PAGE NAVIGATION **/
@@ -73,7 +110,6 @@
     })
     $('#registrationStart').click(function (e) {
         $('#registerTab a[href="#you"]').tab('show');
-
     })
     $('#youPrevious').click(function (e) {
         $('#registerTab a[href="#what"]').tab('show');
@@ -91,7 +127,6 @@
         $('#registerTab a[href="#kids"]').tab('show');
     })
 
-
     /** PAGE ACTIONS **/
     $('#registerUser').click(function (e) {
         console.log("[START] registerUser " + $('#userFirstName').val());
@@ -103,7 +138,6 @@
             password: $('#userPassword').val(),
             type: $('#userType').val(),
             accountId: accountId,
-
         };
 
         var data = $.toJSON(mUser);
@@ -117,27 +151,26 @@
         });
 
         req.done(function (user) {
-            console.log("User created "+user);
+            console.log("User created " + user);
             $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
-              if(user.newUser){
-                  console.log("new user created");
-                   var token = {
-                                           userId      :  user.userId,
-                                           accountId   :  user.accountId,
-                                           userName    : user.firstName,
-                                     } ;
-                                            data = $.toJSON(token);
-                                            sessionStorage.setItem('apptoken', data);
-                                             //reload the location in order to reinitialize the content
-                                             $.ajax({
-                                                         url: "",
-                                                         context: document.body,
-                                                         success: function(s,x){
-                                                           $(this).html(s);
-                                                         }
-                                             });
-              }
-            //
+            if (user.newUser) {
+                console.log("new user created");
+                var token = {
+                    userId: user.userId,
+                    accountId: user.accountId,
+                    userName: user.firstName,
+                };
+                data = $.toJSON(token);
+                sessionStorage.setItem('apptoken', data);
+            }
+            var value = sessionStorage.getItem('apptoken');
+                        if (value != null && value != "") {
+                            var token = $.parseJSON(value);
+                            accountId = token.accountId;
+                            userId = token.userId;
+            }
+            $.getScript("../js/auth.js");
+            displayAccessListData();
         });
         console.log("[END] register user");
     })
@@ -146,7 +179,8 @@
         var mNurse = {
             firstName: $('#nurseFirstName').val(),
             lastName: $('#nurseLastName').val(),
-            phoneNumber: $('#nursePhoneNumber').val()
+            phoneNumber: $('#nursePhoneNumber').val(),
+            accountId: accountId,
         };
         var data = $.toJSON(mNurse);
         var req = $.ajax({
@@ -157,18 +191,18 @@
             data: data,
         });
         req.done(function (nurse) {
-            $('#nurseList').append(Mustache.to_html($('#nurse-template').html(), nurse));
-            $('#nurseId').append(Mustache.to_html($('#selectNurse-template').html(), nurse));
+            console.log("Nurse registered: " + nurse.nurseId);
+            displayNurseData();
         });
     })
 
     $('#addKid').click(function (e) {
         var mKid = {
-            firstName : $('#kidFirstName').val(),
-            lastName : $('#kidLastName').val(),
-            birthday  : $('#kidBirthday').val(),
-            nurseId   : $('#nurseId').val(),
-            accountId : accountId
+            firstName: $('#kidFirstName').val(),
+            lastName: $('#kidLastName').val(),
+            birthday: $('#kidBirthday').val(),
+            nurseId: $('#nurseId').val(),
+            accountId: accountId
         };
         var data = $.toJSON(mKid);
         var reqKid = $.ajax({
@@ -179,8 +213,7 @@
             data: data,
         });
         reqKid.done(function (kid) {
-            $('#kidList').append(Mustache.to_html($('#kid-template').html(), kid));
+            displayKidData();
         });
     })
-
 })(jQuery);
