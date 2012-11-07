@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -81,11 +82,19 @@ public class AppointmentService {
         return appVo;
     }
 
-
+    /**
+     * Used for reports
+     *
+     * @param accountId
+     * @param searchType
+     * @return
+     */
     @GET
     @Path("/report/account/{accountId}/searchType/{searchType}")
     public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
         System.out.println("getLastAppointments service");
+        List<Double[]> data = new ArrayList<Double[]>();
+        List<Double[]> dataRange = new ArrayList<Double[]>();
         //Check input parameters
         if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsEmptyOrNull(searchType)) {
             System.out.printf("WARNING: Incorrect parameters accountId:%d, searchType:%s\n", accountId, searchType);
@@ -148,10 +157,14 @@ public class AppointmentService {
                     long timeMilli = app.getDepartureDate().getTime() - app.getArrivalDate().getTime();
                     totalDuration = totalDuration + timeMilli;
                     vo.setDuration(TimeService.getDurationBreakdown(timeMilli));
+                    //
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(Constants.sdfDate.parse(Constants.sdfDate.format(app.getDepartureDate())));
+                    data.add(new Double[]{new Double(c.getTime().getTime()), TimeService.getDecimalDurationBreakdown(timeMilli)});
+                    dataRange.add(0, new Double[]{new Double(c.getTime().getTime()), TimeService.getDecimalTime(app.getArrivalDate()), TimeService.getDecimalTime(app.getDepartureDate())});
                 } else {
                     vo.setDuration("n/a");
                 }
-
                 vos.add(vo);
             }
 
@@ -165,7 +178,8 @@ public class AppointmentService {
         ReportVO reportVO = new ReportVO();
         reportVO.setAppointments(vos);
         //calculate total duration
-
+        reportVO.setData(data);
+        reportVO.setDataRange(dataRange);
         reportVO.setReportTitle("Total duration");
         reportVO.setTotalDuration(TimeService.getDurationBreakdown(totalDuration));
 
@@ -393,4 +407,6 @@ public class AppointmentService {
         }
         return Response.ok().build();
     }
+
+
 }

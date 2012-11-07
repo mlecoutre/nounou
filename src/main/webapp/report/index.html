@@ -51,41 +51,27 @@
     <p>&nbsp;</p><br/>
 
     <h2>Reports</h2>
+    <div id="container" style="height: 200px; min-width: 500px" >
+
+    </div>
+
+    <br/>
+    <div id="containerRange" style="height: 300px; min-width: 500px">
+
+    </div>
 
     <ul class="nav nav-tabs" id="reportTab">
         <li class="active"><a href="#current">Current month</a></li>
         <li><a href="#previousMonth">Previous month</a></li>
         <li><a href="#totalYear">Year</a></li>
-
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="current">
-            <legend id="totalMonth">total Month: 99:99 </legend>
-            <table class="table table-striped" id="lastAppointments">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Arrival User</th>
-                    <th>Arrival</th>
-                    <th>Departure User</th>
-                    <th>Departure</th>
-                    <th>Kid</th>
-                    <th>Duration</th>
-                </tr>
-                </thead>
-                <tbody>
+        <div class="tab-pane active" id="current"/>
 
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane" id="previousMonth">
+        <div class="tab-pane" id="previousMonth"/>
 
-        </div>
-        <div class="tab-pane" id="totalYear">
-
-
-        </div>
+        <div class="tab-pane" id="totalYear" />
     </div>
 
 
@@ -109,18 +95,39 @@
 <script src="../js/report.js"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/utilities.js"></script>
+<script src="../js/highstock.js"></script>
+<script src="../js/highcharts-more.js"></script>
+<script type="text/javascript" src="../js/themes/gray.js"></script>
+<script src="../js/modules/exporting.js"></script>
 
 
 <script type="text/x-template" id="last-appointments-template">
-    <tr>
-        <td>{{date}}</td>
-        <td>{{arrivalUserName}}</td>
-        <td>{{arrivalDate}}</td>
-        <td>{{departureUserName}}</td>
-        <td>{{departureDate}}</td>
-        <td>{{kidName}}</td>
-        <td>{{duration}}</td>
-    </tr>
+    <legend id="totalMonth">total Month: 99:99 </legend>
+    <table class="table table-striped" id="lastAppointments">
+        <thead>
+        <tr>
+            <th>Arrival User</th>
+            <th>Arrival</th>
+            <th>Departure User</th>
+            <th>Departure</th>
+            <th>Kid</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#.}}
+        <tr>
+            <td>{{arrivalUserName}}</td>
+            <td>{{arrivalDate}}</td>
+            <td>{{departureUserName}}</td>
+            <td>{{departureDate}}</td>
+            <td>{{kidName}}</td>
+            <td>{{duration}}</td>
+        </tr>
+        {{/.}}
+        </tbody>
+    </table>
+
 </script>
 </body>
 </html>

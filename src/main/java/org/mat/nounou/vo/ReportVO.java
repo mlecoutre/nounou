@@ -13,6 +13,25 @@ public class ReportVO {
     private String reportTitle;
     private String totalDuration;
     private List<AppointmentVO> appointments;
+    private List<Double[]> data;
+    private List<Double[]> dataRange;
+
+    public List<Double[]> getData() {
+        return data;
+    }
+
+
+    public List<Double[]> getDataRange() {
+        return dataRange;
+    }
+
+    public void setDataRange(List<Double[]> dataRange) {
+        this.dataRange = dataRange;
+    }
+
+    public void setData(List<Double[]> data) {
+        this.data = data;
+    }
 
     public String getReportTitle() {
         return reportTitle;
