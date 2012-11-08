@@ -160,7 +160,8 @@ public class AppointmentService {
                     //
                     Calendar c = Calendar.getInstance();
                     c.setTime(Constants.sdfDate.parse(Constants.sdfDate.format(app.getDepartureDate())));
-                    data.add(new Double[]{new Double(c.getTime().getTime()), TimeService.getDecimalDurationBreakdown(timeMilli)});
+                    // highcharts needs value from oldest to newest.
+                    data.add(0, new Double[]{new Double(c.getTime().getTime()), TimeService.getDecimalDurationBreakdown(timeMilli)});
                     dataRange.add(0, new Double[]{new Double(c.getTime().getTime()), TimeService.getDecimalTime(app.getArrivalDate()), TimeService.getDecimalTime(app.getDepartureDate())});
                 } else {
                     vo.setDuration("n/a");

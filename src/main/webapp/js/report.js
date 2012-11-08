@@ -4,10 +4,10 @@
     var value = sessionStorage.getItem('apptoken');
     var accountId = null;
     var userId = null;
-    if(value != null && value != ""){
-            var token = $.parseJSON(value);
-            accountId = token.accountId;
-            userId  = token.userId;
+    if (value != null && value != "") {
+        var token = $.parseJSON(value);
+        accountId = token.accountId;
+        userId = token.userId;
     }
 
     $(document).ready(function () {
@@ -16,89 +16,58 @@
         var reqA = $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: '/services/appointments/report/account/'+accountId+'/searchType/currentMonth',
+            url: '/services/appointments/report/account/' + accountId + '/searchType/currentMonth',
 
         });
         reqA.done(function (report) {
             console.log("get last appointments");
             $('#current').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
-            $('#totalMonth').text(report.reportTitle +': '+ report.totalDuration);
-            var jsonData = $.toJSON(report.data);
-            console.log(jsonData);
-
+            $('#totalMonth').text(report.reportTitle + ': ' + report.totalDuration);
            chart = new Highcharts.Chart({
-               chart: { renderTo: 'container' },
-               title: 'Monthly reports',
-               yAxis: {
-                       title: {
-                           text: 'hours per day'
-                       }
-               },
-                rangeSelector : {
-                				selected : 1
-               },
+                chart: {
+                    renderTo: 'container'
+                },
+                title: 'Monthly reports',
+                yAxis: {
+                    title: {
+                        text: 'hours per day'
+                    }
+                },
                 xAxis: {
-                       type: 'datetime',
-                       dateTimeLabelFormats: {day: '%e. %b'}
-                   },
-               series: [{
-                   name: 'azrael',
-                   data: report.data,
-                   tooltip: {
-                   					valueDecimals: 2
-                   }
-               }]
-           });
-           /*
+                    type: 'datetime',
+                },
+                tooltip: {
+                    formatter: function () {
+                        var decTime = this.y;
+                        var hour = Math.floor(decTime);
+                        var min = Math.round(60*(decTime-hour));
+                        return $.datepicker.formatDate('yy-mm-dd',(new Date(this.x))) + '=> ' + hour+':'+min;
 
-             chart = new Highcharts.Chart({
-                          chart: { renderTo: 'container', type: 'line' },
-                          title: 'Monthly reports',
-                          yAxis: {
-                                  title: {
-                                      text: 'hours per day'
-                                  }
-                          },
-                           xAxis: {
-                                  type: 'datetime',
-                                  dateTimeLabelFormats: {day: '%e. %b'}
-                              },
-                          series: [{
-                              name: 'azrael',
-                              data: report.data
+                    }
+                },
+                series: [{
+                    type: 'arearange',
+                    name: 'Time range',
+                    data: report.dataRange
+                }, {
+                    type: 'spline',
+                    name: 'azrael',
+                    data: report.data,
+                    marker: {
+                        lineWidth: 2,
+                        //lineColor: Highcharts.getOptions().colors[3],
+                       // fillColor: 'white'
+                    },
+                    tooltip: {
+                        valueDecimals: 2
+                    }
+                }
 
-                          }]
-                      });
-*/
-            jsonData = $.toJSON(report.dataRange);
-            console.log('dataRange:'+jsonData);
-            //var arrayData = [[1351724400000,8.87,18.53],[1351810800000,8.75,18.75],[1352070000000,9.88,18.83],[1352156400000,9,18.58] ,[1352242800000,9.95,17.92],[1352329200000,8.45,18.45],[1352415600000,7.45,17.75],[1352502000000,8.98,18.75],[1352588400000,8.82,18.97]];
-            window.chart2 = new Highcharts.StockChart({
+                ]
+            });
 
-            chart: {
-                renderTo: 'containerRange',
-                type: 'arearange'
-            },
-
-            rangeSelector: {
-                selected: 2
-            },
-
-            title: {
-                text: 'Interval by day'
-            },
-
-            tooltip: {
-                valueSuffix: 't'
-            },
-
-            series: [{
-                name: 'Temperatures',
-                data: report.dataRange
-            }]
         });
-             });
-        });
+    });
 
     /** PAGE NAVIGATION **/
     $('#reportTab a').click(function (e) {
