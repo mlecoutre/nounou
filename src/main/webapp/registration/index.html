@@ -37,7 +37,7 @@
                 </p>
 
                 <p class="navbar-text pull-right hide" id="authBox_request">
-                    <input class="span2" type="text" id="uid" placeholder="Email">
+                    <input class="span2" type="email" id="uid" placeholder="Email">
                     <input class="span2" type="password" id="pwd" placeholder="Password">
                     <button type="submit" class="btn" id="signIn">Sign in</button>
                 </p>
@@ -83,7 +83,7 @@
                     <label>Last name</label>
                     <input type="text" id="userLastName" placeholder="your last name">
                     <label>Phone number</label>
-                    <input type="text" id="userPhoneNumber" placeholder="phone number">
+                    <input type="email" id="userPhoneNumber" placeholder="phone number">
                     <label>Email</label>
                     <input type="text" id="userEmail" placeholder="Email">
                     <label>Password</label>
@@ -133,18 +133,24 @@
         <div class="tab-pane" id="kids">
             <div class="row">
                 <div class="span4">
-
+                    <input type="hidden" id="editKidId"/>
                     <label>Kid first name</label>
                     <input type="text" id="kidFirstName" placeholder="kid first name">
                     <label>Kid last name</label>
                     <input type="text" id="kidLastName" placeholder="kid last name">`
                     <label>Birthday</label>
                     <input type="text" id="kidBirthday" placeholder="birthday">
+                    <label>Picture</label>
+                    <input type="text" id="kidPicture" placeholder="picture url">
                     <label>Nurse</label>
                     <select id="nurseId">
                         <option id=""></option>
                     </select>
+                    <p>
                     <button type="submit" id="addKid" class="btn">Add</button>
+                    <button type="submit" id="updateKid" class="btn hide">Save</button>
+                    <button type="submit" id="cancelKid" class="btn hide">cancel</button>
+                    </p>
                 </div>
                 <div class="span8" id="kidList">
                 </div>
@@ -238,6 +244,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Picture</th>
             <th>Name</th>
             <th>Birthday</th>
             <th>Nurse</th>
@@ -247,6 +254,7 @@
         <tbody>
         {{#.}}
         <tr>
+            <td><img style="height:30px; width:30px" src="{{pictureUrl}}"/></td>
             <td>{{firstName}}</td>
             <td>{{birthday}}</td>
             <td>{{nurseName}}</td>

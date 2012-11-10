@@ -31,6 +31,26 @@
                     displayKidData();
                 });
             });
+            $(".editKid").click(function () {
+                var kidId = $(this).attr('data-target');
+                console.log('Edit a kid:' + kidId);
+                var reqEdit = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/children/' + kidId
+                });
+                reqEdit.done(function (kid) {
+                    $('#kidFirstName').val(kid.firstName);
+                    $('#kidLastName').val(kid.lastName);
+                    $('#kidBirthday').val(kid.birthday);
+                    $('#kidPicture').val(kid.pictureUrl);
+                    $('#nurseId').val(kid.firstName);
+                    $('#editKidId').val(kid.childId);
+                    $('#cancelKid').show();
+                    $('#updateKid').show();
+                    $('#addKid').hide();
+              });
+            });
         });
     }
 
@@ -202,6 +222,7 @@
             lastName: $('#kidLastName').val(),
             birthday: $('#kidBirthday').val(),
             nurseId: $('#nurseId').val(),
+            pictureUrl: $('#kidPicture').val(),
             accountId: accountId
         };
         var data = $.toJSON(mKid);
@@ -215,5 +236,43 @@
         reqKid.done(function (kid) {
             displayKidData();
         });
-    })
+    });
+
+       $('#cancelKid').click(function (e) {
+             $('#cancelKid').hide();
+             $('#updateKid').hide();
+             $('#addKid').show();
+       });
+
+          $('#updateKid').click(function (e) {
+                 var kidId = $('#editKidId').val();
+                 if(kidId == null){
+                    alert('no kidId');
+                    return;
+                 }
+                 var mKid = {
+                          firstName: $('#kidFirstName').val(),
+                          lastName: $('#kidLastName').val(),
+                          birthday: $('#kidBirthday').val(),
+                          nurseId: $('#nurseId').val(),
+                          pictureUrl: $('#kidPicture').val(),
+                          accountId: accountId
+                      };
+                      var data = $.toJSON(mKid);
+                      var reqKid = $.ajax({
+                          type: 'POST',
+                          contentType: 'application/json',
+                          url: '/services/children/'+kidId,
+                          dataType: "json",
+                          data: data,
+                      });
+                      reqKid.done(function (kid) {
+                          displayKidData();
+                      });
+
+
+                    $('#cancelKid').hide();
+                    $('#updateKid').hide();
+                    $('#addKid').show();
+          });
 })(jQuery);

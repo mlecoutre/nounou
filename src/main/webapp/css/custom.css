@@ -1,0 +1,40 @@
+.large-button{
+    width:80%;
+
+}
+
+.selected-kid{
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 2px solid blue;
+    width:70px;
+    height:70px;
+    float:left;
+     display: block;
+     margin-right:auto;
+     margin-left:auto;
+     text-align:center;
+     overflow:hidden;
+     margin-right:2px;
+     margin-left:2px;
+}
+
+
+.liveKid   {
+
+               width:70px;
+               height:70px;
+               float:left;
+
+                display: block;
+                margin-right:auto;
+                margin-left:auto;
+                text-align:center;
+                overflow:hidden;
+                margin:2px;
+  }
+
+.small-picture{
+    width:20px;
+    height:20px;
+}

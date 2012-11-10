@@ -32,11 +32,18 @@
             url: '/services/children/account/' + accountId
         });
         reqChildren.done(function (children) {
-            for (i = 0; i < children.length; i++) {
-                $('#kidName').append(Mustache.to_html($('#kid-appointment-template').html(), children[i]));
-                $('#editKidId').append(Mustache.to_html($('#kid-appointment-template').html(), children[i]));
-
-            }
+            $('#kidName').append(Mustache.to_html($('#kid-appointment-template').html(), children));
+            $('#editKidId').append(Mustache.to_html($('#kid-appointment-template').html(), children));
+            //selected sby default
+            $('.liveKid').each(function(){
+                $(this).toggleClass( 'selected-kid' );
+            });
+            //change for each click
+            $('.liveKid').click(function(){
+                var kidId=$(this).attr('data-target');
+                console.log('click on a kid: '+kidId);
+                $(this).toggleClass( 'selected-kid' );
+            }) ;
         });
 
         var reqApp = $.ajax({
@@ -75,17 +82,23 @@
     /** PAGE ACTIONS **/
     $('#goLive').click(function (e) {
         console.log("[START] goLive");
+        var kids = [];
+        $("#kidName > .selected-kid").each(function(i,value ){
+            var selKidId=$(this).attr("data-target");
+            kids[i] =  selKidId;
+        } );
         var mAppointment = {
             accountId: accountId,
             currentUserId: $('#userId').val(),
             arrivalDate: $('#arrivalDate').val(),
             departureDate: $('#departureDate').val(),
-            kidId: $('#kidName').val(),
-            declarationType: $('#declarationType').val(),
+            kidIds: kids,
+            //declarationType: $('#declarationType').val(),
             //TODO add notes here
         };
 
         var data = $.toJSON(mAppointment);
+        console.log( "Create appointment: "+data);
 
         var req = $.ajax({
             type: 'POST',
@@ -104,7 +117,6 @@
                     $(this).html(s);
                 }
             });
-
         });
         console.log("[END] goLive");
     })

@@ -42,7 +42,6 @@
                         var hour = Math.floor(decTime);
                         var min = Math.round(60*(decTime-hour));
                         return $.datepicker.formatDate('yy-mm-dd',(new Date(this.x))) + '=> ' + hour+':'+min;
-
                     }
                 },
                 series: [{
@@ -55,14 +54,8 @@
                     data: report.data,
                     marker: {
                         lineWidth: 2,
-                        //lineColor: Highcharts.getOptions().colors[3],
-                       // fillColor: 'white'
-                    },
-                    tooltip: {
-                        valueDecimals: 2
                     }
                 }
-
                 ]
             });
 

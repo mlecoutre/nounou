@@ -21,8 +21,7 @@ public class AppointmentVO {
     private String arrivalDate;
     private String departureUserName;
     private String departureDate;
-    private Integer kidId;
-    private String kidName;
+    private List<Integer> kidIds; //availableKid Ids
     private String notes;
     private String declarationType;
     private String date;
@@ -97,14 +96,6 @@ public class AppointmentVO {
         this.appointmentId = appointmentId;
     }
 
-    public String getKidName() {
-        return kidName;
-    }
-
-    public void setKidName(String kidName) {
-        this.kidName = kidName;
-    }
-
     public String getCurrentUserName() {
         return currentUserName;
     }
@@ -129,12 +120,12 @@ public class AppointmentVO {
         this.departureDate = departureDate;
     }
 
-    public Integer getKidId() {
-        return kidId;
+    public List<Integer> getKidIds() {
+        return kidIds;
     }
 
-    public void setKidId(Integer kidId) {
-        this.kidId = kidId;
+    public void setKidIds(List<Integer> kidIds) {
+        this.kidIds = kidIds;
     }
 
     public String getNotes() {
@@ -192,8 +183,7 @@ public class AppointmentVO {
                 ", arrivalDate='" + arrivalDate + '\'' +
                 ", departureUserName='" + departureUserName + '\'' +
                 ", departureDate='" + departureDate + '\'' +
-                ", kidId=" + kidId +
-                ", kidName='" + kidName + '\'' +
+                ", kidIds=" + kidIds +
                 ", notes='" + notes + '\'' +
                 ", declarationType='" + declarationType + '\'' +
                 ", date='" + date + '\'' +

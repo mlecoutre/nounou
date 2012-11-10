@@ -23,6 +23,7 @@ public class Child {
     private String firstName;
     private String lastName;
     private Date birthday;
+    private String pictureUrl;
 
     @ManyToOne
     @JoinColumn(name="nurseId", nullable=false)
@@ -31,6 +32,15 @@ public class Child {
     @ManyToOne(optional=false)
     @JoinColumn(name = "accountId", unique = false, nullable = false, updatable = true)
     private Account account;
+
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
 
     public Date getBirthday() {
         return birthday;
@@ -104,8 +114,9 @@ public class Child {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday=" + birthday +
-                ", nurse=" + nurse +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 ", account=" + account +
+                ", nurse=" + nurse +
                 '}';
     }
 }

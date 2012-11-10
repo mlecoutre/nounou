@@ -27,6 +27,7 @@ import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Check;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
+import org.mat.nounou.vo.ChildVO;
 import org.mat.nounou.vo.ReportVO;
 
 /**
@@ -187,7 +188,7 @@ public class AppointmentService {
         return reportVO;
     }
 
-    private AppointmentVO populateAppoitmentVO(Appointment a) {
+    public static AppointmentVO populateAppoitmentVO(Appointment a) {
         AppointmentVO appVo = new AppointmentVO();
         appVo.setAppointmentId(a.getAppointmentId());
         if (a.getArrivalDate() != null)
@@ -202,8 +203,17 @@ public class AppointmentService {
             appVo.setDepartureUserName(a.getDepartureUser().getFirstName().concat(" ").concat(a.getDepartureUser().getLastName()));
             appVo.setDepartureUserId(a.getDepartureUser().getUserId());
         }
-        appVo.setKidId(a.getChild().getChildId());
-        appVo.setKidName(a.getChild().getFirstName());
+        List<Integer> kidIds = new ArrayList<Integer>();
+        List<ChildVO> childVOs = new ArrayList<ChildVO>();
+        for (Child c : a.getChildren()) {
+            kidIds.add(c.getChildId());
+            ChildVO cvo = ChildrenService.populate(c);
+            childVOs.add(cvo);
+        }
+        appVo.setKidIds(kidIds);
+        appVo.setChildren(childVOs);
+
+
 
         //TODO map Planned date when it will be available
         return appVo;
@@ -250,13 +260,6 @@ public class AppointmentService {
         vo.setAccountId(accountId);
         vo.setCurrentUserId(userId);
 
-        if (children.size() > 0) {
-            //set the first of the list by default
-            Child child = children.get(0);
-            vo.setKidId(child.getChildId());
-            vo.setKidName(child.getFirstName());
-        }
-
         vo.setCurrentUserName(u.getFirstName().concat(" ").concat(u.getLastName()));
         //TODO check if we have an existing appointment today in db
 
@@ -298,35 +301,26 @@ public class AppointmentService {
                 entity = new Appointment();
             }
 
-            TypedQuery<Child> qChild = em.createQuery("FROM Child c WHERE childId=:childId", Child.class);
-            qChild.setParameter("childId", appointment.getKidId());
-            Child child = qChild.getSingleResult();
+            Query qChild = em.createQuery("FROM Child c WHERE childId IN :childIds");
+            qChild.setParameter("childIds", appointment.getKidIds());
+            List<Child> children = qChild.getResultList();
 
             TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
             qUser.setParameter("userId", appointment.getCurrentUserId());
             User u = qUser.getSingleResult();
             Date d = null;
-            if ("departure".equals(appointment.getDeclarationType())) {
-                entity.setDepartureUser(u);
-                d = Constants.sdf.parse(appointment.getDepartureDate());
-                entity.setDepartureDate(d);
-            } else if ("arrival".equals(appointment.getDeclarationType())) {
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 12) {
                 entity.setArrivalUser(u);
-                d = Constants.sdf.parse(appointment.getArrivalDate());
-                entity.setArrivalDate(d);
-            } else if ("both".equals(appointment.getDeclarationType())) {
-                entity.setDepartureUser(u);
-                entity.setArrivalUser(u);
-                d = Constants.sdf.parse(appointment.getArrivalDate());
-                entity.setArrivalDate(d);
-                d = Constants.sdf.parse(appointment.getDepartureDate());
-                entity.setDepartureDate(d);
             } else {
-                System.out.println("ERROR: Unknown declaration type: " + appointment.getDeclarationType());
-                return null;
+                entity.setDepartureUser(u);
             }
+            d = Constants.sdf.parse(appointment.getArrivalDate());
+            entity.setArrivalDate(d);
+            d = Constants.sdf.parse(appointment.getDepartureDate());
+            entity.setDepartureDate(d);
+
             entity.setAccount(u.getAccount());
-            entity.setChild(child);
+            entity.setChildren(children);
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
@@ -357,9 +351,9 @@ public class AppointmentService {
             Appointment app = qApp.getSingleResult();
 
 
-            TypedQuery<Child> qChild = em.createQuery("FROM Child c WHERE childId=:childId", Child.class);
-            qChild.setParameter("childId", appointment.getKidId());
-            Child child = qChild.getSingleResult();
+            Query qChild = em.createQuery("FROM Child c WHERE childId IN :childIds");
+            qChild.setParameter("childIds", appointment.getKidIds());
+            List<Child> children = qChild.getResultList();
 
             TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
             qUser.setParameter("userId", appointment.getDepartureUserId());
@@ -377,7 +371,7 @@ public class AppointmentService {
             app.setDepartureDate(d);
 
             app.setAccount(du.getAccount());
-            app.setChild(child);
+            app.setChildren(children);
             em.getTransaction().begin();
             em.merge(app);
             em.getTransaction().commit();

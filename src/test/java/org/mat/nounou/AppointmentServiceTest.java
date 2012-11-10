@@ -18,6 +18,7 @@ import org.mat.nounou.vo.ReportVO;
 import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -116,7 +117,10 @@ public class AppointmentServiceTest {
         AppointmentVO vo = new AppointmentVO();
         vo.setAccountId(1);
         vo.setCurrentUserId(1);
-        vo.setKidId(1);
+        List<Integer> kidIds = new ArrayList<Integer>();
+        kidIds.add(1);
+        kidIds.add(2);
+        vo.setKidIds(kidIds);
         vo.setArrivalDate("11-10-2012 08:00");
         vo.setDepartureDate("11-10-2012 19:00");
         vo.setDeclarationType("both");

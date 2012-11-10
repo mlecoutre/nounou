@@ -17,6 +17,16 @@ public class ChildVO {
     private String nurseName;
     private Integer nurseId;
     private Integer accountId;
+    private String pictureUrl;
+
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
 
     public String getBirthday() {
         return birthday;
@@ -82,8 +92,9 @@ public class ChildVO {
                 ", lastName='" + lastName + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", nurseName='" + nurseName + '\'' +
-                ", nurseId='" + nurseId + '\'' +
+                ", nurseId=" + nurseId +
                 ", accountId=" + accountId +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 '}';
     }
 }
