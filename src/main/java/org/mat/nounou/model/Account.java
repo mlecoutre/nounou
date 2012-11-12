@@ -21,7 +21,7 @@ public class Account {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer accountId;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="account_nurses")
     private List<Nurse> nurses;
 

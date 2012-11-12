@@ -1,5 +1,48 @@
 (function ($) {
 
+    /**  Utilities functions  **/
+
+    function contains(a, obj) {
+        var i = a.length;
+        while (i--) {
+           if (a[i] == obj) {
+               return true;
+           }
+        }
+        return false;
+    }
+
+    var last5 = function(){
+       // Get Last 5 Appointments data
+            var reqA = $.ajax({type: 'GET', contentType: 'application/json',
+                url: '/services/appointments/report/account/' + accountId + '/searchType/last',
+            });
+            reqA.done(function (report) {
+                $('#last5').html(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
+            });
+    }
+
+    var initAppointment = function(){
+
+        // Initialize an appointment or get an open appointment.
+        var reqApp = $.ajax({
+            type: 'GET',
+            contentType: 'application/json',
+            url: '/services/appointments/current/account/' + accountId + '/userId/' + userId
+        });
+        reqApp.done(function (appointment) {
+            console.log("Retrieve Appointment: " + $.toJSON(appointment));
+         //   $("select[id='kidName'] option[value='"+appointment.kidId+"']").attr("selected", true);
+         // TODO ON UPDATE SELECT CHILDS WITHIN Appointment list
+            $('#arrivalDate').val(appointment.arrivalDate);
+            $('#departureDate').val(appointment.departureDate);
+            $('#userId').val(appointment.currentUserId);
+            $('#appointmentId').val(appointment.appointmentId);
+           // $('#declarationType').val(appointment.declarationType);
+        });
+
+    }
+
     /** PAGE INITIALIZATION **/
     var value = sessionStorage.getItem('apptoken');
     var accountId = null;
@@ -24,8 +67,7 @@
             }
         });
 
-
-        // Get Current Appointment data
+        // Get Children linked to the Account
         var reqChildren = $.ajax({
             type: 'GET',
             contentType: 'application/json',
@@ -33,44 +75,21 @@
         });
         reqChildren.done(function (children) {
             $('#kidName').append(Mustache.to_html($('#kid-appointment-template').html(), children));
-            $('#editKidId').append(Mustache.to_html($('#kid-appointment-template').html(), children));
-            //selected sby default
-            $('.liveKid').each(function(){
+            $('#editKids').append(Mustache.to_html($('#kid-appointment-template').html(), children));
+            //selected by default  on live declaration
+            $('#kidName > .liveKid').each(function(){
                 $(this).toggleClass( 'selected-kid' );
             });
             //change for each click
             $('.liveKid').click(function(){
                 var kidId=$(this).attr('data-target');
                 console.log('click on a kid: '+kidId);
-                $(this).toggleClass( 'selected-kid' );
+                $(this).toggleClass('disabled-kid');
+                $(this).toggleClass('selected-kid');
             }) ;
         });
-
-        var reqApp = $.ajax({
-            type: 'GET',
-            contentType: 'application/json',
-            url: '/services/appointments/current/account/' + accountId + '/userId/' + userId
-        });
-        reqApp.done(function (appointment) {
-            console.log("appointment");
-            $("select[id='kidName'] option[value='"+appointment.kidId+"']").attr("selected", true);
-            $('#arrivalDate').val(appointment.arrivalDate);
-            $('#departureDate').val(appointment.departureDate);
-            $('#userId').val(appointment.currentUserId);
-            $('#declarationType').val(appointment.declarationType);
-        });
-
-        // Get Last 5 Appointments data
-        var reqA = $.ajax({
-            type: 'GET',
-            contentType: 'application/json',
-            url: '/services/appointments/report/account/' + accountId + '/searchType/last',
-
-        });
-        reqA.done(function (report) {
-            console.log("get last appointments");
-            $('#last5').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
-        });
+        initAppointment();
+        last5();
     });
 
     /** PAGE NAVIGATION **/
@@ -87,7 +106,13 @@
             var selKidId=$(this).attr("data-target");
             kids[i] =  selKidId;
         } );
+        var appId = $('#appointmentId').val();
+        var appUrl = '/services/appointments'
+        if(appId != null){
+             appUrl = appUrl+'/'+appId;
+        }
         var mAppointment = {
+            appointmentId :  appId,
             accountId: accountId,
             currentUserId: $('#userId').val(),
             arrivalDate: $('#arrivalDate').val(),
@@ -98,26 +123,16 @@
         };
 
         var data = $.toJSON(mAppointment);
-        console.log( "Create appointment: "+data);
-
         var req = $.ajax({
             type: 'POST',
             contentType: 'application/json',
-            url: '/services/appointments',
+            url: appUrl,
             dataType: "json",
             data: data,
         });
 
-        req.done(function (appointment) {
-            //reload the location in order to reinitialize the content
-            $.ajax({
-                url: "",
-                context: document.body,
-                success: function (s, x) {
-                    $(this).html(s);
-                }
-            });
-        });
+        initAppointment();
+        last5();
         console.log("[END] goLive");
     })
 
@@ -163,20 +178,40 @@
                     $('#editArrivalDate').val(app.arrivalDate);
                     $('#editDepartureDate').val(app.departureDate);
                     $("select[id='editDepartureUserId'] option[value='" + app.departureUserId + "']").attr("selected", true);
-                    $('#editKidId').val(app.kidId);
-                    $('#editAppointmentId').val(app.appointmentId);
+                    //build an array of childId
+                    var childIdArr = [];
+                    for(i =0; i < app.children.length; i++){
+                             childIdArr[i]= app.children[i].childId;
+                    }
+                    $('#editKids > .liveKid').each(function(){
+                       var kidsId = $(this).attr('data-target');
+                       if (contains(childIdArr,kidsId)) {
+                            $(this).addClass( 'selected-kid' );
+                            $(this).removeClass( 'disabled-kid' );
+                       }else{
+                          $(this).addClass( 'disabled-kid' );
+                          $(this).removeClass( 'selected-kid' );
+                       }
+                    });
+                   $('#editAppointmentId').val(app.appointmentId);
 
-                    $('#editUpdate').show();
+                   $('#editUpdate').show();
                 });
             });
         });
     });
     $('#editCancel').click(function (e) {
           $('#editUpdate').hide();
-        console.log("cancel") ;
+          console.log("cancel") ;
     });
 
     $('#editSave').click(function (e) {
+
+         var kids = [];
+                $("#editKids > .selected-kid").each(function(i,value ){
+                    var selKidId=$(this).attr("data-target");
+                    kids[i] =  selKidId;
+         });
 
         var mAppointment = {
             appointmentId:  $('#editAppointmentId').val(),
@@ -184,7 +219,7 @@
             currentUserId: $('#userId').val(),
             arrivalDate: $('#editArrivalDate').val(),
             departureDate: $('#editDepartureDate').val(),
-            kidId: $('#editKidId').val(),
+            kidIds: kids,
             departureUserId: $('#editDepartureUserId').val() ,
             arrivalUserId: $('#editArrivalUserId').val()
             //TODO add notes here

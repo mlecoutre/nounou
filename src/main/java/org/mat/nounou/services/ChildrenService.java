@@ -187,15 +187,11 @@ public class ChildrenService {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
-            //DELETE ALL APPOINTMENTS linked to a child
-            Query queryApp = em.createQuery("DELETE FROM Appointment a  WHERE a.child.childId=:childId");
-            queryApp.setParameter("childId", childId);
-            queryApp.executeUpdate();
-
-            Query query = em.createQuery("DELETE FROM Child WHERE childId=:childId");
+            TypedQuery<Child> query = em.createQuery(" FROM Child WHERE childId=:childId", Child.class);
 
             query.setParameter("childId", childId);
-            query.executeUpdate();
+            Child c = query.getSingleResult();
+            em.remove(c);
             em.getTransaction().commit();
 
         } catch (Exception e) {

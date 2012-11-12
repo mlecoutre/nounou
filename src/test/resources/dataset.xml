@@ -20,8 +20,15 @@
     <child childId='2' nurseId='1'  firstname='kidFirstName' lastname='kidLastName' accountId='2'/>
     <child childId='3' nurseId='3'  firstname='Azrael' lastname='Lecoutre' accountId='3'/>
     <child childId='4' nurseId='3'  firstname='Toto' lastname='Lecoutre' accountId='3'/>
-    <appointment appointmentId='1' accountId='1' kidId='1' arrivalUser='1' departureUser='1' arrivalDate='2012-11-02 09:00:00.000000000' departureDate='2012-11-02 18:00:00.000000000'/>
-    <appointment appointmentId='2' accountId='3' kidId='3' arrivalUser='5' departureUser='6' arrivalDate='2012-10-31 09:00:00.000000000' departureDate='2012-10-31 18:00:00.000000000'/>
-    <appointment appointmentId='3' accountId='3' kidId='3' arrivalUser='6' departureUser='5' arrivalDate='2012-11-01 08:52:00.000000000' departureDate='2012-11-01 18:32:00.000000000'/>
-    <appointment appointmentId='4' accountId='3' kidId='3' arrivalUser='5' departureUser='5' arrivalDate='2012-11-02 08:45:00.000000000' departureDate='2012-11-02 18:45:00.000000000'/>
+
+    <appointment appointmentId='1' accountId='1' arrivalUser='1' departureUser='1' arrivalDate='2012-11-02 09:00:00.000000000' departureDate='2012-11-02 18:00:00.000000000'/>
+    <appointment appointmentId='2' accountId='3' arrivalUser='5' departureUser='6' arrivalDate='2012-10-31 09:00:00.000000000' departureDate='2012-10-31 18:00:00.000000000'/>
+    <appointment appointmentId='3' accountId='3' arrivalUser='6' departureUser='5' arrivalDate='2012-11-01 08:52:00.000000000' departureDate='2012-11-01 18:32:00.000000000'/>
+    <appointment appointmentId='4' accountId='3' arrivalUser='5' departureUser='5' arrivalDate='2012-11-02 08:45:00.000000000' departureDate='2012-11-02 18:45:00.000000000'/>
+    <app_children Appointment_appointmentId='1'  children_childId='1' />
+    <app_children Appointment_appointmentId='2'  children_childId='3' />
+    <app_children Appointment_appointmentId='3'  children_childId='1' />
+    <app_children Appointment_appointmentId='4'  children_childId='3' />
+    <app_children Appointment_appointmentId='4'  children_childId='4' />
+
 </dataset>

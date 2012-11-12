@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * UserVO: mlecoutre
@@ -33,6 +34,9 @@ public class Child {
     @JoinColumn(name = "accountId", unique = false, nullable = false, updatable = true)
     private Account account;
 
+ /*   @ManyToMany(mappedBy="children", fetch = FetchType.LAZY)
+    private Set<Appointment> appointments;
+*/
 
     public String getPictureUrl() {
         return pictureUrl;

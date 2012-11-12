@@ -1,5 +1,6 @@
 package org.mat.nounou.model;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,8 +23,8 @@ public class Appointment {
     @JoinColumn(name = "accountId", unique = false, nullable = true)
     private Account account;
 
-    @OneToMany(orphanRemoval=true)
-    @JoinColumn(name="kidId")
+    @ManyToMany
+    @JoinTable(name="app_children")
     private List<Child> children;
 
     private Date arrivalDate;

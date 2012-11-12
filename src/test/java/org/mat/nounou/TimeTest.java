@@ -55,4 +55,13 @@ public class TimeTest {
         System.out.printf("testGetDecimalTime for 08:25: %2f\n", dd);
         assertTrue(dd == 8.42);
     }
+
+    @Test
+    public void testGetOnlyDate() {
+        DateTime dt = new DateTime();
+        System.out.println("testGetOnlyDate: "+dt.toDateMidnight());
+        System.out.println("testGetOnlyDate: "+dt.plusDays(1).toDateMidnight());
+
+
+    }
 }
