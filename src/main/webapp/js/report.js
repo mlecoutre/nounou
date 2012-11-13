@@ -21,7 +21,7 @@
         });
         reqA.done(function (report) {
             console.log("get last appointments");
-            $('#current').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
+            $('#tableReports').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
             $('#totalMonth').text(report.reportTitle + ': ' + report.totalDuration);
            chart = new Highcharts.Chart({
                 chart: {

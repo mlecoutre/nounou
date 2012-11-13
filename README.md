@@ -26,7 +26,7 @@ the application is available on heroku http://hello-mlecoutre.herokuapp.com/
 * Rest services
 * JPA
 * CDI (todo)
-* Twitter bootstrap, mustache.js jQuery, HighCharts.js, dbUnit
+* Twitter bootstrap, mustache.js jQuery, HighCharts.js, dbUnit, i18next
     
 ## Running the application locally
 Run your application

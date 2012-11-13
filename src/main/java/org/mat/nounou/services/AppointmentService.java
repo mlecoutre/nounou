@@ -103,9 +103,9 @@ public class AppointmentService {
         long totalDuration = 0;
         try {
             StringBuffer buff = new StringBuffer("FROM Appointment WHERE accountId=:accountId");
-
             TypedQuery<Appointment> query = null;
             if ("last".equals(searchType)) {
+                buff.append(" ORDER BY  arrivalDate DESC");
                 query = em.createQuery(buff.toString(), Appointment.class);
             } else if ("currentMonth".equals(searchType)) {
                 buff.append(" AND MONTH(arrivalDate) = MONTH(CURRENT_DATE) ORDER BY arrivalDate DESC");
@@ -126,9 +126,14 @@ public class AppointmentService {
                     c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                     d2 = c.getTime();
                 } else if ("prevMonth".equals(searchType)) {
-                    //TODO
-                    DateTime  dt = new DateTime().minusMonths(1);
-                    dt.minusDays(dt.dayOfMonth().get()-1);
+                    c.set(Calendar.DAY_OF_MONTH, 1);
+                    DateTime dt = new DateTime().minusMonths(1);
+                    dt.minusDays(dt.dayOfMonth().get() - 1);
+                    c.setTime(dt.toDate());
+                    c.set(Calendar.DAY_OF_MONTH, 1);
+                    d1 = c.getTime();
+                    c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+                    d2 = c.getTime();
                 }
                 buff.append(" AND  arrivalDate > :startDate AND arrivalDate < :endDate");
                 buff.append(" ORDER BY arrivalDate DESC");
@@ -164,7 +169,6 @@ public class AppointmentService {
                 }
                 vos.add(vo);
             }
-
         } catch (NoResultException nre) {
             System.out.printf("ERROR: No result found with accountId:%d, searchType: %s\n", accountId, searchType);
         } catch (Exception e) {

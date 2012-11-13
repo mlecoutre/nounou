@@ -146,10 +146,11 @@
                     <select id="nurseId">
                         <option id=""></option>
                     </select>
+
                     <p>
-                    <button type="submit" id="addKid" class="btn">Add</button>
-                    <button type="submit" id="updateKid" class="btn hide">Save</button>
-                    <button type="submit" id="cancelKid" class="btn hide">cancel</button>
+                        <button type="submit" id="addKid" class="btn">Add</button>
+                        <button type="submit" id="updateKid" class="btn hide">Save</button>
+                        <button type="submit" id="cancelKid" class="btn hide">cancel</button>
                     </p>
                 </div>
                 <div class="span8" id="kidList">
@@ -241,29 +242,23 @@
 <script type="text/x-template" id="kid-template">
 
     <legend>Your kids</legend>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Picture</th>
-            <th>Name</th>
-            <th>Birthday</th>
-            <th>Nurse</th>
-            <th>Edit</th>
-        </tr>
-        </thead>
-        <tbody>
+
+    <ul class="thumbnails">
         {{#.}}
-        <tr>
-            <td><img style="height:30px; width:30px" src="{{pictureUrl}}"/></td>
-            <td>{{firstName}}</td>
-            <td>{{birthday}}</td>
-            <td>{{nurseName}}</td>
-            <td><a class="editKid" data-target="{{childId}}" href="#"><i class="icon-edit"></i></a>
-                <a class="delKid" data-target="{{childId}}" href="#"><i class="icon-trash"></i></a></td>
-        </tr>
+        <li class="span2">
+            <div class="thumbnail">
+                <row><img style="height:50px; width:50px" src="{{pictureUrl}}"/><strong>{{firstName}}</strong></row>
+
+                <p>{{birthday}}<br/>
+                    {{nurseName}}<br/></p>
+                <center>
+                    <a class="editKid" data-target="{{childId}}" href="#"><i class="icon-edit"></i></a>
+                    <a class="delKid" data-target="{{childId}}" href="#"><i class="icon-trash"></i></a>
+                </center>
+            </div>
+        </li>
         {{/.}}
-        </tbody>
-    </table>
+    </ul>
 
 </script>
 
