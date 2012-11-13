@@ -1,0 +1,24 @@
+{
+  "app": {
+    "name": "i18next"
+  },
+  "report": {
+    "title": "Activity Reporting",
+    "tab": {
+        "title":{
+            "chart": "Charts report",
+            "table": "Table report",
+            "options": "Options"
+        }
+    }
+  },
+  "app-template":{
+    "total-duration": "Total Month: __totDuration__",
+    "arrival-user": "Arr. User",
+    "arrival-date": "Arrival",
+    "departure-user": "Dep. User",
+    "departure-date": "Departure",
+    "kid": "Kid",
+    "duration": "Duration"
+  }
+}

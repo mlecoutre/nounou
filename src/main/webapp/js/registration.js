@@ -17,6 +17,7 @@
         });
         reqKid.done(function (children) {
             $('#kidList').html(Mustache.to_html($('#kid-template').html(), children));
+            $(".kid-template").i18n();
             //DELETE a kid
             $(".delKid").click(function () {
                 var kidId = $(this).attr('data-target');
@@ -64,6 +65,7 @@
         reqNurse.done(function (nurses) {
             $('#nurseList').html(Mustache.to_html($('#nurse-template').html(), nurses)); // update list nurse
             $('#nurseId').html(Mustache.to_html($('#selectNurse-template').html(), nurses)); //populate kids nurse list
+            $(".nurse-template").i18n();
             //DELETE a nurse in the list
             $(".delNurse").click(function () {
                 var nurseId = $(this).attr('data-target');
@@ -89,6 +91,7 @@
         });
         reqAccount.done(function (users) {
             $('#whiteAccessList').html(Mustache.to_html($('#whiteAccesUser-template').html(), users));
+            $(".user-template").i18n();
             //DELETE a kid
             $(".delUser").click(function () {
                 var userId = $(this).attr('data-target');
@@ -107,6 +110,18 @@
     }
 
     /** PAGE INITIALIZATION **/
+        $.i18n.init( {
+            resGetPath: '/locales/__lng__/__ns__.json',
+            ns : {
+                    namespaces: ['registration', "commons"],
+                    defaultNs: 'registration'
+                 }
+            }
+        ).done(function(){
+              $(".registration").i18n();
+              $(".navbar").i18n();
+        });
+
     $("#kidBirthday").datepicker();
 
     $(document).ready(function () {

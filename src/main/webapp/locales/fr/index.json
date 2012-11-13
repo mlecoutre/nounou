@@ -1,0 +1,13 @@
+{
+   "index":{
+      "goal":"Cette application a pour but de gérer vos rendez-vous journaliers avec votre nounou et d'enregistrer les heures d'arrivées et de départ de votre ou vos enfants.",
+      "learmore":"Plus d'info »",
+      "view-details":"Plus de details »",
+      "registration-title":"Enregistrez vous!",
+      "registration-detail":"Enregistrer sur ce site les informations vous concernant, les pesonnes habilités à venir chercher votre enfants, votre nounous et vos enfants.",
+      "run-title":"Rendez-vous...",
+      "run-detail":"Plannifier, Déclarer ou modifier les heures des rendez-vous avec votre nounou. Une application spécifique est disponible pour votre mobile et les réseaux 3G.",
+      "report-title":"Comptes rendus!",
+      "report-detail":"Obtenir les comptes rendu sur les rendez vous avec votre nurse et les détails sur les durées de garde."
+   }
+}

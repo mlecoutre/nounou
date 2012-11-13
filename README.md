@@ -38,3 +38,7 @@ And then run your app using the java command:
 
 $ java -jar target/dependency/webapp-runner.jar target/*.war
 
+## Usefull tools
+* http://jsonformatter.curiousconcept.com/#jsonformatter
+* http://jsbeautifier.org/
+* http://www.codebeautifier.com/?lang=fr

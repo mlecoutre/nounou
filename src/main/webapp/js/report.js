@@ -1,6 +1,21 @@
 (function ($) {
 
     /** PAGE INITIALIZATION **/
+    $.i18n.init( {
+        resGetPath: '/locales/__lng__/__ns__.json',
+        ns : {
+                namespaces: ['report', "commons"],
+                defaultNs: 'report'
+             }
+        }
+    ).done(function(){
+          $(".report").i18n();
+          $(".navbar").i18n();
+    });
+
+
+
+
     var value = sessionStorage.getItem('apptoken');
     var accountId = null;
     var userId = null;
@@ -11,8 +26,6 @@
     }
 
     $(document).ready(function () {
-
-        // Get Last 5 Appointments data
         var reqA = $.ajax({
             type: 'GET',
             contentType: 'application/json',
@@ -21,8 +34,9 @@
         });
         reqA.done(function (report) {
             console.log("get last appointments");
-            $('#tableReports').append(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
-            $('#totalMonth').text(report.reportTitle + ': ' + report.totalDuration);
+            $('#tableReports').append(Mustache.to_html($('#appointments-template').html(), report.appointments));
+            $(".app-template").i18n({ totDuration:  report.totalDuration });
+
            chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'container'

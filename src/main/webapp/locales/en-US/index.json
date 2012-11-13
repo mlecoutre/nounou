@@ -1,0 +1,13 @@
+{
+   "index":{
+      "goal":"This application aims to manage planning and reports for your nurse.",
+      "learmore":"Learn more »",
+      "view-details":"View details »",
+      "registration-title":"Registration!",
+      "registration-detail":"Record your personal information, about you, your child, your nurse and people that will be authorised to get back your kid(s) at home .",
+      "run-title":"Run every day...",
+      "run-detail":"Define your planning (who and when) or set live arrival and departure times. You can also set up alerts or create event on your own personal calendar.",
+      "report-title":"Get Reports!",
+      "report-detail":"Share with your nurse all organization details and report every month. Get comments of parents that use this website about a nurse"
+   }
+}

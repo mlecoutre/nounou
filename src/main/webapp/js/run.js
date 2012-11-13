@@ -19,6 +19,7 @@
             });
             reqA.done(function (report) {
                 $('#last5').html(Mustache.to_html($('#last-appointments-template').html(), report.appointments));
+                $('.last5-template').i18n();
             });
     }
 
@@ -44,6 +45,17 @@
     }
 
     /** PAGE INITIALIZATION **/
+        $.i18n.init( {
+            resGetPath: '/locales/__lng__/__ns__.json',
+            ns : {
+                    namespaces: ['run', "commons"],
+                    defaultNs: 'run'
+                 }
+            }
+        ).done(function(){
+              $(".run").i18n();
+              $(".navbar").i18n();
+        });
     var value = sessionStorage.getItem('apptoken');
     var accountId = null;
     var userId = null;
@@ -147,7 +159,7 @@
         reqA.done(function (report) {
 
             $('#appointmentResultList').html(Mustache.to_html($('#appointments-template').html(), report.appointments));
-
+            $(".appointmentsContent").i18n();
             //DELETE APPOINTMENT
             $(".del").click(function () {
                 var appId = $(this).attr('data-target');

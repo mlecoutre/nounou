@@ -1,0 +1,44 @@
+{
+   "registration":{
+      "title":"Enregistrement",
+      "tab":{
+         "what-title":"Description",
+         "you-title":"Vous",
+         "nurse-title":"Votre nounou",
+         "kids-title":"Vos enfants"
+      },
+      "what":{
+         "introduce1":"C'est ici que vous allez pouvoir entrer vos informations personnelles.",
+         "introduce2":"Veuillez indiquer dans les écrans suivant les informations détaillées ici:",
+         "li1":"Vous et les personnes authorisées à se connecter à l'application et aller chercher vos enfants chez votre nounou",
+         "li2":"La ou les nounous que vous employez",
+         "li3":"Vos enfants"
+      },
+      "accesslist":"Liste des personnes autorisées",
+      "firstName":"Prénom",
+      "lastName":"Nom",
+      "phoneNumber":"Téléphone",
+      "email":"Email",
+      "edit":"Edition",
+      "password":"Mot de passe",
+      "repassword":"Re mot de passe",
+      "birthday":"Anniversaire",
+      "picture":"Photo",
+      "nurse-label":"Nounou",
+      "who":"Type",
+      "type":{
+         "mother":"Mère",
+         "father":"Père",
+         "mammy":"Mammie",
+         "pappy":"Papi",
+         "friends":"Amis",
+         "other":"Autre"
+      },
+      "nurse":{
+         "title":"Liste de vos nounous"
+      },
+      "kids":{
+         "title":"Vos enfants"
+      }
+   }
+}

@@ -1,0 +1,44 @@
+{
+   "registration":{
+      "title":"Registration",
+      "tab":{
+         "what-title":"What",
+         "you-title":"You",
+         "nurse-title":"Your nurse",
+         "kids-title":"Your kids"
+      },
+      "what":{
+         "introduce1":"That's here where you can enter all registration stuff.",
+         "introduce2":"Please detail here",
+         "li1":"Your family and authorized people that get back at home your kids",
+         "li2":"Nurses you have employed",
+         "li3":"List of your kids"
+      },
+      "accesslist":"White access list",
+      "firstName":"First name",
+      "lastName":"Last name",
+      "phoneNumber":"Phone number",
+      "email":"Email",
+      "edit":"Edit",
+      "password":"Password",
+      "repassword":"Re password",
+      "birthday":"Birthday",
+      "picture":"Picture",
+      "nurse-label":"Nurse",
+      "who":"Who",
+      "type":{
+         "mother":"Mother",
+         "father":"Father",
+         "mammy":"Mammy",
+         "pappy":"Pappy",
+         "friends":"Friend",
+         "other":"Other"
+      },
+      "nurse":{
+         "title":"Nurses list"
+      },
+      "kids":{
+         "title":"Your kids"
+      }
+   }
+}

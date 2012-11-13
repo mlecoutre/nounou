@@ -11,7 +11,6 @@
 <script src="../js/jquery-ui-1.9.1.custom.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 
-
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -20,13 +19,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Nounou App!</a>
+            <a class="brand" href="/" data-i18n="commons:navbar.title"></a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/" data-i18n="commons:navbar.home"></a></li>
+                    <li><a href="/about" data-i18n="commons:navbar.about"></a></li>
+                    <li><a href="#contact" data-i18n="commons:navbar.contact"></a></li>
                 </ul>
                 <p class="navbar-text pull-right" id="authBox">
 
@@ -37,9 +36,9 @@
                 </p>
 
                 <p class="navbar-text pull-right hide" id="authBox_request">
-                    <input class="span2" type="email" id="uid" placeholder="Email">
+                    <input class="span2" type="text" id="uid" placeholder="Email">
                     <input class="span2" type="password" id="pwd" placeholder="Password">
-                    <button type="submit" class="btn" id="signIn">Sign in</button>
+                    <button type="submit" class="btn" id="signIn" data-i18n="commons:auth.signin"></button>
                 </p>
 
             </div>
@@ -52,111 +51,109 @@
 
     <p>&nbsp;</p><br/>
 
-    <h2>Registration</h2>
+    <h2 class="registration" data-i18n="registration.title"></h2>
 
-    <ul class="nav nav-tabs" id="registerTab">
-        <li class="active"><a href="#what">What</a></li>
-        <li><a href="#you">You</a></li>
-        <li><a href="#nurse">Your nurse</a></li>
-        <li><a href="#kids">Your kids </a></li>
+    <ul class="nav nav-tabs registration" id="registerTab">
+        <li class="active"><a href="#what" data-i18n="registration.tab.what-title"></a></li>
+        <li><a href="#you" data-i18n="registration.tab.you-title"></a></li>
+        <li><a href="#nurse" data-i18n="registration.tab.nurse-title"></a></li>
+        <li><a href="#kids" data-i18n="registration.tab.kids-title"></a></li>
 
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="what">That's here where you can enter all registration stuff. <br/>
+        <div class="tab-pane active registration" id="what">
+            <p data-i18n="registration.what.introduce1"></p>
 
-            <p>Please detail here
+            <p data-i18n="registration.what.introduce2"></p>
             <ul>
-                <li>Your family and authorized people that get back at home your kids</li>
-                <li>List of your kids</li>
-                <li>Nurses you have employed</li>
-
+                <li data-i18n="registration.what.li1"></li>
+                <li data-i18n="registration.what.li2"></li>
+                <li data-i18n="registration.what.li3"></li>
             </ul>
-            </p>
-            <p><a class="btn btn-primary" id="registrationStart">Start</a></p>
+            <p><a class="btn btn-primary" id="registrationStart" data-i18n="commons:button.start"></a></p>
         </div>
         <div class="tab-pane" id="you"> <!--  TAB YOU -->
             <div class="row">
-                <div class="span4">
-                    <label>First name</label>
+                <div class="span4 registration">
+                    <label data-i18n="registration.firstName"></label>
                     <input type="text" id="userFirstName" placeholder="your first name">
-                    <label>Last name</label>
+                    <label data-i18n="registration.lastName"></label>
                     <input type="text" id="userLastName" placeholder="your last name">
-                    <label>Phone number</label>
+                    <label data-i18n="registration.phoneNumber"></label>
                     <input type="email" id="userPhoneNumber" placeholder="phone number">
-                    <label>Email</label>
+                    <label data-i18n="registration.email"></label>
                     <input type="text" id="userEmail" placeholder="Email">
-                    <label>Password</label>
+                    <label data-i18n="registration.password"></label>
                     <input type="password" id="userPassword" placeholder="your password">
-                    <label>Re password</label>
+                    <label data-i18n="registration.repassword"></label>
                     <input type="password" id="secondUserPassword" placeholder="re enter your password">
-                    <!-- not used at this time -->
-                    <label>Who</label>
+                    <label data-i18n="registration.who"></label>
                     <select id="userType">
-                        <option>Mother</option>
-                        <option>Father</option>
-                        <option>Mammy</option>
-                        <option>Pappy</option>
-                        <option>Friend</option>
-                        <option>Other</option>
+                        <option data-i18n="registration.type.mother"></option>
+                        <option data-i18n="registration.type.father"></option>
+                        <option data-i18n="registration.type.mammy"></option>
+                        <option data-i18n="registration.type.pappy"></option>
+                        <option data-i18n="registration.type.friends"></option>
+                        <option data-i18n="registration.type.other"></option>
                     </select>
-                    <button type="submit" class="btn" id="registerUser">Add</button>
+                    <button type="submit" class="btn" id="registerUser" data-i18n="commons:button.add"></button>
 
                 </div>
                 <div class="span8" id="whiteAccessList">
                 </div>
             </div>
 
-            <p><a class="btn btn-primary" id="youPrevious">Previous</a><a class="btn btn-primary" id="youNext">
-                Next </a></p>
+            <p class="registration"><a class="btn btn-primary" id="youPrevious" data-i18n="commons:button.previous"></a><a
+                    class="btn btn-primary" id="youNext" data-i18n="commons:button.next"></a></p>
         </div>
         <div class="tab-pane" id="nurse">
             <div class="row">
-                <div class="span4">
-                    <label>First name</label>
+                <div class="span4 registration">
+                    <label data-i18n="registration.firstName"></label>
                     <input type="text" id="nurseFirstName" placeholder="First name">
-                    <label>Last name</label>
+                    <label data-i18n="registration.lastName"></label>
                     <input type="text" id="nurseLastName" placeholder="Last name">
-                    <label>Phone Number</label>
+                    <label data-i18n="registration.phoneNumber"></label>
                     <input type="text" id="nursePhoneNumber" placeholder="Phone Number">
-                    <button type="submit" id="addNurse" class="btn">Add</button>
+                    <button type="submit" id="addNurse" class="btn" data-i18n="commons:button.add"></button>
                 </div>
                 <div class="span8" id="nurseList">
-                    <legend>Nurse list</legend>
+                    <legend class="registration" data-i18n="registration.nurse.title"></legend>
                 </div>
 
             </div>
-            <p><a class="btn btn-primary" id="nursePrevious">Previous</a>
-                <a class="btn btn-primary" id="nurseNext">
-                    Next </a>
+            <p class="registration"><a class="btn btn-primary" id="nursePrevious" data-i18n="commons:button.previous"></a>
+                <a class="btn btn-primary" id="nurseNext" data-i18n="commons:button.next"></a>
             </p></div>
         <div class="tab-pane" id="kids">
             <div class="row">
-                <div class="span4">
+                <div class="span4 registration">
                     <input type="hidden" id="editKidId"/>
-                    <label>Kid first name</label>
+                    <label data-i18n="registration.firstName"></label>
                     <input type="text" id="kidFirstName" placeholder="kid first name">
-                    <label>Kid last name</label>
+                    <label data-i18n="registration.lastName"></label>
                     <input type="text" id="kidLastName" placeholder="kid last name">`
-                    <label>Birthday</label>
+                    <label data-i18n="registration.birthday"></label>
                     <input type="text" id="kidBirthday" placeholder="birthday">
-                    <label>Picture</label>
+                    <label data-i18n="registration.picture"></label>
                     <input type="text" id="kidPicture" placeholder="picture url">
-                    <label>Nurse</label>
+                    <label data-i18n="registration.nurse-label"></label>
                     <select id="nurseId">
                         <option id=""></option>
                     </select>
 
                     <p>
-                        <button type="submit" id="addKid" class="btn">Add</button>
-                        <button type="submit" id="updateKid" class="btn hide">Save</button>
-                        <button type="submit" id="cancelKid" class="btn hide">cancel</button>
+                        <button type="submit" id="addKid" class="btn" data-i18n="commons:button.add"></button>
+                        <button type="submit" id="updateKid" class="btn hide" data-i18n="commons:button.save"></button>
+                        <button type="submit" id="cancelKid" class="btn hide"
+                                data-i18n="commons:button.cancel"></button>
                     </p>
                 </div>
                 <div class="span8" id="kidList">
                 </div>
             </div>
-            <p><a class="btn btn-primary" id="kidsPrevious">Previous</a></p>
+            <p class="registration"><a class="btn btn-primary" id="kidsPrevious" data-i18n="commons:button.previous"></a></p>
         </div>
     </div>
     <hr>
@@ -172,24 +169,23 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<!-- <script src="../js/underscore-min.js"></script>  1.4.2 -->
-<!-- <script src="../js/backbone-min.js"></script>    0.9.2 -->
 <script src="../js/jquery.json-2.3.js"></script>
+<script src="../js/i18next-1.5.8.min.js"></script>
 <script src="../js/mustache.js"></script>
 <script src="../js/registration.js"></script>
 <script src="../js/utilities.js"></script>
 
 <script type="text/x-template" id="whiteAccesUser-template">
-    <legend>White access list</legend>
+    <legend class="user-template" data-i18n="registration.accesslist"></legend>
 
-    <table class="table table-striped">
+    <table class="table table-striped user-template">
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>email</th>
-            <th>Phone</th>
-            <th>Edit</th>
+            <th data-i18n="registration.firstName"></th>
+            <th data-i18n="registration.lastName"></th>
+            <th data-i18n="registration.email"></th>
+            <th data-i18n="registration.phoneNumber"></th>
+            <th data-i18n="registration.edit"></th>
         </tr>
         </thead>
         <tbody>
@@ -209,13 +205,14 @@
 </script>
 
 <script type="text/x-template" id="nurse-template">
-    <table class="table table-striped">
+    <legend class="nurse-template" data-i18n="registration.nurse.title"></legend>
+    <table class="table table-striped nurse-template">
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone number</th>
-            <th>Edit</th>
+            <th data-i18n="registration.firstName"></th>
+            <th data-i18n="registration.lastName"></th>
+            <th data-i18n="registration.phoneNumber"></th>
+            <th data-i18n="registration.edit"></th>
         </tr>
         </thead>
         <tbody>
@@ -241,7 +238,7 @@
 
 <script type="text/x-template" id="kid-template">
 
-    <legend>Your kids</legend>
+    <legend class="kid-template" data-i18n="registration.kids.title"></legend>
 
     <ul class="thumbnails">
         {{#.}}

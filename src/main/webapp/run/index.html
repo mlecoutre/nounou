@@ -12,7 +12,6 @@
 <script src="../js/jquery-ui-1.9.1.custom.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 
-
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
@@ -21,14 +20,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Nounou App!</a>
+            <a class="brand" href="/" data-i18n="commons:navbar.title"></a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/contact">Contact</a></li>
-
+                    <li><a href="/" data-i18n="commons:navbar.home"></a></li>
+                    <li><a href="/about" data-i18n="commons:navbar.about"></a></li>
+                    <li><a href="#contact" data-i18n="commons:navbar.contact"></a></li>
                 </ul>
                 <p class="navbar-text pull-right" id="authBox">
 
@@ -41,11 +39,10 @@
                 <p class="navbar-text pull-right hide" id="authBox_request">
                     <input class="span2" type="text" id="uid" placeholder="Email">
                     <input class="span2" type="password" id="pwd" placeholder="Password">
-                    <button type="submit" class="btn" id="signIn">Sign in</button>
+                    <button type="submit" class="btn" id="signIn" data-i18n="commons:auth.signin"></button>
                 </p>
 
             </div>
-
             <!--/.nav-collapse -->
         </div>
     </div>
@@ -55,11 +52,11 @@
 
     <p>&nbsp;</p><br/>
 
-    <h2>Run</h2>
+    <h2 class="run" data-i18n="run.title"></h2>
 
-    <ul class="nav nav-tabs" id="runTab">
-        <li class="active"><a href="#live">Live</a></li>
-        <li><a href="#update">Update existing declaration</a></li>
+    <ul class="nav nav-tabs run" id="runTab">
+        <li class="active"><a href="#live" data-i18n="run.tab.live"></a></li>
+        <li><a href="#update" data-i18n="run.tab.update"></a></li>
     </ul>
 
 
@@ -67,23 +64,23 @@
         <div class="tab-pane active" id="live"><br/>
 
             <div class="row">
-                <div class="span4">
+                <div class="span4 run">
 
-                    <p>Check here if detail are ok and click <b>GO</b></p>
+                    <p data-i18n="run.live.description"></p>
                     <input type="hidden" id="appointmentId"/>
-                    <label>User</label>
+                    <label data-i18n="run.commons.user"></label>
                     <select id="userId">
                     </select>
-                    <label>Arrival Date time</label>
+                    <label data-i18n="run.commons.arrival-date"></label>
                     <input type="text" id="arrivalDate" placeholder="Arrival date time">
-                    <label>Departure Date time</label>
+                    <label data-i18n="run.commons.departure-date"></label>
                     <input type="text" id="departureDate" placeholder="Departure date time">
 
                     <div id="kidName">
 
                     </div>
                  <div style="width:100%; height:10px;"></div>
-                    <p><a class="btn btn-primary large-button" id="goLive" >GO!</a></p>
+                    <p><a class="btn btn-primary large-button" id="goLive" data-i18n="run.live.button-go"></a></p>
 
                 </div>
 
@@ -95,40 +92,40 @@
         <div class="tab-pane" id="update">
             <div class="row">
                 <div class="span4">
-                    <div id="editUpdate" class="hide">
+                    <div id="editUpdate" class="hide run">
                         <input type="hidden" id="editAppointmentId"/>
-                        <label>Arrival User</label>
+                        <label data-i18n="run.update.arrival-user"></label>
                         <select id="editArrivalUserId">
                         </select>
-                        <label>Arrival Date time</label>
+                        <label data-i18n="run.commons.arrival-date"></label>
                         <input type="text" id="editArrivalDate" placeholder="Arrival date time">
-                        <label>Departure User</label>
+                        <label data-i18n="run.update.departure-user"></label>
                         <select id="editDepartureUserId">
                         </select>
-                        <label>Departure Date time</label>
+                        <label data-i18n="run.commons.departure-date"></label>
                         <input type="text" id="editDepartureDate" placeholder="Departure date time">
-                        <label>Kids</label>
+                        <label data-i18n="run.commons.kids"></label>
                         <div id="editKids">
 
                         </div>
                         <div>
-                        <a class="btn btn-primary" id="editSave">Save</a>
-                        <a class="btn btn-primary" id="editCancel">Cancel</a>
+                        <a class="btn btn-primary" id="editSave" data-i18n="commons:button.save"></a>
+                        <a class="btn btn-primary" id="editCancel" data-i18n="commons:button.cancel"></a>
                         </div>
                     </div>
                 </div>
-                <div class="span8">
-                    <legend>Search an existing Appointment</legend>
-                    <label>Search Interval</label>
+                <div class="span8 run">
+                    <legend data-i18n="run.search.legend"></legend>
+                    <label data-i18n="run.search.label"></label>
 
                     <p><select id="searchDate">
-                        <option value="currentWeek" selected="true">Current week</option>
-                        <option value="lastWeek">Last week</option>
-                        <option value="currentMonth">Current month</option>
-                        <option value="prevMonth">Previous month</option>
-                        <option id="other">Other</option>
+                        <option value="currentWeek" selected="true" data-i18n="run.search.options.current-week"></option>
+                        <option value="lastWeek" data-i18n="run.search.options.last-week"></option>
+                        <option value="currentMonth" data-i18n="run.search.options.current-month"></option>
+                        <option value="prevMonth" data-i18n="run.search.options.previous-month"></option>
+                        <option id="other" data-i18n="run.search.options.other"></option>
                     </select>
-                        <a class="btn" id="search">Search</a></p>
+                        <a class="btn" id="search" data-i18n="run.search.search-button"></a></p>
                     <hr/>
                     <div id="appointmentResultList">
 
@@ -154,6 +151,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 
 <script src="../js/jquery.json-2.3.js"></script>
+<script src="../js/i18next-1.5.8.min.js"></script>
 <script src="../js/mustache.js"></script>
 <script src="../js/run.js"></script>
 <script src="../js/auth.js"></script>
@@ -168,21 +166,20 @@
     <div data-target="{{childId}}" class="liveKid">
          <img src="{{pictureUrl}}" style="width:50px; height:50px;" /><br/>{{firstName}}
     </div>
-
     {{/.}}
 </script>
 
 <script type="text/x-template" id="last-appointments-template">
-    <legend>Last 5 appointments</legend>
-    <table class="table table-striped" id="lastAppointments">
+    <legend class="last5-template" data-i18n="run.last5.legend"></legend>
+    <table class="table table-striped last5-template" id="lastAppointments">
         <thead>
         <tr>
-            <th>Arrival User</th>
-            <th>Arrival</th>
-            <th>Departure User</th>
-            <th>Departure</th>
-            <th>Kids</th>
-            <th>Duration</th>
+            <th data-i18n="run.commons.arrival-user"></th>
+            <th data-i18n="run.commons.arrival-date"></th>
+            <th data-i18n="run.commons.departure-user"></th>
+            <th data-i18n="run.commons.departure-date"></th>
+            <th data-i18n="run.commons.kids"></th>
+            <th data-i18n="run.commons.duration"></th>
         </tr>
         </thead>
         <tbody>
@@ -208,12 +205,12 @@
     <table class="table table-striped appointmentsContent">
         <thead>
         <tr>
-            <th>Arrival User</th>
-            <th>Arrival</th>
-            <th>Departure User</th>
-            <th>Departure</th>
-            <th>Kids</th>
-            <th>Edit</th>
+            <th data-i18n="run.commons.arrival-user"></th>
+            <th data-i18n="run.commons.arrival-date"></th>
+            <th data-i18n="run.commons.departure-user"></th>
+            <th data-i18n="run.commons.departure-date"></th>
+            <th data-i18n="run.commons.kids"></th>
+            <th data-i18n="run.commons.edit"></th>
         </tr>
         </thead>
         <tbody>

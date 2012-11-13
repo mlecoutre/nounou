@@ -5,6 +5,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/jquery-ui-1.9.1.custom.min.css" type="text/css"/>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
 </head>
 <body>
 <script src="../js/jquery-1.8.2.js"></script>
@@ -20,13 +21,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Nounou App!</a>
+            <a class="brand" href="/" data-i18n="commons:navbar.title"></a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/" data-i18n="commons:navbar.home"></a></li>
+                    <li><a href="/about" data-i18n="commons:navbar.about"></a></li>
+                    <li><a href="#contact" data-i18n="commons:navbar.contact"></a></li>
                 </ul>
                 <p class="navbar-text pull-right" id="authBox">
 
@@ -39,7 +40,7 @@
                 <p class="navbar-text pull-right hide" id="authBox_request">
                     <input class="span2" type="text" id="uid" placeholder="Email">
                     <input class="span2" type="password" id="pwd" placeholder="Password">
-                    <button type="submit" class="btn" id="signIn">Sign in</button>
+                    <button type="submit" class="btn" id="signIn" data-i18n="commons:auth.signin">Sign in</button>
                 </p>
 
             </div>
@@ -52,21 +53,20 @@
 
     <p>&nbsp;</p><br/>
 
-    <h2>Reports</h2>
-
+    <h2 class="report" data-i18n="report.title"></h2>
 
     <div class="tabbable tabs-left" style="width:90%">
-        <ul class="nav nav-tabs" id="reportTab">
-            <li><a href="#charts">Chart report</a></li>
-            <li><a href="#tableReports">Table report</a></li>
-            <li><a href="#options">Options</a></li>
+        <ul class="nav nav-tabs  report" id="reportTab">
+            <li><a href="#charts" data-i18n="report.tab.title.chart"></a></li>
+            <li><a href="#tableReports" data-i18n="report.tab.title.table"></a></li>
+            <li><a href="#options" data-i18n="report.tab.title.options"></a></li>
         </ul>
 
         <div class="tab-content">
 
 
             <div class="tab-pane active" id="charts">
-                <div id="container" style="height: 300px; min-width: 500px">
+                <div id="container" class="report-chart-container">
 
                 </div>
             </div>
@@ -97,26 +97,26 @@
     <!-- <script src="../js/backbone-min.js"></script>    0.9.2 -->
     <script src="../js/jquery.json-2.3.js"></script>
     <script src="../js/mustache.js"></script>
-    <script src="../js/report.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/utilities.js"></script>
     <script src="../js/highstock.js"></script>
     <script src="../js/highcharts-more.js"></script>
     <script type="text/javascript" src="../js/themes/gray.js"></script>
     <script src="../js/modules/exporting.js"></script>
+    <script type="text/javascript" src="../js/i18next-1.5.8.min.js"></script>
+    <script src="../js/report.js"></script>
 
-
-    <script type="text/x-template" id="last-appointments-template">
-        <legend id="totalMonth">total Month: 99:99</legend>
-        <table class="table table-striped" id="lastAppointments">
+    <script type="text/x-template" id="appointments-template">
+        <legend class="app-template" data-i18n="app-template.total-duration"></legend>
+        <table class="table table-striped app-template">
             <thead>
             <tr>
-                <th>Arrival User</th>
-                <th>Arrival</th>
-                <th>Departure User</th>
-                <th>Departure</th>
-                <th>Kid</th>
-                <th>Duration</th>
+                <th data-i18n="app-template.arrival-user"></th>
+                <th data-i18n="app-template.arrival-date"></th>
+                <th data-i18n="app-template.departure-user"></th>
+                <th data-i18n="app-template.departure-date"></th>
+                <th data-i18n="app-template.kid"></th>
+                <th data-i18n="app-template.duration"></th>
             </tr>
             </thead>
             <tbody>
@@ -126,7 +126,10 @@
                 <td>{{arrivalDate}}</td>
                 <td>{{departureUserName}}</td>
                 <td>{{departureDate}}</td>
-                <td>{{kidName}}</td>
+                <td>{{#children}}
+                    <img src="{{pictureUrl}}" class="small-picture" alt={{firstName}}/>
+                    {{/children}}
+                </td>
                 <td>{{duration}}</td>
             </tr>
             {{/.}}
