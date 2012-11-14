@@ -1,5 +1,11 @@
 package org.mat.nounou.services;
 
+import org.mat.nounou.model.User;
+import org.mat.nounou.servlets.EntityManagerLoaderListener;
+import org.mat.nounou.vo.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -9,10 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.mat.nounou.model.User;
-import org.mat.nounou.servlets.EntityManagerLoaderListener;
-import org.mat.nounou.vo.Token;
 
 /**
  * Basic auth service
@@ -24,10 +26,12 @@ import org.mat.nounou.vo.Token;
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(Token token) {
-        System.out.println("Auth for " + token.getUid());
+        logger.debug("Auth for " + token.getUid());
         User u = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
@@ -40,10 +44,10 @@ public class AuthenticationService {
             token.setUserName(u.getFirstName());
             token.setPassword("");//reset pwd to avoid resend it to the browser
         } catch (NoResultException nre) {
-            System.out.println("Invalid credential for " + token.getUid());
+            logger.error("Invalid credential for " + token.getUid());
             return Response.status(500).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("registerUser", e);
             return Response.status(500).build();
         } finally {
             em.close();

@@ -1,30 +1,26 @@
 package org.mat.nounou.services;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.mat.nounou.model.Account;
 import org.mat.nounou.model.User;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.UserVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Value Object for the User entity
@@ -35,18 +31,19 @@ import org.mat.nounou.vo.UserVO;
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(NurseService.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<UserVO> get() {
-        System.out.println("Get Users service");
+        logger.debug("Get Users service");
         return executeUserRequestList("FROM User", null);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(UserVO user) {
-        System.out.println("Register " + user);
+        logger.debug("Register " + user);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             User u = new User();
@@ -55,7 +52,7 @@ public class UserService {
             u.setUserId(null); //forced
             em.getTransaction().begin();
             if (user.getAccountId() == null) {
-                System.out.println("Create a new account.");
+                logger.debug("Create a new account.");
                 user.setNewUser(true);
                 account = new Account();
                 em.persist(account);
@@ -70,9 +67,9 @@ public class UserService {
             user.setAccountId(u.getAccount().getAccountId());
             user.setUserId(u.getUserId());
         } catch (NoResultException nre) {
-            System.out.println("ERROR no account found with accountId: " + user.getAccountId());
+            logger.warn("ERROR no account found with accountId: " + user.getAccountId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("registerUser", e);
         }    finally {
             em.close();
         }
@@ -101,12 +98,12 @@ public class UserService {
             if (user.getAccount() != null) {
                 u.setAccountId(user.getAccount().getAccountId());
             } else {
-                System.out.println("ERROR a user MUST be bound to an existing account");
+                logger.error("ERROR a user MUST be bound to an existing account");
             }
         } catch (NoResultException nre) {
-            System.out.println("No result found for userId=" + userId);
+            logger.warn("No result found for userId=" + userId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("findByAccountId", e);
         } finally {
             em.close();
         }
@@ -145,9 +142,9 @@ public class UserService {
                 vos.add(u);
             }
         } catch (NoResultException nre) {
-            System.out.println("No result found while search users " + nre.getMessage());
+            logger.warn("No result found while search users " + nre.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("executeUserRequestList", e);
         } finally {
             em.close();
         }
@@ -169,7 +166,7 @@ public class UserService {
             query.executeUpdate();
             em.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("deleteById", e);
             return Response.serverError().build();
         } finally {
             em.close();

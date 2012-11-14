@@ -1,26 +1,21 @@
 package org.mat.nounou.services;
 
-import java.util.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.mat.nounou.model.Account;
 import org.mat.nounou.model.Nurse;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.NurseVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.*;
 
 /**
  * Value Object for Nurse
@@ -31,11 +26,14 @@ import org.mat.nounou.vo.NurseVO;
 @Path("/nurses")
 @Produces(MediaType.APPLICATION_JSON)
 public class NurseService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(NurseService.class);
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<NurseVO> get() {
-        System.out.println("Get NurseVO service");
+        logger.debug("Get NurseVO service");
         List<NurseVO> nurses = new ArrayList<NurseVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
@@ -48,9 +46,9 @@ public class NurseService {
                 nurses.add(nvo);
             }
         } catch (NoResultException nre) {
-            System.out.println("No nurse found in the DB");
+            logger.warn("No nurse found in the DB");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR get", e);
         } finally {
             em.close();
         }
@@ -61,7 +59,7 @@ public class NurseService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public NurseVO registerNurse(NurseVO nurse) {
-        System.out.println("Register " + nurse);
+        logger.debug("Register " + nurse);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         Nurse entity = new Nurse();
         try {
@@ -77,7 +75,7 @@ public class NurseService {
             em.getTransaction().commit();
             nurse.setNurseId(entity.getNurseId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR registerNurse", e);
         } finally {
             em.close();
         }
@@ -103,9 +101,9 @@ public class NurseService {
             }
 
         } catch (NoResultException nre) {
-            System.out.println("No nurse result found for accountId:= " + accountId);
+            logger.warn("No nurse result found for accountId:= " + accountId) ;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR findByAccountId", e);
         } finally {
             em.close();
         }
@@ -129,7 +127,7 @@ public class NurseService {
 
             em.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR deleteForAnAccount", e);
             return Response.serverError().build();
         } finally {
             em.close();
@@ -158,7 +156,7 @@ public class NurseService {
             em.remove(n);
             em.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR deleteById", e);
             return Response.serverError().build();
         } finally {
             em.close();

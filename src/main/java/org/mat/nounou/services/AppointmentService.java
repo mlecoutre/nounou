@@ -1,21 +1,5 @@
 package org.mat.nounou.services;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.persistence.*;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.joda.time.DateTime;
 import org.mat.nounou.model.Appointment;
 import org.mat.nounou.model.Child;
@@ -26,6 +10,17 @@ import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
 import org.mat.nounou.vo.ChildVO;
 import org.mat.nounou.vo.ReportVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.*;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Value Object for Appointment
@@ -36,9 +31,12 @@ import org.mat.nounou.vo.ReportVO;
 @Path("/appointments")
 @Produces(MediaType.APPLICATION_JSON)
 public class AppointmentService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppointmentService.class);
+
     @GET
     public List<AppointmentVO> get() {
-        System.out.println("Appointment service");
+        logger.debug("Appointment service");
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         TypedQuery<Appointment> query = em.createQuery("FROM Appointment", Appointment.class);
         List<AppointmentVO> apps = new ArrayList<AppointmentVO>();
@@ -50,7 +48,7 @@ public class AppointmentService {
                 apps.add(appVo);
             }
         } catch (NoResultException nre) {
-            System.out.println("No appointment at this time");
+            logger.error("No appointment at this time");
         } finally {
             em.close();
         }
@@ -60,9 +58,9 @@ public class AppointmentService {
     @GET
     @Path("/{appointmentId}")
     public AppointmentVO getByAppointmentId(@PathParam("appointmentId") Integer appointmentId) {
-        System.out.println("Appointment service");
+        logger.debug("Appointment service");
         if (Check.checkIsEmptyOrNull(appointmentId)) {
-            System.out.printf("WARNING: Incorrect parameter for getByAppointmentId:%d\n", appointmentId);
+            logger.warn(String.format("WARNING: Incorrect parameter for getByAppointmentId:%d\n", appointmentId));
             return null;
         }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
@@ -73,7 +71,7 @@ public class AppointmentService {
             Appointment a = query.getSingleResult();
             appVo = populateAppoitmentVO(a);
         } catch (NoResultException nre) {
-            System.out.println("No appointment  with id:" + appointmentId);
+            logger.debug("No appointment  with id:" + appointmentId);
         } finally {
             em.close();
         }
@@ -90,12 +88,12 @@ public class AppointmentService {
     @GET
     @Path("/report/account/{accountId}/searchType/{searchType}")
     public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
-        System.out.println("getLastAppointments service");
+        logger.debug("getLastAppointments service");
         List<Double[]> data = new ArrayList<Double[]>();
         List<Double[]> dataRange = new ArrayList<Double[]>();
         //Check input parameters
         if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsEmptyOrNull(searchType)) {
-            System.out.printf("WARNING: Incorrect parameters accountId:%d, searchType:%s\n", accountId, searchType);
+            logger.warn(String.format("WARNING: Incorrect parameters accountId:%d, searchType:%s\n", accountId, searchType));
             return null;
         }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
@@ -170,7 +168,7 @@ public class AppointmentService {
                 vos.add(vo);
             }
         } catch (NoResultException nre) {
-            System.out.printf("ERROR: No result found with accountId:%d, searchType: %s\n", accountId, searchType);
+            logger.warn(String.format("ERROR: No result found with accountId:%d, searchType: %s\n", accountId, searchType));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -230,7 +228,7 @@ public class AppointmentService {
         boolean isAppExist = false;
         //Check input parameters
         if (Check.checkIsEmptyOrNull(accountId) || Check.checkIsEmptyOrNull(userId)) {
-            System.out.printf("WARNING: Incorrect parameters accountId:%d, userId:%d\n", accountId, userId);
+            logger.warn(String.format("WARNING: Incorrect parameters accountId:%d, userId:%d\n", accountId, userId));
             return null;
         }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
@@ -246,9 +244,9 @@ public class AppointmentService {
             Appointment appointment = qApp.getSingleResult(); //TODO manage several appointments per day
             vo = populateAppoitmentVO(appointment);
             isAppExist = true;
-            System.out.println("Retrieve existing Appointment. " + appointment);
+            logger.debug("Retrieve existing Appointment. " + appointment);
         } catch (NoResultException nre) {
-            System.out.println("No current appointment open; we need to create a new one.");
+            logger.info("No current appointment open; we need to create a new one.");
         }
 
         // Else Create a new appointment from blank
@@ -265,11 +263,10 @@ public class AppointmentService {
                 qUser.setParameter("userId", userId);
                 u = qUser.getSingleResult();
             } catch (NoResultException nre) {
-                System.out.printf("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId);
+                logger.error(String.format("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId));
                 return null;
             } catch (Exception e) {
-                System.out.printf("ERROR: Exception with parameters accountId:%d, userId:%d\n", accountId, userId);
-                e.printStackTrace();
+                logger.error(String.format("ERROR: Exception with parameters accountId:%d, userId:%d\n", accountId, userId), e);
                 return null;
             } finally {
                 em.close();
@@ -305,7 +302,7 @@ public class AppointmentService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public AppointmentVO registerAppointment(AppointmentVO appointment) {
-        System.out.println("register appointment " + appointment);
+        logger.debug("register appointment " + appointment);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         Appointment entity = null;
         try {
@@ -362,17 +359,14 @@ public class AppointmentService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{appointmentId}")
     public AppointmentVO saveAppointment(@PathParam("appointmentId") Integer appointmentId, AppointmentVO appointment) {
-        System.out.println("Update appointment " + appointment);
+        logger.debug("Update appointment " + appointment);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
 
         try {
-
             TypedQuery<Appointment> qApp = em.createQuery("FROM Appointment a WHERE appointmentId=:appointmentId", Appointment.class);
             qApp.setParameter("appointmentId", appointmentId);
             Appointment app = qApp.getSingleResult();
             User da, du = null;
-
-
             Query qChild = em.createQuery("FROM Child c WHERE childId IN :childIds");
             qChild.setParameter("childIds", appointment.getKidIds());
             List<Child> children = qChild.getResultList();
@@ -432,7 +426,7 @@ public class AppointmentService {
             em.remove(a);
             em.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR in deleteById", e);
         } finally {
             em.close();
         }
