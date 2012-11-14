@@ -1,7 +1,6 @@
 (function ($) {
 
     /** SECURITY PART **/
-
     var accountId = null;
     var userId = null;
 
@@ -10,6 +9,9 @@
      * Used for initialization and also for actions  in the page.
      **/
     var displayKidData = function () {
+        if(accountId == null){
+            return;
+        }
         var reqKid = $.ajax({
             type: 'GET',
             contentType: 'application/json',
@@ -56,6 +58,9 @@
     }
 
     var displayNurseData = function () {
+        if(accountId == null){
+                return;
+        }
         //get Nurse data.
         var reqNurse = $.ajax({
             type: 'GET',
@@ -84,6 +89,9 @@
     }
 
     var displayAccessListData = function () {
+        if(accountId == null){
+                    return;
+        }
         var reqAccount = $.ajax({
             type: 'GET',
             contentType: 'application/json',
@@ -114,18 +122,21 @@
             resGetPath: '/locales/__lng__/__ns__.json',
             ns : {
                     namespaces: ['registration', "commons"],
-                    defaultNs: 'registration'
-                 }
+                    defaultNs: 'registration',
+                 },
+            fallbackLng: 'en'
             }
         ).done(function(){
               $(".registration").i18n();
               $(".navbar").i18n();
         });
 
-    $("#kidBirthday").datepicker();
+
+        $("#kidBirthday").datepicker({ changeYear: true });
 
     $(document).ready(function () {
-        $.getScript("../js/auth.js", function () {});
+        $.getScript("../js/auth.js");
+
         var value = sessionStorage.getItem('apptoken');
         if (value != null && value != "") {
             var token = $.parseJSON(value);
@@ -133,6 +144,11 @@
             userId = token.userId;
             $('#registerTab a[href="#you"]').tab('show');
         }
+
+        $("#formUser").validate();
+        $("#formNurse").validate();
+        $("#formKid").validate();
+
         displayAccessListData();
         displayNurseData();
         displayKidData();

@@ -40,3 +40,23 @@ height:20px;
 height:300px;
 min-width:500px;
 }
+
+label {
+ width: 10em;
+ }
+
+label.error {
+ position:left;
+ width:80%;
+ _position: absolute;
+ text-shadow: 0 1px 0 rgba(0,0,0,.5);
+ color: red; padding-left: .5em;
+ vertical-align: top;
+ background-color: #de4343;
+ color:white;
+ border-color: #c43d3d;
+ border-radius:5px;
+ -moz-border-radius:5px;
+ }
+
+ }

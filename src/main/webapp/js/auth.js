@@ -18,6 +18,13 @@
 
 
 
+
+
+    $.fn.retrieveAccountId = function() {
+         console.log("retrieveAccountId: "+accountId);
+    };
+
+
     $('#signOut').click(function(e){
          sessionStorage.setItem('apptoken', '');
 

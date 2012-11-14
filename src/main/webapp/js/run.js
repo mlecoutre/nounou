@@ -65,6 +65,11 @@
         userId = token.userId;
     }
     $(document).ready(function () {
+
+         $("#arrivalDate").mask("99-99-9999 99:99");
+         $("#departureDate").mask("99-99-9999 99:99");
+         $("#editArrivalDate").mask("99-99-9999 99:99");
+         $("#editDepartureDate").mask("99-99-9999 99:99");
         // Get Current Appointment data
         var reqUser = $.ajax({
             type: 'GET',

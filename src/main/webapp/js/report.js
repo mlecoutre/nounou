@@ -13,9 +13,6 @@
           $(".navbar").i18n();
     });
 
-
-
-
     var value = sessionStorage.getItem('apptoken');
     var accountId = null;
     var userId = null;
