@@ -3,7 +3,10 @@
          "title"     :"Nounou App!",
          "home"      :"Accueil",
          "about"     :"Information",
-         "contact"   :"Contact"
+         "contact"   :"Contact",
+         "registration-title": "Données personnelles",
+         "run-title": "Rendez-vous",
+         "report-title":"Compte rendus"
      },
      "auth":{
         "signin"    : "Connexion",

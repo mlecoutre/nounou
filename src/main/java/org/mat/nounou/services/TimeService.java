@@ -57,9 +57,7 @@ public class TimeService {
 
     public static Double getDecimalTime(Date d) {
         DateTime dt = new DateTime(d);
-        System.out.println(dt);
         Double h = new Double(dt.get(DateTimeFieldType.hourOfDay()));
-        System.out.println("Hours: "+h);
         Double mn = new Double(dt.get(DateTimeFieldType.minuteOfHour()));
         mn = mn / 60f;
         double r =  h+mn;

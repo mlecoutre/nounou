@@ -1,6 +1,8 @@
 package org.mat.nounou.servlets;
 
 import org.mat.nounou.util.HerokuURLAnalyser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +20,7 @@ import java.util.Map;
  * @author mlecoutre
  */
 public class EntityManagerLoaderListener implements ServletContextListener {
+    private static final Logger logger = LoggerFactory.getLogger(EntityManagerLoaderListener.class);
 
     private String DEFAULT_DB_URL = "jdbc:h2:~/test.db";
     private static EntityManagerFactory emf;
@@ -32,28 +35,28 @@ public class EntityManagerLoaderListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        System.out.println("WebListener start entity manager");
+        logger.debug("WebListener start entity manager");
         String databaseUrl = System.getenv("DATABASE_URL");
 
         if (databaseUrl == null && pushAdditionalProperties) {
-            System.out.println("Use default config in persistence.xml with " + DEFAULT_DB_URL);
+            logger.debug("Use default config in persistence.xml with " + DEFAULT_DB_URL);
             databaseUrl = DEFAULT_DB_URL;
         }
         Map<String, String> properties = new HashMap<String, String>();
         if (pushAdditionalProperties) {
             HerokuURLAnalyser analyser = new HerokuURLAnalyser(databaseUrl);
 
-            System.out.println("SET JDBC URL TO " + analyser.getJdbcURL());
+            logger.debug("SET JDBC URL TO " + analyser.getJdbcURL());
             properties.put("javax.persistence.jdbc.url", analyser.getJdbcURL());
             properties.put("javax.persistence.jdbc.user", analyser.getUserName());
             properties.put("javax.persistence.jdbc.password", analyser.getPassword());
 
             if ("postgres".equals(analyser.getDbVendor())) {
-                System.out.println("SET DRIVER FOR postgres");
+                logger.debug("SET DRIVER FOR postgres");
                 properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
                 properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             } else if ("h2".equals(analyser.getDbVendor())) {
-                System.out.println("SET DRIVER FOR h2");
+                logger.debug("SET DRIVER FOR h2");
                 properties.put("javax.persistence.jdbc.driver", "org.h2.Driver");
             }
         }

@@ -63,7 +63,6 @@
             <version>4.1.4.Final</version>
         </dependency>
 
-        <!-- Hibernate uses jboss-logging for logging, for the tutorials we will use the sl4fj-simple backend -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
