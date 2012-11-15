@@ -171,7 +171,7 @@
 
     $("#kidBirthday").datepicker({
         changeYear: true,
-        dateFormat: 'dd-mm-yyyy'
+        dateFormat: 'dd/mm/yy'
     });
 
     $(document).ready(function () {
