@@ -9,7 +9,7 @@
      * Used for initialization and also for actions  in the page.
      **/
     var displayKidData = function () {
-        if(accountId == null){
+        if (accountId == null) {
             return;
         }
         var reqKid = $.ajax({
@@ -52,14 +52,14 @@
                     $('#cancelKid').show();
                     $('#updateKid').show();
                     $('#addKid').hide();
-              });
+                });
             });
         });
     }
 
     var displayNurseData = function () {
-        if(accountId == null){
-                return;
+        if (accountId == null) {
+            return;
         }
         //get Nurse data.
         var reqNurse = $.ajax({
@@ -78,7 +78,7 @@
                 var reqDel = $.ajax({
                     type: 'GET',
                     contentType: 'application/json',
-                    url: '/services/nurses/delete/' + nurseId+'/accountId/'+accountId
+                    url: '/services/nurses/delete/' + nurseId + '/accountId/' + accountId
                 });
                 reqDel.done(function (e) {
                     console.log("Nurse deleted");
@@ -89,8 +89,8 @@
     }
 
     var displayAccessListData = function () {
-        if(accountId == null){
-                    return;
+        if (accountId == null) {
+            return;
         }
         var reqAccount = $.ajax({
             type: 'GET',
@@ -118,21 +118,22 @@
     }
 
     /** PAGE INITIALIZATION **/
-        $.i18n.init( {
-            resGetPath: '/locales/__lng__/__ns__.json',
-            ns : {
-                    namespaces: ['registration', "commons"],
-                    defaultNs: 'registration',
-                 },
-            fallbackLng: 'en'
-            }
-        ).done(function(){
-              $(".registration").i18n();
-              $(".navbar").i18n();
-        });
+    $.i18n.init({
+        resGetPath: '/locales/__lng__/__ns__.json',
+        ns: {
+            namespaces: ['registration', "commons"],
+            defaultNs: 'registration',
+        },
+        fallbackLng: 'en'
+    }).done(function () {
+        $(".registration").i18n();
+        $(".navbar").i18n();
+    });
 
 
-        $("#kidBirthday").datepicker({ changeYear: true });
+    $("#kidBirthday").datepicker({
+        changeYear: true
+    });
 
     $(document).ready(function () {
         $.getScript("../js/auth.js");
@@ -145,14 +146,21 @@
             $('#registerTab a[href="#you"]').tab('show');
         }
 
-        $("#formUser").validate();
+        $("#formUser").validate({
+            rules: {
+                userPassword: "required",
+                secondUserPassword: {
+                    equalTo: "#userPassword"
+                }
+             }
+        });
         $("#formNurse").validate();
         $("#formKid").validate();
 
         displayAccessListData();
         displayNurseData();
         displayKidData();
-    });
+        });
 
     /** PAGE NAVIGATION **/
     $('#registerTab a').click(function (e) {
@@ -215,10 +223,10 @@
                 sessionStorage.setItem('apptoken', data);
             }
             var value = sessionStorage.getItem('apptoken');
-                        if (value != null && value != "") {
-                            var token = $.parseJSON(value);
-                            accountId = token.accountId;
-                            userId = token.userId;
+            if (value != null && value != "") {
+                var token = $.parseJSON(value);
+                accountId = token.accountId;
+                userId = token.userId;
             }
             $.getScript("../js/auth.js");
             displayAccessListData();
@@ -269,41 +277,41 @@
         });
     });
 
-       $('#cancelKid').click(function (e) {
-             $('#cancelKid').hide();
-             $('#updateKid').hide();
-             $('#addKid').show();
-       });
+    $('#cancelKid').click(function (e) {
+        $('#cancelKid').hide();
+        $('#updateKid').hide();
+        $('#addKid').show();
+    });
 
-          $('#updateKid').click(function (e) {
-                 var kidId = $('#editKidId').val();
-                 if(kidId == null){
-                    alert('no kidId');
-                    return;
-                 }
-                 var mKid = {
-                          firstName: $('#kidFirstName').val(),
-                          lastName: $('#kidLastName').val(),
-                          birthday: $('#kidBirthday').val(),
-                          nurseId: $('#nurseId').val(),
-                          pictureUrl: $('#kidPicture').val(),
-                          accountId: accountId
-                      };
-                      var data = $.toJSON(mKid);
-                      var reqKid = $.ajax({
-                          type: 'POST',
-                          contentType: 'application/json',
-                          url: '/services/children/'+kidId,
-                          dataType: "json",
-                          data: data,
-                      });
-                      reqKid.done(function (kid) {
-                          displayKidData();
-                      });
+    $('#updateKid').click(function (e) {
+        var kidId = $('#editKidId').val();
+        if (kidId == null) {
+            alert('no kidId');
+            return;
+        }
+        var mKid = {
+            firstName: $('#kidFirstName').val(),
+            lastName: $('#kidLastName').val(),
+            birthday: $('#kidBirthday').val(),
+            nurseId: $('#nurseId').val(),
+            pictureUrl: $('#kidPicture').val(),
+            accountId: accountId
+        };
+        var data = $.toJSON(mKid);
+        var reqKid = $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/services/children/' + kidId,
+            dataType: "json",
+            data: data,
+        });
+        reqKid.done(function (kid) {
+            displayKidData();
+        });
 
 
-                    $('#cancelKid').hide();
-                    $('#updateKid').hide();
-                    $('#addKid').show();
-          });
-})(jQuery);
+        $('#cancelKid').hide();
+        $('#updateKid').hide();
+        $('#addKid').show();
+    });
+    })(jQuery);

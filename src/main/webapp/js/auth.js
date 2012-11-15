@@ -43,7 +43,7 @@
     $('#signIn').click(function (e) {
         var token = {
             uid      :  $('#uid').val(),
-            password :  $('#pwd').val()
+            password :  $('#password').val()
         };
         var data = $.toJSON(token);
         console.log("Auth: " + token.uid)
