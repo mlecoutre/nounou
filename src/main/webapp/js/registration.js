@@ -175,8 +175,7 @@
     });
 
     $(document).ready(function () {
-        $.getScript("../js/auth.js");
-
+        $('#authBox').initAuthBox();
         var value = sessionStorage.getItem('apptoken');
         if (value != null && value != "") {
             var token = $.parseJSON(value);
@@ -226,7 +225,7 @@
     })
 
     /** PAGE ACTIONS **/
-    $('#registerUser').click(function (e) {
+    $('#addUser').click(function (e) {
         console.log("[START] registerUser " + $('#userFirstName').val());
         var mUser = {
             firstName: $('#userFirstName').val(),
@@ -252,22 +251,11 @@
             console.log("User created " + user);
             $('#whiteAccessList').append(Mustache.to_html($('#whiteAccesUser-template').html(), user));
             if (user.newUser) {
-                console.log("new user created");
-                var token = {
-                    userId: user.userId,
-                    accountId: user.accountId,
-                    userName: user.firstName,
-                };
-                data = $.toJSON(token);
-                sessionStorage.setItem('apptoken', data);
+                $('#authBox').autologin(user);
+                 //set global data
+                 accountId = user.accountId;
+                 userId = user.userId;
             }
-            var value = sessionStorage.getItem('apptoken');
-            if (value != null && value != "") {
-                var token = $.parseJSON(value);
-                accountId = token.accountId;
-                userId = token.userId;
-            }
-            $.getScript("../js/auth.js");
             displayAccessListData();
         });
         console.log("[END] register user");

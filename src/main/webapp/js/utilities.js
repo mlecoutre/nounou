@@ -14,9 +14,5 @@
             $.getScript("../js/validation-locale/messages_"+language+".js");
         }
 
-        jQuery.validator.setDefaults({
-        	debug: true,
-        	success: "valid"
-        });
     });
 })(jQuery);

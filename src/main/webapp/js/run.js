@@ -27,7 +27,7 @@
     }
 
     var initAppointment = function () {
-          if (accountId == null) return;
+        if (accountId == null) return;
         // Initialize an appointment or get an open appointment.
         var reqApp = $.ajax({
             type: 'GET',
@@ -58,20 +58,21 @@
         $(".run").i18n();
         $(".navbar").i18n();
     });
-    var value = sessionStorage.getItem('apptoken');
-    var accountId = null;
-    var userId = null;
-    if (value != null && value != "") {
-        var token = $.parseJSON(value);
-        accountId = token.accountId;
-        userId = token.userId;
-    }
+
     $(document).ready(function () {
 
         $("#arrivalDate").mask("99-99-9999 99:99");
         $("#departureDate").mask("99-99-9999 99:99");
         $("#editArrivalDate").mask("99-99-9999 99:99");
         $("#editDepartureDate").mask("99-99-9999 99:99");
+        $('#authBox').initAuthBox();
+        var value = sessionStorage.getItem('apptoken');
+        if (value != null && value != "") {
+            var token = $.parseJSON(value);
+            accountId = token.accountId;
+            userId = token.userId;
+            $('#registerTab a[href="#you"]').tab('show');
+        }
         // Get Current Appointment data
         if (accountId == null) return;
         var reqUser = $.ajax({
@@ -150,7 +151,7 @@
             dataType: "json",
             data: data,
         });
-        req.done(function(){
+        req.done(function () {
             initAppointment();
             last5();
         });
