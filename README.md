@@ -42,3 +42,4 @@ $ java -jar target/dependency/webapp-runner.jar target/*.war
 * http://jsonformatter.curiousconcept.com/#jsonformatter
 * http://jsbeautifier.org/
 * http://www.codebeautifier.com/?lang=fr
+* http://jsfiddle.net/
