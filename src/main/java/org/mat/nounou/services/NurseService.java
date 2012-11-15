@@ -26,9 +26,8 @@ import java.util.*;
 @Path("/nurses")
 @Produces(MediaType.APPLICATION_JSON)
 public class NurseService {
-    
-    private static final Logger logger = LoggerFactory.getLogger(NurseService.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(NurseService.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +54,28 @@ public class NurseService {
         return nurses;
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{nurseId}")
+    public NurseVO getByNurseId(@PathParam("nurseId") Integer nurseId) {
+        logger.debug("Get Nurse by Id service");
+        NurseVO nvo = new NurseVO();
+        List<NurseVO> nurses = new ArrayList<NurseVO>();
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        try {
+            Nurse nurse = em.find(Nurse.class, nurseId);
+            BeanUtils.populate(nvo, BeanUtils.describe(nurse));
+            nurses.add(nvo);
+        } catch (NoResultException nre) {
+            logger.warn("No nurse found in the DB");
+        } catch (Exception e) {
+            logger.error("ERROR get", e);
+        } finally {
+            em.close();
+        }
+        return nvo;
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -63,10 +84,7 @@ public class NurseService {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         Nurse entity = new Nurse();
         try {
-            TypedQuery<Account> query = em.createQuery("FROM Account a WHERE a.accountId=:accountId", Account.class);
-            query.setParameter("accountId", nurse.getAccountId());
-            Account account = query.getSingleResult();
-
+            Account account = em.find(Account.class, nurse.getAccountId());
             BeanUtils.populate(entity, BeanUtils.describe(nurse));
             entity.setNurseId(null);
             em.getTransaction().begin();
@@ -76,6 +94,30 @@ public class NurseService {
             nurse.setNurseId(entity.getNurseId());
         } catch (Exception e) {
             logger.error("ERROR registerNurse", e);
+        } finally {
+            em.close();
+        }
+        return nurse;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{nurseId}")
+    public NurseVO UpdateNurse(NurseVO nurse,@PathParam("nurseId") Integer nurseId) {
+        logger.debug("Update " + nurse);
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        Nurse entity = new Nurse();
+        try {
+            em.getTransaction().begin();
+            Nurse n = em.find(Nurse.class, nurse.getNurseId());
+            n.setFirstName(nurse.getFirstName());
+            n.setLastName(nurse.getLastName());
+            n.setPhoneNumber(nurse.getPhoneNumber());
+            em.getTransaction().commit();
+            nurse.setNurseId(entity.getNurseId());
+        } catch (Exception e) {
+            logger.error("ERROR UpdateNurse", e);
         } finally {
             em.close();
         }
@@ -99,9 +141,8 @@ public class NurseService {
                 BeanUtils.populate(nvo, BeanUtils.describe(n));
                 nurses.add(nvo);
             }
-
         } catch (NoResultException nre) {
-            logger.warn("No nurse result found for accountId:= " + accountId) ;
+            logger.warn("No nurse result found for accountId:= " + accountId);
         } catch (Exception e) {
             logger.error("ERROR findByAccountId", e);
         } finally {
@@ -116,15 +157,9 @@ public class NurseService {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
-            TypedQuery<Nurse> query = em.createQuery("FROM Nurse WHERE nurseId=:nurseId", Nurse.class);
-            query.setParameter("nurseId", nurseId);
-            Nurse n = query.getSingleResult();
-
-            TypedQuery<Account> accQuery = em.createQuery("FROM  Account a WHERE a.accountId=:accountId", Account.class);
-            accQuery.setParameter("accountId", accountId);
-            Account account = accQuery.getSingleResult();
+            Nurse n = em.find(Nurse.class, nurseId);
+            Account account = em.find(Account.class, accountId);
             account.getNurses().remove(n);
-
             em.getTransaction().commit();
         } catch (Exception e) {
             logger.error("ERROR deleteForAnAccount", e);
@@ -142,15 +177,12 @@ public class NurseService {
         try {
 
             em.getTransaction().begin();
-            TypedQuery<Nurse> query = em.createQuery("FROM Nurse WHERE nurseId=:nurseId", Nurse.class);
-            query.setParameter("nurseId", nurseId);
-            Nurse n = query.getSingleResult();
-
+            Nurse n = em.find(Nurse.class, nurseId);
             TypedQuery<Set> accQuery = em.createQuery("SELECT n.employers FROM  Nurse n WHERE n.nurseId=:nurseId", Set.class);
             accQuery.setParameter("nurseId", nurseId);
             List accounts = accQuery.getResultList();
             for (Object a : accounts) {
-                Account account =(Account) a;
+                Account account = (Account) a;
                 account.getNurses().remove(n);
             }
             em.remove(n);

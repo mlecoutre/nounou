@@ -19,33 +19,35 @@
             <a class="brand" href="/" data-i18n="commons:navbar.title"></a>
 
 
-                <ul class="nav">
-                    <li><a href="/" data-i18n="commons:navbar.home"></a></li>
-                    <li><a href="/about" data-i18n="commons:navbar.about"></a></li>
-                    <li><a href="#contact" data-i18n="commons:navbar.contact"></a></li>
-                    <li class="dropdown">
-                        <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Actions<b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                            <li><a tabindex="-1" href="/registration" data-i18n="commons:navbar.registration-title"></a></li>
-                            <li><a tabindex="-1" href="/run" data-i18n="commons:navbar.run-title"></a></li>
-                            <li><a tabindex="-1" href="/report" data-i18n="commons:navbar.report-title"></a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <ul class="nav">
+                <li><a href="/" data-i18n="commons:navbar.home"></a></li>
+                <li><a href="/about" data-i18n="commons:navbar.about"></a></li>
+                <li><a href="#contact" data-i18n="commons:navbar.contact"></a></li>
+                <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Actions<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li><a tabindex="-1" href="/registration" data-i18n="commons:navbar.registration-title"></a>
+                        </li>
+                        <li><a tabindex="-1" href="/run" data-i18n="commons:navbar.run-title"></a></li>
+                        <li><a tabindex="-1" href="/report" data-i18n="commons:navbar.report-title"></a></li>
+                    </ul>
+                </li>
+            </ul>
 
-                <p class="navbar-text pull-right" id="authBox">
+            <p class="navbar-text pull-right" id="authBox">
 
-                </p>
+            </p>
 
-                <p class="navbar-text pull-right hide" id="loadingIndicator">
-                    <img src="../img/ajax-loader.gif"/>
-                </p>
+            <p class="navbar-text pull-right hide" id="loadingIndicator">
+                <img src="../img/ajax-loader.gif"/>
+            </p>
 
-                <p class="navbar-text pull-right hide" id="authBox_request">
-                    <input class="span2" type="text" id="uid" placeholder="Email">
-                    <input class="span2" type="password" id="password" placeholder="Password">
-                    <button type="submit" class="btn" id="signIn" data-i18n="commons:auth.signin"></button>
-                </p>
+            <p class="navbar-text pull-right hide" id="authBox_request">
+                <input class="span2" type="text" id="uid" placeholder="Email">
+                <input class="span2" type="password" id="password" placeholder="Password">
+                <button type="submit" class="btn" id="signIn" data-i18n="commons:auth.signin"></button>
+            </p>
             <!--/.nav-collapse -->
         </div>
     </div>
@@ -62,7 +64,6 @@
         <li><a href="#you" data-i18n="registration.tab.you-title"></a></li>
         <li><a href="#nurse" data-i18n="registration.tab.nurse-title"></a></li>
         <li><a href="#kids" data-i18n="registration.tab.kids-title"></a></li>
-
     </ul>
 
     <div class="tab-content">
@@ -80,19 +81,21 @@
         <div class="tab-pane" id="you"> <!--  TAB YOU -->
             <div class="row">
                 <form id="formUser" class="span4 registration">
+                    <input type="hidden" id="editUserId" />
                     <label for="userFirstName" data-i18n="registration.firstName"></label>
-                    <input type="text" id="userFirstName"  class="required" placeholder="your first name">
+                    <input type="text" id="userFirstName" class="required" placeholder="your first name">
                     <label for="userLastName" data-i18n="registration.lastName"></label>
-                    <input type="text" id="userLastName"  class="required" placeholder="your last name">
+                    <input type="text" id="userLastName" class="required" placeholder="your last name">
                     <label for="userPhoneNumber" data-i18n="registration.phoneNumber"></label>
                     <input type="text" id="userPhoneNumber" placeholder="phone number">
-                    <label for="userEmail" data-i18n="registration.email" ></label>
+                    <label for="userEmail" data-i18n="registration.email"></label>
                     <input type="text" id="userEmail" placeholder="Email" class="required email">
                     <label for="userPassword" data-i18n="registration.password"></label>
                     <input type="password" name="userPassword" id="userPassword" placeholder="your password">
                     <label for="secondUserPassword" data-i18n="registration.repassword"></label>
-                    <input type="password" name="secondUserPassword" id="secondUserPassword" placeholder="re enter your password">
-                    <label  for="userType"  data-i18n="registration.who"></label>
+                    <input type="password" name="secondUserPassword" id="secondUserPassword"
+                           placeholder="re enter your password">
+                    <label for="userType" data-i18n="registration.who"></label>
                     <select id="userType">
                         <option></option>
                         <option data-i18n="registration.type.mother"></option>
@@ -102,8 +105,13 @@
                         <option data-i18n="registration.type.friends"></option>
                         <option data-i18n="registration.type.other"></option>
                     </select>
-                    <button type="submit" class="btn" id="registerUser" data-i18n="commons:button.add"></button>
 
+                    <p>
+                        <button type="submit" class="btn" id="addUser" data-i18n="commons:button.add"></button>
+                        <button type="button" id="updateUser" class="btn hide" data-i18n="commons:button.save"></button>
+                        <button type="button" id="cancelUser" class="btn hide"
+                                data-i18n="commons:button.cancel"></button>
+                    </p>
                 </form>
                 <div class="span8" id="whiteAccessList">
                 </div>
@@ -115,20 +123,29 @@
         <div class="tab-pane" id="nurse">
             <div class="row">
                 <form id="formNurse" class="span4 registration">
+                    <input type="hidden" id="editNurseId"/>
                     <label data-i18n="registration.firstName"></label>
                     <input type="text" id="nurseFirstName" placeholder="First name" class="required">
                     <label data-i18n="registration.lastName"></label>
                     <input type="text" id="nurseLastName" placeholder="Last name">
                     <label data-i18n="registration.phoneNumber"></label>
                     <input type="text" id="nursePhoneNumber" placeholder="Phone Number">
-                    <button type="button" id="addNurse" class="btn" data-i18n="commons:button.add"></button>
+
+                    <p>
+                        <button type="button" id="addNurse" class="btn" data-i18n="commons:button.add"></button>
+                        <button type="button" id="updateNurse" class="btn hide"
+                                data-i18n="commons:button.save"></button>
+                        <button type="button" id="cancelNurse" class="btn hide"
+                                data-i18n="commons:button.cancel"></button>
+                    </p>
                 </form>
                 <div class="span8" id="nurseList">
                     <legend class="registration" data-i18n="registration.nurse.title"></legend>
                 </div>
 
             </div>
-            <p class="registration"><a class="btn btn-primary" id="nursePrevious" data-i18n="commons:button.previous"></a>
+            <p class="registration"><a class="btn btn-primary" id="nursePrevious"
+                                       data-i18n="commons:button.previous"></a>
                 <a class="btn btn-primary" id="nurseNext" data-i18n="commons:button.next"></a>
             </p></div>
         <div class="tab-pane" id="kids">
@@ -158,7 +175,8 @@
                 <div class="span8" id="kidList">
                 </div>
             </div>
-            <p class="registration"><a class="btn btn-primary" id="kidsPrevious" data-i18n="commons:button.previous"></a></p>
+            <p class="registration"><a class="btn btn-primary" id="kidsPrevious"
+                                       data-i18n="commons:button.previous"></a></p>
         </div>
     </div>
     <hr>

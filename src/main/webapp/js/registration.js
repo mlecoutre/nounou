@@ -84,6 +84,25 @@
                     console.log("Nurse deleted");
                     displayNurseData();
                 });
+
+            });
+            $(".editNurse").click(function () {
+                var nurseId = $(this).attr('data-target');
+                console.log('Edit a nurse:' + nurseId);
+                var reqEdit = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/nurses/' + nurseId
+                });
+                reqEdit.done(function (nurse) {
+                    $('#nurseFirstName').val(nurse.firstName);
+                    $('#nurseLastName').val(nurse.lastName);
+                    $('#nursePhoneNumber').val(nurse.phoneNumber);
+                    $('#editNurseId').val(nurse.nurseId);
+                    $('#cancelNurse').show();
+                    $('#updateNurse').show();
+                    $('#addNurse').hide();
+                });
             });
         });
     }
@@ -114,6 +133,26 @@
                     displayAccessListData();
                 });
             });
+            $(".editUser").click(function () {
+                var userId = $(this).attr('data-target');
+                console.log('Edit a user:' + userId);
+                var reqEdit = $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: '/services/users/' + userId
+                });
+                reqEdit.done(function (user) {
+                    $('#userFirstName').val(user.firstName);
+                    $('#userLastName').val(user.lastName);
+                    $('#userPhoneNumber').val(user.phoneNumber);
+                    $('#userEmail').val(user.email);
+                    $('#userType').val(user.type);
+                    $('#editUserId').val(user.userId);
+                    $('#cancelUser').show();
+                    $('#updateUser').show();
+                    $('#addUser').hide();
+                });
+            });
         });
     }
 
@@ -130,9 +169,9 @@
         $(".navbar").i18n();
     });
 
-
     $("#kidBirthday").datepicker({
-        changeYear: true
+        changeYear: true,
+        dateFormat: 'dd-mm-yyyy'
     });
 
     $(document).ready(function () {
@@ -152,7 +191,7 @@
                 secondUserPassword: {
                     equalTo: "#userPassword"
                 }
-             }
+            }
         });
         $("#formNurse").validate();
         $("#formKid").validate();
@@ -160,7 +199,7 @@
         displayAccessListData();
         displayNurseData();
         displayKidData();
-        });
+    });
 
     /** PAGE NAVIGATION **/
     $('#registerTab a').click(function (e) {
@@ -282,6 +321,16 @@
         $('#updateKid').hide();
         $('#addKid').show();
     });
+    $('#cancelUser').click(function (e) {
+        $('#cancelUser').hide();
+        $('#updateUser').hide();
+        $('#adsUser').show();
+    });
+    $('#cancelNurse').click(function (e) {
+        $('#cancelNurse').hide();
+        $('#updateNurse').hide();
+        $('#addNurse').show();
+    });
 
     $('#updateKid').click(function (e) {
         var kidId = $('#editKidId').val();
@@ -307,11 +356,70 @@
         });
         reqKid.done(function (kid) {
             displayKidData();
+            $('#cancelKid').hide();
+            $('#updateKid').hide();
+            $('#addKid').show();
+        });
+    });
+
+      $('#updateNurse').click(function (e) {
+            var nurseId = $('#editNurseId').val();
+            if (nurseId == null) {
+                alert('no nurseId');
+                return;
+            }
+            var mNurse = {
+                firstName: $('#nurseFirstName').val(),
+                lastName: $('#nurseLastName').val(),
+                phoneNumber: $('#nursePhoneNumber').val(),
+                nurseId: $('#nurseId').val(),
+                accountId: accountId,
+            };
+            var data = $.toJSON(mNurse);
+            var reqNurse = $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/services/nurses/' + nurseId,
+                dataType: "json",
+                data: data,
+            });
+            reqNurse.done(function (nurse) {
+                displayNurseData();
+                $('#cancelNurse').hide();
+                $('#updateNurse').hide();
+                $('#addNurse').show();
+            });
         });
 
-
-        $('#cancelKid').hide();
-        $('#updateKid').hide();
-        $('#addKid').show();
-    });
-    })(jQuery);
+      $('#updateUser').click(function (e) {
+            var userId = $('#editUserId').val();
+            if (userId == null) {
+                alert('no userUd');
+                return;
+            }
+            var mUser = {
+                firstName: $('#userFirstName').val(),
+                lastName: $('#userLastName').val(),
+                phoneNumber: $('#userPhoneNumber').val(),
+                email: $('#userEmail').val(),
+                password: $('#userPassword').val(),
+                userId: $('#editUserId').val(),
+                type: $('#userType').val(),
+                accountId: accountId,
+            };
+            var data = $.toJSON(mUser);
+            var reqUser = $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/services/users/' + userId,
+                dataType: "json",
+                data: data,
+            });
+            reqUser.done(function (user) {
+                displayAccessListData();
+                $('#cancelUser').hide();
+                $('#updateUser').hide();
+                $('#addUser').show();
+            });
+        });
+})(jQuery);

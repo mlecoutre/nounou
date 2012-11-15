@@ -16,10 +16,6 @@
                 $('#authBox').hide();
          }
 
-
-
-
-
     $.fn.retrieveAccountId = function() {
          console.log("retrieveAccountId: "+accountId);
     };

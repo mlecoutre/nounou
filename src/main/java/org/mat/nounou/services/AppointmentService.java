@@ -44,7 +44,7 @@ public class AppointmentService {
             query.setMaxResults(Constants.MAX_RESULT);
             List<Appointment> appointments = query.getResultList();
             for (Appointment a : appointments) {
-                AppointmentVO appVo = populateAppoitmentVO(a);
+                AppointmentVO appVo = populateAppointmentVO(a);
                 apps.add(appVo);
             }
         } catch (NoResultException nre) {
@@ -64,12 +64,10 @@ public class AppointmentService {
             return null;
         }
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
-        TypedQuery<Appointment> query = em.createQuery("FROM Appointment WHERE appointmentId=:appointmentId", Appointment.class);
-        query.setParameter("appointmentId", appointmentId);
         AppointmentVO appVo = null;
         try {
-            Appointment a = query.getSingleResult();
-            appVo = populateAppoitmentVO(a);
+            Appointment a = em.find(Appointment.class, appointmentId);
+            appVo = populateAppointmentVO(a);
         } catch (NoResultException nre) {
             logger.debug("No appointment  with id:" + appointmentId);
         } finally {
@@ -149,7 +147,7 @@ public class AppointmentService {
             List<Appointment> appointments = query.getResultList();
             //populate list of appointments
             for (Appointment app : appointments) {
-                AppointmentVO vo = populateAppoitmentVO(app);
+                AppointmentVO vo = populateAppointmentVO(app);
 
                 //calculate duration
                 if (app.getDepartureDate() != null && app.getArrivalDate() != null) {
@@ -185,7 +183,7 @@ public class AppointmentService {
         return reportVO;
     }
 
-    public static AppointmentVO populateAppoitmentVO(Appointment a) {
+    public static AppointmentVO populateAppointmentVO(Appointment a) {
         AppointmentVO appVo = new AppointmentVO();
         appVo.setAppointmentId(a.getAppointmentId());
         if (a.getArrivalDate() != null)
@@ -242,7 +240,7 @@ public class AppointmentService {
 
         try {
             Appointment appointment = qApp.getSingleResult(); //TODO manage several appointments per day
-            vo = populateAppoitmentVO(appointment);
+            vo = populateAppointmentVO(appointment);
             isAppExist = true;
             logger.debug("Retrieve existing Appointment. " + appointment);
         } catch (NoResultException nre) {
@@ -259,9 +257,7 @@ public class AppointmentService {
                 qChild.setParameter("accountId", accountId);
                 children = qChild.getResultList();
                 //get User
-                TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
-                qUser.setParameter("userId", userId);
-                u = qUser.getSingleResult();
+                u = em.find(User.class, userId);
             } catch (NoResultException nre) {
                 logger.error(String.format("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId));
                 return null;
@@ -293,8 +289,6 @@ public class AppointmentService {
             vo.setDepartureDate(dateStr);
             //vo.setDeclarationType("departure");
         }
-
-
         return vo;
     }
 
@@ -321,9 +315,7 @@ public class AppointmentService {
             qChild.setParameter("childIds", appointment.getKidIds());
             List<Child> children = qChild.getResultList();
 
-            TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
-            qUser.setParameter("userId", appointment.getCurrentUserId());
-            User u = qUser.getSingleResult();
+            User u = em.find(User.class, appointment.getCurrentUserId());
             Date d = null;
 
             if (appointment.getArrivalDate() != null && !"".equals(appointment.getArrivalDate())) {
@@ -353,7 +345,6 @@ public class AppointmentService {
         return appointment;
     }
 
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -363,25 +354,18 @@ public class AppointmentService {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
 
         try {
-            TypedQuery<Appointment> qApp = em.createQuery("FROM Appointment a WHERE appointmentId=:appointmentId", Appointment.class);
-            qApp.setParameter("appointmentId", appointmentId);
-            Appointment app = qApp.getSingleResult();
+            Appointment app = em.find(Appointment.class, appointmentId);
             User da, du = null;
             Query qChild = em.createQuery("FROM Child c WHERE childId IN :childIds");
             qChild.setParameter("childIds", appointment.getKidIds());
             List<Child> children = qChild.getResultList();
             if (appointment.getCurrentUserId() == null) {
-                TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
-                qUser.setParameter("userId", appointment.getDepartureUserId());
-                du = qUser.getSingleResult();
-                qUser.setParameter("userId", appointment.getArrivalUserId());
-                da = qUser.getSingleResult();
+                 du = em.find(User.class,  appointment.getDepartureUserId());
+                 da = em.find(User.class,  appointment.getArrivalUserId());
                 app.setDepartureUser(du);
                 app.setArrivalUser(da);
             } else { // live editing
-                TypedQuery<User> qUser = em.createQuery("FROM User c WHERE userId=:userId", User.class);
-                qUser.setParameter("userId", appointment.getCurrentUserId());
-                du = qUser.getSingleResult();
+                du = em.find(User.class, appointment.getDepartureUserId());
                 if (app != null && app.getArrivalUser() == null) {
                     app.setArrivalUser(du);
                 }
@@ -390,8 +374,6 @@ public class AppointmentService {
                 }
             }
             Date d = null;
-
-
             d = Constants.sdf.parse(appointment.getArrivalDate());
             app.setArrivalDate(d);
             d = Constants.sdf.parse(appointment.getDepartureDate());
@@ -411,19 +393,14 @@ public class AppointmentService {
         return appointment;
     }
 
-
     @GET
     @Path("/delete/{appointmentId}")
     public Response deleteById(@PathParam("appointmentId") Integer appointmentId) {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
-            /* Query queryChildren = em.createQuery("DELETE FROM Appointment.children WHERE appointmentId=:appointmentId");
-            queryChildren.executeUpdate();*/
-            TypedQuery<Appointment> query = em.createQuery("FROM Appointment WHERE appointmentId=:appointmentId", Appointment.class);
-            query.setParameter("appointmentId", appointmentId);
-            Appointment a = query.getSingleResult();
-            em.remove(a);
+            Appointment app = em.find(Appointment.class, appointmentId);
+            em.remove(app);
             em.getTransaction().commit();
         } catch (Exception e) {
             logger.error("ERROR in deleteById", e);
@@ -432,6 +409,4 @@ public class AppointmentService {
         }
         return Response.ok().build();
     }
-
-
 }

@@ -57,9 +57,7 @@ public class UserService {
                 account = new Account();
                 em.persist(account);
             } else {
-                TypedQuery<Account> tQ = em.createQuery("FROM Account where accountId=:accountId", Account.class);
-                tQ.setParameter("accountId", user.getAccountId());
-                account = tQ.getSingleResult();
+                account = em.find(Account.class, user.getAccountId());
             }
             u.setAccount(account);
             em.persist(u);
@@ -70,11 +68,36 @@ public class UserService {
             logger.warn("ERROR no account found with accountId: " + user.getAccountId());
         } catch (Exception e) {
             logger.error("registerUser", e);
-        }    finally {
+        } finally {
             em.close();
         }
-        return Response.created(URI.create("/services/users/" + user.getUserId())).entity(user).build();
+        return Response.ok().entity(user).build();
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{userId}")
+    public Response updateUser(UserVO user, @PathParam("userId") Integer userId) {
+        logger.debug("Update " + user);
+        EntityManager em = EntityManagerLoaderListener.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            User u = em.find(User.class, userId);
+            BeanUtils.populate(u, BeanUtils.describe(user));
+            em.getTransaction().commit();
+            user.setAccountId(u.getAccount().getAccountId());
+            user.setUserId(u.getUserId());
+        } catch (NoResultException nre) {
+            logger.warn("ERROR no account found with accountId: " + user.getAccountId());
+        } catch (Exception e) {
+            logger.error("ERROR updateUser", e);
+            return Response.serverError().build();
+        } finally {
+            em.close();
+        }
+        return Response.created(URI.create("/")).entity(user).build();
+    }
+
 
     @GET
     @Path("/account/{accountId}")
@@ -133,7 +156,6 @@ public class UserService {
             }
             query.setMaxResults(Constants.MAX_RESULT);
             users = query.getResultList();
-
             /* Populate the value object */
             for (User user : users) {
                 UserVO u = new UserVO();
@@ -151,17 +173,14 @@ public class UserService {
         return vos;
     }
 
-
     @GET
     @Path("/delete/{userId}")
     public Response deleteById(@PathParam("userId") Integer userId) {
         //List<Child> c = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
-
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM User WHERE userId=:userId");
-
             query.setParameter("userId", userId);
             query.executeUpdate();
             em.getTransaction().commit();
