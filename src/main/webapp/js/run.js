@@ -150,9 +150,10 @@
             dataType: "json",
             data: data,
         });
-
-        initAppointment();
-        last5();
+        req.done(function(){
+            initAppointment();
+            last5();
+        });
         console.log("[END] goLive");
     })
 
