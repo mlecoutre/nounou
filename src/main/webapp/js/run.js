@@ -48,18 +48,19 @@
     }
 
     /** PAGE INITIALIZATION **/
-    $.i18n.init({
-        resGetPath: '/locales/__lng__/__ns__.json',
-        ns: {
-            namespaces: ['run', "commons"],
-            defaultNs: 'run'
-        }
-    }).done(function () {
-        $(".run").i18n();
-        $(".navbar").i18n();
-    });
 
     $(document).ready(function () {
+
+        $.i18n.init({
+            resGetPath: '/locales/__lng__/__ns__.json',
+            ns: {
+                namespaces: ['run', "commons"],
+                defaultNs: 'run'
+            }
+        }).done(function () {
+            $(".run").i18n();
+            $(".navbar").i18n();
+        });
 
         $("#arrivalDate").mask("99-99-9999 99:99");
         $("#departureDate").mask("99-99-9999 99:99");

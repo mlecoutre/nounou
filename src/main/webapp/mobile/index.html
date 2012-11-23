@@ -48,15 +48,15 @@
                 </a>
               </li>
             </ul>
-            <div class="pull-right" id="online_status"></div>
+            <div class="pull-right" id="status">
+
+            </div>
           </div>
         </div>
       </div>
       <div class="container">
-        <div>
-          <p>
-            Instant declaration
-          </p>
+        <div id="titleUser">
+          Instant declaration for 
         </div>
         <div class="control-group">
           <label for="arrival">
@@ -70,32 +70,34 @@
           </label>
           <input id="departure" name="departure" type="datetime-local" placeholder="Departure">
         </div>
-       
-
-
+        
          <div id="kids">
+
          </div>
-      
-       <div class="btn-group">
-        <a id="Push" class="btn btn-primary" href="#" target="#">
+       
+    </div>
+     <div class="btn-group container">
+        <p>
+        <a id="push" class="btn btn-primary" href="#" target="#">
           Push
         </a>
         <a class="btn" href="#">
           Synchronize
         </a>
+      </p>
       </div>
-    
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
-    </script>
+      <div id="appointments" class="container text-info">
+      </div>
+
+    <script src="/js/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.9.1.custom.min.js"></script>
     <script src="/js/bootstrap.js"> </script>
     <script type="text/javascript" src="/js/mustache.js"></script>
+    <script src="/js/jquery.json-2.3.js"></script>
+    <script src="/js/auth.js" type="text/javascript"></script>
+    <script src="/js/online-plugin.js" type="text/javascript"></script>
     <script src="/js/mobile.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.9.1.custom.min.js"></script>
     <script type="text/javascript" src="/js/utilities.js"></script>
-
-
-
     <script type="text/x-template" id="kid-appointment-template">
     {{#.}}
     <div data-target="{{childId}}" class="liveKid">

@@ -1,8 +1,6 @@
 (function ($) {
 
-//TODO JUST FOR TEST
-var accountId = 3;
-
+var token = null;
 
 Date.prototype.format = function(format) //author: meizz
 {
@@ -25,24 +23,32 @@ if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
 return format;
 }
 
-$(document).ready(function () {//debugger;
-    $(document.body).bind("online", checkNetworkStatus);
-    $(document.body).bind("offline", checkNetworkStatus);
-    checkNetworkStatus();
-    initialize();
+/** DOCUMENT READY - INITIALIZATION **/
+$(document).ready(function () {
+    $('#status').checkNetworkStatus();
+    token = $(this).getToken('nounou-auth');
+    if ( token != null ){
+        console.log("User authentified "+ token.userName);
+    } else {
+        console.log("Please log first");
+        return ;
+    }
+    initialize( token );
 });
 
+function initialize(token){
+    displayKids(token);
+    fillAppointmentForm(token);
+    displayLocalAppointments(token);
+}
 
-function displayKids(){
-    // Get Current Appointment data
-    var reqChildren = $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url: '/services/children/account/' + accountId
-    });
-    reqChildren.done(function (children) {
-        $('#kids').html(Mustache.to_html($('#kid-appointment-template').html(), children));
-    //selected by default  on live declaration
+function displayKids(token){
+    // Get Current kids data from localStorage
+    var data = localStorage.getItem("nounou-config");
+    var children = $.parseJSON(data);
+    $('#kids').html(Mustache.to_html($('#kid-appointment-template').html(), children));
+
+    //selected by default on live declaration
     $('#kids > .liveKid').each(function () {
         $(this).toggleClass('selected-kid');
     });
@@ -54,12 +60,20 @@ function displayKids(){
         $(this).toggleClass('selected-kid');
     });
 
-});
 }
 
-function initialize(){
-    console.log("Initialize");
-    displayKids();
+function displayLocalAppointments(token){
+     var data = localStorage.getItem("nounou-appointments");
+     if ( data == null ){
+        $('#appointments').html("No local appointments. Everything sync with the server.");
+     }else{
+        var appointments = $.parseJSON(data);
+        $('#appointments').html(appointments.length + " local appointment(s)...");
+    }
+}
+
+function fillAppointmentForm(token){
+    $('#titleUser').append(token.userName);
     var date = new Date();
     var strDate = new Date().format("dd-MM-yyyy hh:mm");
     if(date.getHours() < 12){
@@ -69,55 +83,35 @@ function initialize(){
    }
 }
 
-function manageOfflineModel(){
+$('#push').click(function(){
+    console.log("push appointment");
+    var kids = [];
+    $("#kids > .selected-kid").each(function (i, value) {
+        var selKidId = $(this).attr("data-target");
+        kids[i] = selKidId;
+    });
+    var mAppointment = {
+            appointmentId: null,
+            accountId: token.accountId,
+            currentUserId: token.userId,
+            arrivalDate: $('#arrival').val(),
+            departureDate: $('#departure').val(),
+            kidIds: kids,
+    };
 
-
-}
-
-function checkNetworkStatus() {
-    if (navigator.onLine) {
-        // Just because the browser says we're online doesn't mean we're online. The browser lies.
-        // Check to see if we are really online by making a call for a static JSON resource on
-        // the originating Web site. If we can get to it, we'resourcee online. If not, assume we're
-        // offline.
-        $.ajaxSetup({
-            async: true,
-            cache: false,
-            context: $("#status"),
-            dataType: "json",
-            error: function (req, status, ex) {
-                console.log("Error: " + ex);
-                // We might not be technically "offline" if the error is not a timeout, but
-                // otherwise we're getting some sort of error when we shouldn't, so we're
-                // going to treat it as if we're offline.
-                // Note: This might not be totally correct if the error is because the
-                // manifest is ill-formed.
-                showNetworkStatus(false);
-            },
-            success: function (data, status, req) {
-                showNetworkStatus(true);
-            },
-            timeout: 5000,
-            type: "GET",
-            url: "/js/ping.js"
-        });
-        $.ajax();
+     var data = localStorage.getItem("nounou-appointments");
+     var length = 0;
+     var appointments = [];
+     if ( data != null ){
+        appointments = $.parseJSON(data);        
+        length = appointments.length;
     }
-    else {
-        showNetworkStatus(false);
-    }
-}
+    appointments[length] =  mAppointment;
+    localStorage.setItem("nounou-appointments", $.toJSON(appointments));
+    $('#appointments').html(appointments.length + " local appointment(s)...");
+    $('#appointments').effect("bounce", { direction:'down', times:5 }, 500);
+});
 
-function showNetworkStatus(online) {
-    if (online) {
-        $("#online_status").html("<img src='/img/online.png' class='online-status' />");
-    }
-    else {
-     $("#online_status").html("<img src='/img/offline.jpeg' class='online-status' />");
 
- }
-
- console.log("Online status: " + online);
-}
 
 })(jQuery);
