@@ -103,7 +103,7 @@ public class ChildrenService {
             childEntity.setFirstName(child.getFirstName());
             childEntity.setLastName(child.getLastName());
             childEntity.setBirthday(Constants.sdfDate.parse(child.getBirthday()));
-            childEntity.setPictureUrl(child.getPictureUrl);
+            childEntity.setPictureUrl(child.getPictureUrl());
             TypedQuery<Account> qAccount = em.createQuery("FROM Account a WHERE accountId=:accountId", Account.class);
             qAccount.setParameter("accountId", child.getAccountId());
             Account account = qAccount.getSingleResult();
