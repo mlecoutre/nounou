@@ -6,8 +6,8 @@
   <title>
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="Application that allow to manage planning for your nurse.">
+  <meta name="author" content="mlecoutre">
   <!-- Le styles -->
   <link href="../css/bootstrap.css" rel="stylesheet">
   <style>
@@ -33,7 +33,7 @@
       <div class="navbar navbar-fixed-top navbar-inverse">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">
+            <a class="brand" href="/">
               Nounou
             </a>
             <ul class="nav">
@@ -79,15 +79,16 @@
      <div class="btn-group container">
         <p>
         <a id="push" class="btn btn-primary" href="#" target="#">
-          Push
+          Create locally
         </a>
-        <a class="btn" href="#">
-          Synchronize
+        <a id="synchronize" class="btn" href="#">
+          Synchronize server
         </a>
       </p>
       </div>
       <div id="appointments" class="container text-info">
       </div>
+      <div id="progressbar"></div>
 
     <script src="/js/jquery-1.8.2.js"></script>
     <script type="text/javascript" src="/js/jquery-ui-1.9.1.custom.min.js"></script>
@@ -98,6 +99,7 @@
     <script src="/js/online-plugin.js" type="text/javascript"></script>
     <script src="/js/mobile.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/utilities.js"></script>
+ 
     <script type="text/x-template" id="kid-appointment-template">
     {{#.}}
     <div data-target="{{childId}}" class="liveKid">
@@ -105,6 +107,11 @@
     </div>
     {{/.}}
     </script>
+
+    <script type="text/x-template" id="local-appointments-template">
+        {{length}} local appointment(s)...
+    </script>
+
   </body>
 
   </html>

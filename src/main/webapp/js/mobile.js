@@ -59,23 +59,36 @@ function displayKids(token){
         $(this).toggleClass('disabled-kid');
         $(this).toggleClass('selected-kid');
     });
-
 }
 
+/**
+ * Show local appointements locally stored
+ */
 function displayLocalAppointments(token){
      var data = localStorage.getItem("nounou-appointments");
      if ( data == null ){
         $('#appointments').html("No local appointments. Everything sync with the server.");
      }else{
         var appointments = $.parseJSON(data);
-        $('#appointments').html(appointments.length + " local appointment(s)...");
+        var parameters ={
+            length: appointments.length,
+            appointments: appointments
+        }
+        $('#appointments').html(Mustache.to_html($('#local-appointments-template').html(), parameters));
+        $('#appointments').effect("bounce", { direction:'down', times:5 }, 500);
     }
 }
 
+/**
+ * Initialize the  appointment form
+ */
 function fillAppointmentForm(token){
     $('#titleUser').append(token.userName);
     var date = new Date();
-    var strDate = new Date().format("dd-MM-yyyy hh:mm");
+    //TODO check if an existing appointment is open at this date.
+
+   
+     var strDate = new Date().format("dd-MM-yyyy hh:mm");
     if(date.getHours() < 12){
         $('#arrival').val(strDate);
     }else{
@@ -103,15 +116,61 @@ $('#push').click(function(){
      var length = 0;
      var appointments = [];
      if ( data != null ){
-        appointments = $.parseJSON(data);        
+        appointments = $.parseJSON(data);
         length = appointments.length;
     }
     appointments[length] =  mAppointment;
     localStorage.setItem("nounou-appointments", $.toJSON(appointments));
-    $('#appointments').html(appointments.length + " local appointment(s)...");
-    $('#appointments').effect("bounce", { direction:'down', times:5 }, 500);
+    displayLocalAppointments();
 });
 
+/**
+ * Allow to synchronize appointments with the server
+ */
+$('#synchronize').click(function(){
+    $( "#progressbar" ).progressbar({
+            value: 0
+    });
+    var data = localStorage.getItem("nounou-appointments");
+    var length = 0;
+    var appointments = [];
+    if ( data != null ){
+        appointments = $.parseJSON(data);        
+        length = appointments.length;
+    }
+    sessionStorage.setItem("nounou-local-app", length - 1);
+    for (var i = appointments.length - 1; i >= 0; i--) {
+        var data   = $.toJSON(appointments[i]);
+        var appUrl = '/services/appointments';
+        var appId  =  appointments[i].appointmentId;
 
+        if (appId != null) {
+            appUrl = appUrl + '/' + appId;
+        }
+        var req = $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: appUrl,
+            dataType: "json",
+            data: data,
+        });
+        req.done(function () {
+           var i = sessionStorage.getItem("nounou-local-app");
+           console.log("Appointment "+i+'/'+appointments.length +' synchronized');
+           var percent = ((appointments.length - i) / appointments.length) * 100;
+           console.log("Set progress bar to " + percent);
+            $( "#progressbar" ).progressbar({
+                value: percent
+            });
+            sessionStorage.setItem("nounou-local-app", i - 1);
+            //Once finished
+            if(i == 0){
+                //clear local appointments
+                localStorage.removeItem("nounou-appointments");
+                displayLocalAppointments();
+            }
+        });
+    };
+});
 
 })(jQuery);

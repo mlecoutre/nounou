@@ -19,7 +19,7 @@
                 // going to treat it as if we're offline.
                 // Note: This might not be totally correct if the error is because the
                 // manifest is ill-formed.
-                showNetworkStatus(false);
+                this.showNetworkStatus(false);
             },
             success: function (data, status, req) {
                 this.showNetworkStatus(true);
@@ -31,7 +31,7 @@
             $.ajax();
         }
         else {
-            showNetworkStatus(false);
+            this.showNetworkStatus(false);
         }
     },
     showNetworkStatus: function (online) {

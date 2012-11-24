@@ -17,6 +17,7 @@
 
 .disabled-kid {
 	-webkit-filter:grayscale(80%) blur(1px);
+	filter: grayscale(80%);
 	border-radius:5px;
 	-moz-border-radius:5px;
 }
@@ -68,3 +69,5 @@ label.error {
 	height: 25px;
 	padding-top: 5px;
 }
+
+.ui-progressbar .ui-progressbar-value { background-image: url(/img/pbar-ani.gif); }
