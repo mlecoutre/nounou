@@ -8,6 +8,4 @@ build
 *.iml
 .idea/
 .clover
-
-
-**/.DS_Store
+.DS_Store
