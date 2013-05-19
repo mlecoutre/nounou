@@ -1,0 +1,24 @@
+{
+   "navbar":{
+      "title":"Nounou App!",
+      "home":"Home",
+      "about":"About",
+      "contact":"Contact",
+      "registration-title": "Registration",
+      "run-title" : "Run",
+      "report-title" : "Report"
+   },
+   "auth":{
+      "signin":"Sign in",
+      "email":"Email",
+      "password":"Password"
+   },
+   "button":{
+      "start":"Start",
+      "add":"Add",
+      "previous":"Previous",
+      "next":"Next",
+      "save":"Save",
+      "cancel":"Cancel"
+   }
+}

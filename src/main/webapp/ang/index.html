@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>NounouApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mat">
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico">
+</head>
+
+<body ng-app="nounouApp">
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+
+            <a class="brand" href="/" ng-i18next="commons:navbar.title"></a>
+
+
+            <ul class="nav">
+                <li><a href="/" ng-i18next="commons:navbar.home"></a></li>
+                <li><a href="#/about" ng-i18next="commons:navbar.about"></a></li>
+                <li><a href="#/contact" ng-i18next="commons:navbar.contact"></a></li>
+                <li class="dropdown">
+                    <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Actions<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li><a tabindex="-1" href="#/registration" ng-i18next="commons:navbar.registration-title"></a>
+                        </li>
+                        <li><a tabindex="-1" href="#/run" ng-i18next="commons:navbar.run-title"></a></li>
+                        <li><a tabindex="-1" href="#/report" ng-i18next="commons:navbar.report-title"></a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p class="navbar-text pull-right" id="authBox">
+
+            </p>
+
+            <p class="navbar-text pull-right hide" id="loadingIndicator">
+                <img src="../img/ajax-loader.gif"/>
+            </p>
+
+            <p class="navbar-text pull-right hide" id="authBox_request">
+                <input class="span2" type="text" id="uid" placeholder="Email">
+                <input class="span2" type="password" id="password" placeholder="Password">
+                <button type="submit" class="btn sign-in" id="signIn" ng-i18next="commons:auth.signin"></button>
+            </p>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div ng-view></div>
+</div> <!-- /container -->
+
+
+<div>
+    <footer>
+        <p>&copy; Mat ang 2013</p>
+    </footer>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="lib/jquery/jquery-1.9.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular/angular-resource.min.js"></script>
+<script src="lib/angular/angular-bootstrap.min.js"></script>
+<script src="lib/angular/angular-sanitize.min.js"></script>
+<script src="lib/i18next/i18next-1.5.8.min.js"></script>
+<script src="lib/i18next/i18next-directive.js"></script>
+
+<script src="js/app.js"></script>
+<script src="js/services.js"></script>
+<script src="js/directives.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/controllers.js"></script>
+
+<script src="js/registration.js"></script>
+<script src="js/run.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+   "run":{
+      "title":"Rendez-vous",
+      "tab":{
+         "live":"Direct",
+         "update":"Mise à jour"
+      },
+      "commons":{
+         "user":"Accompagnant",
+         "arrival-date":"arrivée",
+         "arrival-user":"Arr. acc",
+         "departure-date":"Départ",
+         "departure-user":"Dep. acc",
+         "kids":"Enfants",
+         "duration":"Durée",
+         "edit":"Edition"
+      },
+      "live":{
+         "description":"Vérifier les détails et cliquez sur [GO]",
+         "button-go":"GO!"
+      },
+      "update":{
+         "departure-user":"Acc Depart",
+         "arrival-user":"Acc Arrivée "
+      },
+      "search":{
+         "legend":"Recherche d'un rendez vous existant:",
+         "label":"Interval de recherche",
+         "search-button":"Recherche",
+         "options":{
+            "current-week":"Semaine courrante",
+            "last-week":"Semaine dernière",
+            "current-month":"Mois courrant",
+            "previous-month":"Mois précédent",
+            "other":"Autre"
+         }
+      },
+      "last5":{
+         "legend":"Les 5 derniers rendez-vous"
+      }
+   }
+}

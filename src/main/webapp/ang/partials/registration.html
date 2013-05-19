@@ -1,0 +1,124 @@
+<p>&nbsp;</p><br/>
+
+<h2 class="registration" ng-i18next="registration:registration.title"></h2>
+
+<ul class="nav nav-tabs registration" id="registerTab">
+    <li class="active"><a href="#what" ng-i18next="registration:registration.tab.what-title"></a></li>
+    <li><a href="#you" ng-i18next="registration:registration.tab.you-title"></a></li>
+    <li><a href="#nurse" ng-i18next="registration:registration.tab.nurse-title"></a></li>
+    <li><a href="#kids" ng-i18next="registration:registration.tab.kids-title"></a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active registration" id="what">
+        <p ng-i18next="registration:registration.what.introduce1"></p>
+
+        <p ng-i18next="registration:registration.what.introduce2"></p>
+        <ul>
+            <li ng-i18next="registration:registration.what.li1"></li>
+            <li ng-i18next="registration:registration.what.li2"></li>
+            <li ng-i18next="registration:registration.what.li3"></li>
+        </ul>
+        <p><a class="btn btn-primary" id="registrationStart" ng-i18next="commons:button.start"></a></p>
+    </div>
+    <div class="tab-pane" id="you"> <!--  TAB YOU -->
+        <div class="row">
+            <form id="formUser" class="span4 registration">
+                <input type="hidden" id="editUserId" />
+                <label for="userFirstName" ng-i18next="registration:registration.firstName"></label>
+                <input type="text" id="userFirstName" class="required" placeholder="your first name">
+                <label for="userLastName" ng-i18next="registration:registration.lastName"></label>
+                <input type="text" id="userLastName" class="required" placeholder="your last name">
+                <label for="userPhoneNumber" ng-i18next="registration:registration.phoneNumber"></label>
+                <input type="text" id="userPhoneNumber" placeholder="phone number">
+                <label for="userEmail" ng-i18next="registration:registration.email"></label>
+                <input type="text" id="userEmail" placeholder="Email" class="required email">
+                <label for="userPassword" ng-i18next="registration:registration.password"></label>
+                <input type="password" name="userPassword" id="userPassword" placeholder="your password">
+                <label for="secondUserPassword" ng-i18next="registration:registration.repassword"></label>
+                <input type="password" name="secondUserPassword" id="secondUserPassword"
+                       placeholder="re enter your password">
+                <label for="userType" ng-i18next="registration:registration.who"></label>
+                <select id="userType">
+                    <option></option>
+                    <option ng-i18next="registration:registration.type.mother"></option>
+                    <option ng-i18next="registration:registration.type.father"></option>
+                    <option ng-i18next="registration:registration.type.mammy"></option>
+                    <option ng-i18next="registration:registration.type.pappy"></option>
+                    <option ng-i18next="registration:registration.type.friends"></option>
+                    <option ng-i18next="registration:registration.type.other"></option>
+                </select>
+
+                <p>
+                    <button type="button" class="btn" id="addUser" ng-i18next="commons:button.add"></button>
+                    <button type="button" id="updateUser" class="btn hide" ng-i18next="commons:button.save"></button>
+                    <button type="button" id="cancelUser" class="btn hide"
+                            ng-i18next="commons:button.cancel"></button>
+                </p>
+            </form>
+            <div class="span8" id="whiteAccessList">
+            </div>
+        </div>
+
+        <p class="registration"><a class="btn btn-primary" id="youPrevious" ng-i18next="commons:button.previous"></a><a
+                class="btn btn-primary" id="youNext" ng-i18next="commons:button.next"></a></p>
+    </div>
+    <div class="tab-pane" id="nurse">
+        <div class="row">
+            <form id="formNurse" class="span4 registration">
+                <input type="hidden" id="editNurseId"/>
+                <label ng-i18next="registration:registration.firstName"></label>
+                <input type="text" id="nurseFirstName" placeholder="First name" class="required">
+                <label ng-i18next="registration:registration.lastName"></label>
+                <input type="text" id="nurseLastName" placeholder="Last name">
+                <label ng-i18next="registration:registration.phoneNumber"></label>
+                <input type="text" id="nursePhoneNumber" placeholder="Phone Number">
+
+                <p>
+                    <button type="button" id="addNurse" class="btn" ng-i18next="commons:button.add"></button>
+                    <button type="button" id="updateNurse" class="btn hide"
+                            ng-i18next="commons:button.save"></button>
+                    <button type="button" id="cancelNurse" class="btn hide"
+                            ng-i18next="commons:button.cancel"></button>
+                </p>
+            </form>
+            <div class="span8" id="nurseList">
+                <legend class="registration" ng-i18next="registration:registration.nurse.title"></legend>
+            </div>
+
+        </div>
+        <p class="registration"><a class="btn btn-primary" id="nursePrevious"
+                                   ng-i18next="commons:button.previous"></a>
+            <a class="btn btn-primary" id="nurseNext" ng-i18next="commons:button.next"></a>
+        </p></div>
+    <div class="tab-pane" id="kids">
+        <div class="row">
+            <form id="formKid" class="span4 registration">
+                <input type="hidden" id="editKidId"/>
+                <label ng-i18next="registration:registration.firstName"></label>
+                <input type="text" id="kidFirstName" placeholder="kid first name" class="required">
+                <label ng-i18next="registration:registration.lastName"></label>
+                <input type="text" id="kidLastName" placeholder="kid last name">`
+                <label ng-i18next="registration:registration.birthday"></label>
+                <input type="text" id="kidBirthday" class="required" placeholder="birthday">
+                <label ng-i18next="registration:registration.picture"></label>
+                <input type="text" id="kidPicture" placeholder="picture url">
+                <label ng-i18next="registration:registration.nurse-label"></label>
+                <select id="nurseId">
+                    <option id=""></option>
+                </select>
+
+                <p>
+                    <button type="button" id="addKid" class="btn" ng-i18next="commons:button.add"></button>
+                    <button type="button" id="updateKid" class="btn hide" ng-i18next="commons:button.save"></button>
+                    <button type="button" id="cancelKid" class="btn hide"
+                            ng-i18next="commons:button.cancel"></button>
+                </p>
+            </form>
+            <div class="span8" id="kidList">
+            </div>
+        </div>
+        <p class="registration"><a class="btn btn-primary" id="kidsPrevious"
+                                   ng-i18next="commons:button.previous"></a></p>
+    </div>
+</div>

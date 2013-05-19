@@ -9,7 +9,16 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.6.4</slf4j.version>
+        <tomcat.version>7.0.37</tomcat.version>
+        <target>DEV</target>
+
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/mlecoutre/nounou.git</connection>
+        <url>http://github.com/mlecoutre/nounou.git</url>
+        <developerConnection>scm:git:https://github.com/mlecoutre/nounou.git</developerConnection>
+    </scm>
 
     <dependencies>
 
@@ -90,62 +99,33 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <version>1.0.0.CR7</version>
-            <scope>test</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-tomcat-managed-7</artifactId>
-            <version>1.0.0.CR4</version>
-            <scope>test</scope>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>2.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.2.145</version>
+            <version>1.3.171</version>
             <scope>compile</scope>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-logging-juli</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jasper</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jasper-el</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jsp-api</artifactId>
-            <version>7.0.22</version>
-            <scope>compile</scope>
-        </dependency>
 
     </dependencies>
 
@@ -219,84 +199,17 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.el</groupId>
-                    <artifactId>el-api</artifactId>
-                    <version>2.2</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                    <artifactId>geronimo-jcdi_1.0_spec</artifactId>
-                    <version>1.0</version>
-                    <scope>provided</scope>
-                    <!-- provided for tomcat -->
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                    <artifactId>geronimo-atinject_1.0_spec</artifactId>
-                    <version>1.0</version>
-                    <scope>provided</scope>
-                    <!-- provided for tomcat -->
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                    <artifactId>geronimo-interceptor_1.1_spec</artifactId>
-                    <version>1.0</version>
-                    <scope>provided</scope>
-                    <!-- provided for tomcat -->
-                </dependency>
-
-
-            </dependencies>
-
             <build>
                 <plugins>
 
                     <!-- TOMCAT PLUGIN -->
-
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.0</version>
+                        <version>2.1</version>
                         <configuration>
-                            <systemProperties>
-                             <!--   <java.security.auth.login.config>src/test/resources/tomcat/jaas.config
-                                </java.security.auth.login.config>    -->
-                            </systemProperties>
-                            <!-- Embedded port -->
-                            <port>8888</port>
-                            <configurationDir>${project.build.directory}/tomcat</configurationDir>
-                            <contextFile>src/test/resources/tomcat/context.xml</contextFile>
-                            <!--
-                            <additionalConfigFilesDir>src/test/resources/tomcat</additionalConfigFilesDir>
-                            <tomcatWebXml>src/test/resources/tomcat/web.xml</tomcatWebXml>
-                            -->
-                            <warFile>${project.build.directory}/${project.artifactId}.war</warFile>
-                            <path>/${project.artifactId}</path>
+                            <path>/nounou</path>
                         </configuration>
-                        <!--
-                        <executions>
-                            <execution>
-                                <id>tomcat-run</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <fork>true</fork>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>tomcat-shutdown</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>shutdown</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        -->
                         <dependencies>
                             <!-- add drivers resources for the container -->
 
@@ -309,9 +222,9 @@
                             <!-- EL 2.2 -->
 
                             <dependency>
-                                <groupId>org.glassfish.web</groupId>
-                                <artifactId>el-impl</artifactId>
-                                <version>2.2</version>
+                                <groupId>javax.el</groupId>
+                                <artifactId>javax.el-api</artifactId>
+                                <version>2.2.2</version>
                             </dependency>
 
                             <!-- WS aware -->
@@ -387,12 +300,11 @@
 
                         </dependencies>
                     </plugin>
-
-
                 </plugins>
             </build>
 
         </profile>
+
     </profiles>
 
 </project>

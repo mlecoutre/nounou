@@ -1,0 +1,42 @@
+{
+   "run":{
+      "title":"run",
+      "tab":{
+         "live":"Live",
+         "update":"Update existing declaration"
+      },
+      "commons":{
+         "user":"User",
+         "arrival-date":"Arrival",
+         "arrival-user":"Arr. User",
+         "departure-date":"Departure",
+         "departure-user":"Dep. User",
+         "kids":"Kids",
+         "duration":"Duration",
+         "edit":"Edit"
+      },
+      "live":{
+         "description":"Check here if detail are ok and click [GO]",
+         "button-go":"GO!"
+      },
+      "update":{
+         "departure-user":"Departure User",
+         "arrival-user":"Arrival User"
+      },
+      "search":{
+         "legend":"Search an existing Appointment",
+         "label":"Search Interval",
+         "search-button":"Search",
+         "options":{
+            "current-week":"Current week",
+            "last-week":"Last week",
+            "current-month":"Current month",
+            "previous-month":"Previous month",
+            "other":"Other"
+         }
+      },
+      "last5":{
+         "legend":"Last 5 appointments"
+      }
+   }
+}

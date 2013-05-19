@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import java.util.Map;
  *
  * @author mlecoutre
  */
+@WebListener
 public class EntityManagerLoaderListener implements ServletContextListener {
     private static final Logger logger = LoggerFactory.getLogger(EntityManagerLoaderListener.class);
 
