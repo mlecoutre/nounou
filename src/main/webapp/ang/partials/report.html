@@ -2,28 +2,51 @@
 
 <h2 class="report" ng-i18next="report:report.title"></h2>
 
-<div class="tabbable tabs-left" style="width:90%">
-    <ul class="nav nav-tabs  report" id="reportTab">
-        <li><a href="#charts" ng-i18next="report:report.tab.title.chart"></a></li>
-        <li><a href="#tableReports" ng-i18next="report:report.tab.title.table"></a></li>
-        <li><a href="#options" ng-i18next="report:report.tab.title.options"></a></li>
-    </ul>
-
-    <div class="tab-content">
-
-
-        <div class="tab-pane active" id="charts">
-            <div id="container" class="report-chart-container">
+<div ng-controller="ReportCtrl">
+    <tabs>
+        <pane heading="report:report.tab.title.chart">
+            <div class="tab-pane active" id="charts">
 
             </div>
-        </div>
+        </pane>
 
-        <div class="tab-pane" id="tableReports">
+        <pane heading="report:report.tab.title.table">
+            <legend class="app-template" ng-i18next="report:app-template.total-duration"></legend>
+            <table class="table table-striped app-template">
+                <thead>
+                <tr>
+                    <th ng-i18next="report:app-template.arrival-user"></th>
+                    <th ng-i18next="report:app-template.arrival-date"></th>
+                    <th ng-i18next="report:app-template.departure-user"></th>
+                    <th ng-i18next="report:app-template.departure-date"></th>
+                    <th ng-i18next="report:app-template.kid"></th>
+                    <th ng-i18next="report:app-template.duration"></th>
+                </tr>
+                </thead>
+                <tbody>
 
-        </div>
-        <div class="tab-pane" id="options">
+                <tr ng-repeat="appointment in appointments">
+                    <td>{{appointment.arrivalUserName}}</td>
+                    <td>{{appointment.arrivalDate}}</td>
+                    <td>{{appointment.departureUserName}}</td>
+                    <td>{{appointment.departureDate}}</td>
+                    <td>
+                        <img ng-repeat="child in appointment.children" src="{{child.pictureUrl}}"
+                             class="small-picture" alt={{child.firstName}}/>
 
-        </div>
-    </div>
+                    </td>
+                    <td>{{appointment.duration}}</td>
+                </tr>
 
+                </tbody>
+            </table>
+
+        </pane>
+
+
+        <pane heading="report:report.tab.title.options">
+
+        </pane>
+
+    </tabs>
 </div>

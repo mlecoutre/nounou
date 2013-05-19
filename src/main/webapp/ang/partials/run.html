@@ -2,15 +2,8 @@
 
 <h2 class="run" ng-i18next="run:run.title"></h2>
 
-<ul class="nav nav-tabs run" id="runTab">
-    <li class="active"><a href="#live" ng-i18next="run:run.tab.live"></a></li>
-    <li><a href="#update" ng-i18next="run:run.tab.update"></a></li>
-</ul>
-
-
-<div class="tab-content">
-    <div class="tab-pane active" id="live"><br/>
-
+<tabs ng-controller="RunCtrl">
+    <pane heading="run:run.tab.live" >
         <div class="row">
             <div class="span4 run">
 
@@ -25,7 +18,9 @@
                 <input type="text" id="departureDate" placeholder="Departure date time">
 
                 <div id="kidName">
-
+                    <div ng-repeat="child in children" data-target="{{child.childId}}" class="liveKid">
+                        <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
+                    </div>
                 </div>
 
                 <p><a class="btn btn-primary large-button" id="goLive" ng-i18next="run:run.live.button-go"></a></p>
@@ -33,11 +28,39 @@
             </div>
 
             <div id="last5" class="span8">
+                <legend class="last5-template" ng-i18next="run:run.last5.legend"></legend>
+                <table class="table table-striped last5-template" id="lastAppointments">
+                    <thead>
+                    <tr>
+                        <th ng-i18next="run:run.commons.arrival-user"></th>
+                        <th ng-i18next="run:run.commons.arrival-date"></th>
+                        <th ng-i18next="run:run.commons.departure-user"></th>
+                        <th ng-i18next="run:run.commons.departure-date"></th>
+                        <th ng-i18next="run:run.commons.kids"></th>
+                        <th ng-i18next="run:run.commons.duration"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="app in last5">
+                        <td>{{app.arrivalUserName}}</td>
+                        <td>{{app.arrivalDate}}</td>
+                        <td>{{app.departureUserName}}</td>
+                        <td>{{app.departureDate}}</td>
+                        <td>
+                            <div ng-repeat="child in app.children" data-target="{{child.childId}}" class="liveKid">
+                                <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
+                            </div>
+                        </td>
+                        <td>{{app.duration}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
-    </div>
+    </pane>
 
-    <div class="tab-pane" id="update">
+    <pane heading="run:run.tab.update">
         <div class="row">
             <div class="span4">
                 <div id="editUpdate" class="hide run">
@@ -53,8 +76,11 @@
                     <label ng-i18next="run:run.commons.departure-date"></label>
                     <input type="text" id="editDepartureDate" placeholder="Departure date time">
                     <label ng-i18next="run:run.commons.kids"></label>
-                    <div id="editKids">
 
+                    <div id="editKids">
+                        <div ng-repeat="child in children" data-target="{{child.childId}}" class="liveKid">
+                            <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
+                        </div>
                     </div>
                     <div>
                         <a class="btn btn-primary" id="editSave" ng-i18next="commons:button.save"></a>
@@ -67,7 +93,8 @@
                 <label ng-i18next="run:run.search.label"></label>
 
                 <p><select id="searchDate">
-                    <option value="currentWeek" selected="true" ng-i18next="run:run.search.options.current-week"></option>
+                    <option value="currentWeek" selected="true"
+                            ng-i18next="run:run.search.options.current-week"></option>
                     <option value="lastWeek" ng-i18next="run:run.search.options.last-week"></option>
                     <option value="currentMonth" ng-i18next="run:run.search.options.current-month"></option>
                     <option value="prevMonth" ng-i18next="run:run.search.options.previous-month"></option>
@@ -76,10 +103,34 @@
                     <a class="btn" id="search" ng-i18next="run:run.search.search-button"></a></p>
                 <hr/>
                 <div id="appointmentResultList">
-
+                    <table class="table table-striped appointmentsContent">
+                        <thead>
+                        <tr>
+                            <th ng-i18next="run:run.commons.arrival-user"></th>
+                            <th ng-i18next="run:run.commons.arrival-date"></th>
+                            <th ng-i18next="run:run.commons.departure-user"></th>
+                            <th ng-i18next="run:run.commons.departure-date"></th>
+                            <th ng-i18next="run:run.commons.kids"></th>
+                            <th ng-i18next="run:run.commons.edit"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="app2 in requestAppointments">
+                            <td>{{app2.arrivalUserName}}</td>
+                            <td>{{app2.arrivalDate}}</td>
+                            <td>{{app2.departureUserName}}</td>
+                            <td>{{app2.departureDate}}</td>
+                            <td>
+                                <img ng-repeat="c in app2.children" src="{{c.pictureUrl}}" class="small-picture" alt={{c.firstName}}/>
+                            </td>
+                            <td><a class="edit" data-target="{{app2.appointmentId}}" href="#"><i class="icon-edit"></i></a>
+                                <a class="del" data-target="{{app2.appointmentId}}" href="#"><i class="icon-trash"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
         </div>
-    </div>
-</div>
+    </pane>
+</tabs>

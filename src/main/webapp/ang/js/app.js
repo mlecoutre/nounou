@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('nounouApp', ['nounouApp.filters', 'nounouApp.services', 'nounouApp.directives','i18next']).
+angular.module('nounouApp', ['nounouApp.filters', 'nounouApp.services', 'nounouApp.directives','ui.bootstrap','i18next']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     	when('/index', {templateUrl: 'partials/index.html', controller: IndexCtrl}).
@@ -13,11 +13,11 @@ angular.module('nounouApp', ['nounouApp.filters', 'nounouApp.services', 'nounouA
     	otherwise({redirectTo: '/index'});
   }]).run(function ($rootScope) {
     $rootScope.i18nextOptions = {
-               debug:"true",
-                         resGetPath: 'locales/__lng__/__ns__.json',
-                         ns : {
-                                 namespaces: ['index', "commons", "registration", "report", "run"],
-                                 defaultNs: 'index'
-                              }
-                         }
+        debug:"true",
+        resGetPath: 'locales/__lng__/__ns__.json',
+        ns : {
+            namespaces: ['index', "commons", "registration", "report", "run"],
+                defaultNs: 'index'
+            }
+        }
 });
