@@ -31,7 +31,7 @@ import java.util.List;
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(NurseService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -100,8 +100,8 @@ public class UserService {
 
 
     @GET
-    @Path("/account/{accountId}")
-    public List<UserVO> findByAccountId(@PathParam("accountId") Integer accountId) {
+    @Path("{userId}/account/{accountId}")
+    public List<UserVO> findByAccountId(@PathParam("userId") Integer userId, @PathParam("accountId") Integer accountId) {
         HashMap<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("accountId", accountId);
         return executeUserRequestList("FROM User WHERE account.accountId=:accountId", parameters);

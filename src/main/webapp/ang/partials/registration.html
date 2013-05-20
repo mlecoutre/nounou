@@ -19,24 +19,24 @@
                 <form id="formUser" class="span4 registration">
                     <input type="hidden" id="editUserId"/>
                     <label for="userFirstName" ng-i18next="registration:registration.firstName"></label>
-                    <input type="text" id="userFirstName" ng-model="user.userFirstName" class="required"
+                    <input type="text" id="userFirstName" ng-model="user.firstName" class="required"
                            placeholder="your first name">
                     <label for="userLastName" ng-i18next="registration:registration.lastName"></label>
-                    <input type="text" id="userLastName" ng-model="user.userLastName" class="required"
+                    <input type="text" id="userLastName" ng-model="user.lastName" class="required"
                            placeholder="your last name">
                     <label for="userPhoneNumber" ng-i18next="registration:registration.phoneNumber"></label>
-                    <input type="text" id="userPhoneNumber" ng-model="user.userPhoneNumber" placeholder="phone number">
+                    <input type="text" id="userPhoneNumber" ng-model="user.phoneNumber" placeholder="phone number">
                     <label for="userEmail" ng-i18next="registration:registration.email"></label>
-                    <input type="text" id="userEmail" ng-model="userEmail" placeholder="Email" class="required email">
-                    <label for="userPassword" ng-model="user.userPassword"
+                    <input type="text" id="userEmail" ng-model="user.email" placeholder="Email" class="required email">
+                    <label for="userPassword"
                            ng-i18next="registration:registration.password"></label>
-                    <input type="password" name="userPassword" id="userPassword" placeholder="your password">
+                    <input type="password" ng-model="user.password" name="userPassword" id="userPassword" placeholder="your password">
                     <label for="secondUserPassword" ng-i18next="registration:registration.repassword"></label>
-                    <input type="password" ng-model="user.secondUserPassword" name="secondUserPassword"
+                    <input type="password" ng-model="secondUserPassword" name="secondUserPassword"
                            id="secondUserPassword"
                            placeholder="re enter your password">
                     <label for="userType" ng-i18next="registration:registration.who"></label>
-                    <select id="userType" ng-model="user.userType">
+                    <select id="userType" ng-model="user.type">
                         <option></option>
                         <option ng-i18next="registration:registration.type.mother"></option>
                         <option ng-i18next="registration:registration.type.father"></option>
@@ -47,11 +47,11 @@
                     </select>
 
                     <p>
-                        <button type="button" ng-click="addUser" class="btn" id="addUser"
+                        <button type="button" ng-click="addUser()" class="btn" id="addUser"
                                 ng-i18next="commons:button.add"></button>
-                        <button type="button" ng-click="updateUser" id="updateUser" class="btn hide"
+                        <button type="button" ng-click="updateUser()" id="updateUser" class="btn hide"
                                 ng-i18next="commons:button.save"></button>
-                        <button type="button" ng-click="cancelUser" id="cancelUser" class="btn hide"
+                        <button type="button" ng-click="cancelUser()" id="cancelUser" class="btn hide"
                                 ng-i18next="commons:button.cancel"></button>
                     </p>
                 </form>
@@ -68,14 +68,14 @@
                             <th ng-i18next="registration:registration.edit"></th>
                         </tr>
                         </thead>
-                        <tbody ng-repeat="user in users">
-                        <tr>
-                            <td>{{user.firstName}}</td>
-                            <td>{{user.lastName}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.phoneNumber}}</td>
-                            <td><a class="editUser" data-target="{{user.userId}}" href="#"><i class="icon-edit"></i></a>
-                                <a class="delUser" data-target="{{user.userId}}" href="#"><i class="icon-trash"></i></a>
+                        <tbody>
+                        <tr ng-repeat="u in users">
+                            <td>{{u.firstName}}</td>
+                            <td>{{u.lastName}}</td>
+                            <td>{{u.email}}</td>
+                            <td>{{u.phoneNumber}}</td>
+                            <td><a class="editUser" ng-click="prepareUpdate(u)"><i class="icon-edit"></i></a>
+                                <a class="delUser"><i class="icon-trash"></i></a>
                             </td>
                         </tr>
                         </tbody>
