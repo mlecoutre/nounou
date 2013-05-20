@@ -1,6 +1,7 @@
 package org.mat.nounou.services;
 
 import org.joda.time.DateTime;
+import org.mat.nounou.model.Account;
 import org.mat.nounou.model.Appointment;
 import org.mat.nounou.model.Child;
 import org.mat.nounou.model.User;
@@ -10,6 +11,7 @@ import org.mat.nounou.util.Constants;
 import org.mat.nounou.vo.AppointmentVO;
 import org.mat.nounou.vo.ChildVO;
 import org.mat.nounou.vo.ReportVO;
+import org.mat.nounou.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,10 +83,10 @@ public class AppointmentService {
      *
      * @param accountId
      * @param searchType
-     * @return
+     * @return report
      */
     @GET
-    @Path("/report/account/{accountId}/searchType/{searchType}")
+    @Path("{appointmentId}/account/{accountId}/searchType/{searchType}")
     public ReportVO getLastAppointments(@PathParam("accountId") Integer accountId, @PathParam("searchType") String searchType) {
         logger.debug("getLastAppointments service");
         List<Double[]> data = new ArrayList<Double[]>();
@@ -189,14 +191,12 @@ public class AppointmentService {
         if (a.getArrivalDate() != null)
             appVo.setArrivalDate(Constants.sdf.format(a.getArrivalDate()));
         if (a.getArrivalUser() != null) {
-            appVo.setArrivalUserName(a.getArrivalUser().getFirstName().concat(" ").concat(a.getArrivalUser().getLastName()));
-            appVo.setArrivalUserId(a.getArrivalUser().getUserId());
+            appVo.setArrivalUser(UserVO.populate(a.getArrivalUser()));
         }
         if (a.getDepartureDate() != null)
             appVo.setDepartureDate(Constants.sdf.format(a.getDepartureDate()));
         if (a.getDepartureUser() != null) {
-            appVo.setDepartureUserName(a.getDepartureUser().getFirstName().concat(" ").concat(a.getDepartureUser().getLastName()));
-            appVo.setDepartureUserId(a.getDepartureUser().getUserId());
+            appVo.setDepartureUser(UserVO.populate(a.getDepartureUser()));
         }
         List<Integer> kidIds = new ArrayList<Integer>();
         List<ChildVO> childVOs = new ArrayList<ChildVO>();
@@ -220,7 +220,7 @@ public class AppointmentService {
      * @return AppointmentVO
      */
     @GET
-    @Path("/current/account/{accountId}/userId/{userId}")
+    @Path("/{appointmentId}/account/{accountId}/user/{userId}")
     public AppointmentVO getCurrentAppointment(@PathParam("accountId") Integer accountId, @PathParam("userId") Integer userId) {
         AppointmentVO vo = new AppointmentVO();
         boolean isAppExist = false;
@@ -258,6 +258,7 @@ public class AppointmentService {
                 children = qChild.getResultList();
                 //get User
                 u = em.find(User.class, userId);
+
             } catch (NoResultException nre) {
                 logger.error(String.format("ERROR: No result found with parameters accountId:%d, userId:%d\n", accountId, userId));
                 return null;
@@ -269,10 +270,9 @@ public class AppointmentService {
             }
 
             vo = new AppointmentVO();
+            vo.setArrivalUser(UserVO.populate(u));
+            vo.setDepartureUser(UserVO.populate(u));
             vo.setAccountId(accountId);
-            vo.setCurrentUserId(userId);
-
-            vo.setCurrentUserName(u.getFirstName().concat(" ").concat(u.getLastName()));
         }
         //TODO populate AppointmentVo wit app
 
@@ -315,11 +315,11 @@ public class AppointmentService {
             qChild.setParameter("childIds", appointment.getKidIds());
             List<Child> children = qChild.getResultList();
 
-            User u = em.find(User.class, appointment.getCurrentUserId());
             Date d = null;
-
+            User u = null;
             if (appointment.getArrivalDate() != null && !"".equals(appointment.getArrivalDate())) {
                 d = Constants.sdf.parse(appointment.getArrivalDate());
+                 u = em.find(User.class, appointment.getArrivalUser().getUserId());
                 entity.setArrivalDate(d);
                 entity.setArrivalUser(u);
             }
@@ -327,6 +327,7 @@ public class AppointmentService {
             entity.setArrivalDate(d);
             if (appointment.getDepartureDate() != null && !"".equals(appointment.getDepartureDate())) {
                 d = Constants.sdf.parse(appointment.getDepartureDate());
+                 u = em.find(User.class, appointment.getDepartureUser().getUserId());
                 entity.setDepartureDate(d);
                 entity.setDepartureUser(u);
             }
@@ -355,31 +356,30 @@ public class AppointmentService {
 
         try {
             Appointment app = em.find(Appointment.class, appointmentId);
-            User da, du = null;
+            User da, du;
             Query qChild = em.createQuery("FROM Child c WHERE childId IN :childIds");
             qChild.setParameter("childIds", appointment.getKidIds());
             List<Child> children = qChild.getResultList();
-            if (appointment.getCurrentUserId() == null) {
-                 du = em.find(User.class,  appointment.getDepartureUserId());
-                 da = em.find(User.class,  appointment.getArrivalUserId());
+            Account account = null;
+
+
+            if (appointment.getArrivalUser() == null) {
+                 du = em.find(User.class,  appointment.getDepartureUser().getUserId());
+                 account = app.getAccount();
                 app.setDepartureUser(du);
-                app.setArrivalUser(da);
-            } else { // live editing
-                du = em.find(User.class, appointment.getDepartureUserId());
-                if (app != null && app.getArrivalUser() == null) {
-                    app.setArrivalUser(du);
-                }
-                if (app != null && app.getDepartureUser() == null) {
-                    app.setDepartureUser(du);
-                }
+
             }
-            Date d = null;
-            d = Constants.sdf.parse(appointment.getArrivalDate());
+            if(appointment.getDepartureUser() == null) {
+                da = em.find(User.class,  appointment.getArrivalUser().getUserId());
+                app.setArrivalUser(da);
+            }
+
+            Date d = Constants.sdf.parse(appointment.getArrivalDate());
             app.setArrivalDate(d);
             d = Constants.sdf.parse(appointment.getDepartureDate());
             app.setDepartureDate(d);
 
-            app.setAccount(du.getAccount());
+            app.setAccount(account);
             app.setChildren(children);
             em.getTransaction().begin();
             em.merge(app);

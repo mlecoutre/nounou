@@ -8,14 +8,14 @@
             <div class="span4 run">
 
                 <p ng-i18next="run:run.live.description"></p>
-                <input type="hidden" id="appointmentId"/>
+
                 <label ng-i18next="run:run.commons.user"></label>
-                <select id="userId">
+                <select id="userId" ng-model="appointment.arrivalUser" ng-options="u.firstName for u in users">
                 </select>
                 <label ng-i18next="run:run.commons.arrival-date"></label>
-                <input type="text" id="arrivalDate" placeholder="Arrival date time">
+                <input type="text" id="arrivalDate" ng-model="appointment.arrivalDate" placeholder="Arrival date time">
                 <label ng-i18next="run:run.commons.departure-date"></label>
-                <input type="text" id="departureDate" placeholder="Departure date time">
+                <input type="datetime" id="departureDate" ng-model="appointment.departureDate" placeholder="Departure date time">
 
                 <div id="kidName">
                     <div ng-repeat="child in children" data-target="{{child.childId}}" class="liveKid">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <p><a class="btn btn-primary large-button" id="goLive" ng-i18next="run:run.live.button-go"></a></p>
+                <p><a class="btn btn-primary large-button" ng-click="addAppointment()" id="goLive" ng-i18next="run:run.live.button-go"></a></p>
 
             </div>
 
@@ -42,9 +42,9 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="app in last5">
-                        <td>{{app.arrivalUserName}}</td>
+                        <td>{{app.arrivalUser.firstName}}</td>
                         <td>{{app.arrivalDate}}</td>
-                        <td>{{app.departureUserName}}</td>
+                        <td>{{app.departureUser.firstName}}</td>
                         <td>{{app.departureDate}}</td>
                         <td>
                             <div ng-repeat="child in app.children" data-target="{{child.childId}}" class="liveKid">

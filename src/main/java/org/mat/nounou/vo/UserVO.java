@@ -1,5 +1,7 @@
 package org.mat.nounou.vo;
 
+import org.mat.nounou.model.User;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -109,5 +111,17 @@ public class UserVO {
                 ", password='" + password + '\'' +
                 ", type='" + type + '\'' +
                 '}';
+    }
+
+    public static UserVO populate(User user){
+        UserVO vo = new UserVO();
+        vo.setAccountId(user.getAccount().getAccountId());
+        vo.setEmail(user.getEmail());
+        vo.setFirstName(user.getFirstName());
+        vo.setLastName(user.getLastName());
+        vo.setPassword(user.getPassword());
+        vo.setUserId(user.getUserId());
+        vo.setPhoneNumber(user.getPhoneNumber());
+        return vo;
     }
 }

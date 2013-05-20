@@ -13,13 +13,9 @@ public class AppointmentVO {
 
     private Integer appointmentId; //may be null if not exist
     private Integer accountId;   //will be accountId
-    private String currentUserName;
-    private Integer currentUserId;
-    private Integer arrivalUserId;
-    private Integer departureUserId;
-    private String arrivalUserName;
+    private UserVO arrivalUser;
+    private UserVO departureUser;
     private String arrivalDate;
-    private String departureUserName;
     private String departureDate;
     private List<Integer> kidIds; //availableKid Ids
     private String notes;
@@ -32,20 +28,20 @@ public class AppointmentVO {
     private List<ChildVO> children;
 
 
-    public Integer getArrivalUserId() {
-        return arrivalUserId;
+    public UserVO getArrivalUser() {
+        return arrivalUser;
     }
 
-    public void setArrivalUserId(Integer arrivalUserId) {
-        this.arrivalUserId = arrivalUserId;
+    public void setArrivalUser(UserVO arrivalUser) {
+        this.arrivalUser = arrivalUser;
     }
 
-    public Integer getDepartureUserId() {
-        return departureUserId;
+    public UserVO getDepartureUser() {
+        return departureUser;
     }
 
-    public void setDepartureUserId(Integer departureUserId) {
-        this.departureUserId = departureUserId;
+    public void setDepartureUser(UserVO departureUser) {
+        this.departureUser = departureUser;
     }
 
     public String getDate() {
@@ -62,14 +58,6 @@ public class AppointmentVO {
 
     public void setDuration(String duration) {
         this.duration = duration;
-    }
-
-    public Integer getCurrentUserId() {
-        return currentUserId;
-    }
-
-    public void setCurrentUserId(Integer currentUserId) {
-        this.currentUserId = currentUserId;
     }
 
     public Integer getAccountId() {
@@ -94,14 +82,6 @@ public class AppointmentVO {
 
     public void setAppointmentId(Integer appointmentId) {
         this.appointmentId = appointmentId;
-    }
-
-    public String getCurrentUserName() {
-        return currentUserName;
-    }
-
-    public void setCurrentUserName(String currentUserName) {
-        this.currentUserName = currentUserName;
     }
 
     public String getArrivalDate() {
@@ -136,22 +116,6 @@ public class AppointmentVO {
         this.notes = notes;
     }
 
-    public String getArrivalUserName() {
-        return arrivalUserName;
-    }
-
-    public void setArrivalUserName(String arrivalUserName) {
-        this.arrivalUserName = arrivalUserName;
-    }
-
-    public String getDepartureUserName() {
-        return departureUserName;
-    }
-
-    public void setDepartureUserName(String departureUserName) {
-        this.departureUserName = departureUserName;
-    }
-
     public List<UserVO> getUsers() {
         return users;
     }
@@ -168,20 +132,14 @@ public class AppointmentVO {
         this.children = children;
     }
 
-
-
     @Override
     public String toString() {
         return "AppointmentVO{" +
                 "appointmentId=" + appointmentId +
                 ", accountId=" + accountId +
-                ", currentUserName='" + currentUserName + '\'' +
-                ", currentUserId=" + currentUserId +
-                ", arrivalUserId=" + arrivalUserId +
-                ", departureUserId=" + departureUserId +
-                ", arrivalUserName='" + arrivalUserName + '\'' +
+                ", arrivalUser=" + arrivalUser +
+                ", departureUser=" + departureUser +
                 ", arrivalDate='" + arrivalDate + '\'' +
-                ", departureUserName='" + departureUserName + '\'' +
                 ", departureDate='" + departureDate + '\'' +
                 ", kidIds=" + kidIds +
                 ", notes='" + notes + '\'' +

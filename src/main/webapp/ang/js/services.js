@@ -38,12 +38,16 @@ factory('Children', function ($resource) {
       });
 }).
   factory('Appointment', function ($resource) {
-      return $resource('/nounou/services/appointments/:appointmentId/:filter/:value', {
+      return $resource('/nounou/services/appointments/:appointmentId/:filter/:value/:filter2/:value2', {
           appointmentId: '@appointmentId'
       }, {
           query: {
               method: 'GET',
               isArray: true
+          },
+          report: {
+              method : 'GET',
+              isArray: false
           }
       });
 }).factory('AppService', [ function () {
