@@ -14,64 +14,36 @@ factory('User', function ($resource) {
         query: {
             method: 'GET',
             isArray: true
-        },
-        linkedUsers: {
-             method: 'GET',
-             params: {  userId: '@userId', filter:"account"}
         }
     });
 }).
   factory('Nurse', function ($resource) {
-      return $resource('/nounou/services/nurses/:nurseId/:action', {
+      return $resource('/nounou/services/nurses/:nurseId/:filter/:value', {
           nurseId: '@nurseId'
       }, {
           query: {
               method: 'GET',
               isArray: true
-          },
-          start: {
-               method: 'POST',
-               params: {  nurseId: '@nurseId', action:"start"}
-          },
-          stop: {
-               method: 'POST',
-               params: {  nurseId: '@nurseId', action:"stop"}
           }
       });
 }).
 factory('Children', function ($resource) {
-      return $resource('/nounou/services/children/:childId/:action', {
+      return $resource('/nounou/services/children/:childId/:filter/:value', {
           childId: '@childId'
       }, {
           query: {
               method: 'GET',
               isArray: true
-          },
-          start: {
-               method: 'POST',
-               params: {  childId: '@childId', action:"start"}
-          },
-          stop: {
-               method: 'POST',
-               params: {  childId: '@childId', action:"stop"}
           }
       });
 }).
   factory('Appointment', function ($resource) {
-      return $resource('/nounou/services/appointments/:appointmentId/:action', {
+      return $resource('/nounou/services/appointments/:appointmentId/:filter/:value', {
           appointmentId: '@appointmentId'
       }, {
           query: {
               method: 'GET',
               isArray: true
-          },
-          start: {
-               method: 'POST',
-               params: {  appointmentId: '@appointmentId', action:"start"}
-          },
-          stop: {
-               method: 'POST',
-               params: {  appointmentId: '@appointmentId', action:"stop"}
           }
       });
 }).factory('AppService', [ function () {

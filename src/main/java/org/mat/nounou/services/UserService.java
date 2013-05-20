@@ -173,8 +173,8 @@ public class UserService {
         return vos;
     }
 
-    @GET
-    @Path("/delete/{userId}")
+    @DELETE
+    @Path("/{userId}")
     public Response deleteById(@PathParam("userId") Integer userId) {
         //List<Child> c = null;
         EntityManager em = EntityManagerLoaderListener.createEntityManager();

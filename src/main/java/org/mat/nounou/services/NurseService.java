@@ -125,7 +125,7 @@ public class NurseService {
     }
 
     @GET
-    @Path("/account/{accountId}")
+    @Path("{nurseId}/account/{accountId}")
     public List<NurseVO> findByAccountId(@PathParam("accountId") Integer accountId) {
         List<NurseVO> nurses = new ArrayList<NurseVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
@@ -170,8 +170,8 @@ public class NurseService {
         return Response.ok().build();
     }
 
-    @GET
-    @Path("/delete/{nurseId}")
+    @DELETE
+    @Path("/{nurseId}")
     public Response deleteById(@PathParam("nurseId") Integer nurseId) {
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {

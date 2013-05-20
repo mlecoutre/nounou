@@ -74,8 +74,8 @@
                             <td>{{u.lastName}}</td>
                             <td>{{u.email}}</td>
                             <td>{{u.phoneNumber}}</td>
-                            <td><a class="editUser" ng-click="prepareUpdate(u)"><i class="icon-edit"></i></a>
-                                <a class="delUser"><i class="icon-trash"></i></a>
+                            <td><a class="editUser" ng-click="prepareUpdateUser(u)"><i class="icon-edit"></i></a>
+                                <a class="delUser" ng-click="delUser(u)"><i class="icon-trash"></i></a>
                             </td>
                         </tr>
                         </tbody>
@@ -89,19 +89,19 @@
                 <form id="formNurse" class="span4 registration">
                     <input type="hidden" id="editNurseId"/>
                     <label ng-i18next="registration:registration.firstName"></label>
-                    <input ng-model="nurse.nurseFirstName" type="text" id="nurseFirstName" placeholder="First name"
+                    <input ng-model="nurse.firstName" type="text" id="nurseFirstName" placeholder="First name"
                            class="required">
                     <label ng-i18next="registration:registration.lastName"></label>
-                    <input ng-model="nurse.nurseLastName" type="text" id="nurseLastName" placeholder="Last name">
+                    <input ng-model="nurse.lastName" type="text" id="nurseLastName" placeholder="Last name">
                     <label ng-i18next="registration:registration.phoneNumber"></label>
-                    <input ng-model="nurse.nursePhoneNumber" type="text" id="nursePhoneNumber"
+                    <input ng-model="nurse.phoneNumber" type="text" id="nursePhoneNumber"
                            placeholder="Phone Number">
 
                     <p>
-                        <button type="button" id="addNurse" class="btn" ng-i18next="commons:button.add"></button>
-                        <button type="button" id="updateNurse" class="btn hide"
+                        <button type="button" id="addNurse" ng-click="addNurse()" class="btn" ng-i18next="commons:button.add"></button>
+                        <button type="button" id="updateNurse" ng-click="updateNurse()" class="btn hide"
                                 ng-i18next="commons:button.save"></button>
-                        <button type="button" id="cancelNurse" class="btn hide"
+                        <button type="button" id="cancelNurse" ng-click="cancelNurse()" class="btn hide"
                                 ng-i18next="commons:button.cancel"></button>
                     </p>
                 </form>
@@ -118,12 +118,12 @@
                         </thead>
                         <tbody>
 
-                        <tr ng-repeat="nurse in nurses">
-                            <td>{{nurse.firstName}}</td>
-                            <td>{{nurse.lastName}}</td>
-                            <td>{{nurse.phoneNumber}}</td>
-                            <td><a class="editNurse" data-target="{{nurse.nurseId}}" href="#"><i class="icon-edit"></i></a>
-                                <a class="delNurse" data-target="{{nurse.nurseId}}" href="#"><i class="icon-trash"></i></a>
+                        <tr ng-repeat="n in nurses">
+                            <td>{{n.firstName}}</td>
+                            <td>{{n.lastName}}</td>
+                            <td>{{n.phoneNumber}}</td>
+                            <td><a class="editNurse" ng-click="prepareUpdateNurse(n)"><i class="icon-edit"></i></a>
+                                <a class="delNurse"  ng-click="delNurse(n)"><i class="icon-trash"></i></a>
                             </td>
                         </tr>
 
@@ -137,42 +137,43 @@
 
             <div class="row">
                 <form id="formKid" class="span4 registration">
-                    <input type="hidden" id="editKidId"/>
+
                     <label ng-i18next="registration:registration.firstName"></label>
-                    <input type="text" id="kidFirstName" placeholder="kid first name" class="required">
+                    <input type="text" ng-model="child.firstName" id="kidFirstName" placeholder="kid first name" class="required">
                     <label ng-i18next="registration:registration.lastName"></label>
-                    <input type="text" id="kidLastName" placeholder="kid last name">`
+                    <input type="text" ng-model="child.lastName" id="kidLastName" placeholder="kid last name">`
                     <label ng-i18next="registration:registration.birthday"></label>
-                    <input type="text" id="kidBirthday" class="required" placeholder="birthday">
+                    <input type="text" ng-model="child.birthday" id="kidBirthday" class="required" placeholder="birthday">
                     <label ng-i18next="registration:registration.picture"></label>
-                    <input type="text" id="kidPicture" placeholder="picture url">
+                    <input type="text" ng-model="child.pictureUrl" id="kidPicture" placeholder="picture url">
                     <label ng-i18next="registration:registration.nurse-label"></label>
-                    <select id="nurseId">
-                        <option id=""></option>
+                    <select id="nurseId" ng-model="child.nurseId" >
+
+                        <option ng-repeat="nrs in nurses" value="{{nrs.nurseId}}">{{nrs.nurseName}}</option>
                     </select>
 
                     <p>
-                        <button type="button" id="addKid" class="btn" ng-i18next="commons:button.add"></button>
-                        <button type="button" id="updateKid" class="btn hide" ng-i18next="commons:button.save"></button>
-                        <button type="button" id="cancelKid" class="btn hide"
+                        <button type="button" id="addChild" ng-click="addChild()" class="btn" ng-i18next="commons:button.add"></button>
+                        <button type="button" id="updateChild" ng-click="updateChild()" class="btn hide" ng-i18next="commons:button.save"></button>
+                        <button type="button" id="cancelChild" ng-click="cancelChild()" class="btn hide"
                                 ng-i18next="commons:button.cancel"></button>
                     </p>
                 </form>
                 <div class="span8" id="kidList">
                     <legend class="kid-template" ng-i18next="registration:registration.kids.title"></legend>
 
-                    <ul class="thumbnails" ng-repeat="child in children">
-                        <li class="span2">
+                    <ul class="thumbnails">
+                        <li class="span2"  ng-repeat="c in children">
                             <div class="thumbnail">
-                                <row><img style="height:50px; width:50px" src="{{child.pictureUrl}}"/><strong>{{child.firstName}}</strong>
+                                <row><img style="height:50px; width:50px" src="{{c.pictureUrl}}"/><strong>{{c.firstName}}</strong>
                                 </row>
 
-                                <p>{{child.birthday}}<br/>
-                                    {{child.nurseName}}<br/></p>
+                                <p>{{c.birthday}}<br/>
+                                    {{c.nurseName}}<br/></p>
                                 <center>
-                                    <a class="editKid" data-target="{{child.childId}}" href="#"><i
+                                    <a class="editKid"  ng-click="prepareUpdateChild(c)"><i
                                             class="icon-edit"></i></a>
-                                    <a class="delKid" data-target="{{child.childId}}" href="#"><i
+                                    <a class="delKid" ng-click="delChild(c)"><i
                                             class="icon-trash"></i></a>
                                 </center>
                             </div>

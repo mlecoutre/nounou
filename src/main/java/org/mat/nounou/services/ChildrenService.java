@@ -130,7 +130,7 @@ public class ChildrenService {
 
 
     @GET
-    @Path("/account/{accountId}")
+    @Path("{childId}/account/{accountId}")
     public List<ChildVO> findByAccountId(@PathParam("accountId") Integer accountId) {
         List<ChildVO> cList = new ArrayList<ChildVO>();
         EntityManager em = EntityManagerLoaderListener.createEntityManager();

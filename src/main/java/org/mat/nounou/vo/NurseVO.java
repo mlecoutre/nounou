@@ -16,6 +16,11 @@ public class NurseVO {
     private String phoneNumber;
     private Integer accountId;
 
+
+    public void setNurseName(String ns) {
+        //auto calculate
+    }
+
     public String getNurseName() {
         return getFirstName().concat(" ").concat(getLastName());
     }
