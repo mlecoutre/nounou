@@ -7,6 +7,7 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     $scope.users = listUsers();
     $scope.last5 = [];
     $scope.nurses = listNurses();
+    $kids =[];
 
     $scope.requestAppointments;
 
@@ -18,6 +19,7 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     function initAppointment(){
        console.log("init");
        last5Appointments();
+
 
     }
 
@@ -31,6 +33,11 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
         }, function() {
             return AppService.displayErrorMessage("ERROR, Appointment unsuccessfully created");
         });
+    }
+
+    $scope.clicKid =  function(child){
+        console.log(">>"+child.childId);
+        $scope.kids.push(child.childId);
     }
 
     $scope.prepareUpdateAppointment = function(a){

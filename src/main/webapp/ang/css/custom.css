@@ -1,0 +1,73 @@
+.large-button {
+	width:80%;
+}
+
+.selected-kid {
+	border-radius:5px;
+	-moz-border-radius:5px;
+	width:70px;
+	height:70px;
+	float:left;
+	display:block;
+	text-align:center;
+	overflow:hidden;
+	margin-right:2px;
+	margin-left:2px;
+}
+
+.disabled-kid {
+	-webkit-filter:grayscale(80%) blur(1px);
+	filter: grayscale(80%);
+	border-radius:5px;
+	-moz-border-radius:5px;
+}
+
+.liveKid {
+	width:70px;
+	height:70px;
+	float:left;
+	display:block;
+	text-align:center;
+	overflow:hidden;
+	margin:2px;
+}
+
+.small-picture {
+	width:20px;
+	height:20px;
+}
+
+.report-chart-container {
+	height:300px;
+	min-width:500px;
+}
+
+label {
+	width: 10em;
+}
+
+label.error {
+	position:left;
+	width:80%;
+	_position: absolute;
+	text-shadow: 0 1px 0 rgba(0,0,0,.5);
+	color: red; padding-left: .5em;
+	vertical-align: top;
+	background-color: #de4343;
+	color:white;
+	border-color: #c43d3d;
+	border-radius:5px;
+	-moz-border-radius:5px;
+}
+
+.signin{
+	margin-top: -7px !important;
+}
+
+.online-status {
+	width: 25px;
+	height: 25px;
+	padding-top: 5px;
+}
+
+.ui-progressbar .ui-progressbar-value { background-image: url(/img/pbar-ani.gif); }

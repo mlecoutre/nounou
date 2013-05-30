@@ -13,12 +13,12 @@
                 <select id="userId" ng-model="appointment.arrivalUser" ng-options="u.firstName for u in users">
                 </select>
                 <label ng-i18next="run:run.commons.arrival-date"></label>
-                <input type="text" id="arrivalDate" ng-model="appointment.arrivalDate" placeholder="Arrival date time">
+                <input type="text" id="arrivalDate" ui-mask="'99-99-9999'"  ng-model="appointment.arrivalDate" placeholder="Arrival date time">
                 <label ng-i18next="run:run.commons.departure-date"></label>
-                <input type="datetime" id="departureDate" ng-model="appointment.departureDate" placeholder="Departure date time">
+                <input type="datetime" id="departureDate" ui-mask="'99-99-9999'"  ng-model="appointment.departureDate" placeholder="Departure date time">
 
                 <div id="kidName">
-                    <div ng-repeat="child in children" data-target="{{child.childId}}" class="liveKid">
+                    <div ng-repeat="child in children" ng-click="clicKid(child);" ng-kid="{{child.childId}}" class="liveKid">
                         <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                     <label ng-i18next="run:run.commons.kids"></label>
 
                     <div id="editKids">
-                        <div ng-repeat="child in children" data-target="{{child.childId}}" class="liveKid">
+                        <div ng-repeat="child in children" ng-kid="{{child.childId}}" class="liveKid">
                             <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
                         </div>
                     </div>
