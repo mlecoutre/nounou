@@ -64,17 +64,17 @@
         <div class="row">
             <div class="span4">
                 <div id="editUpdate" class="hide run">
-                    <input type="hidden" id="editAppointmentId"/>
+
                     <label ng-i18next="run:run.update.arrival-user"></label>
-                    <select id="editArrivalUserId">
+                    <select id="editArrivalUserId" ng-model="updtAppointement.arrivalUser" ng-options="u.firstName for u in users">
                     </select>
                     <label ng-i18next="run:run.commons.arrival-date"></label>
-                    <input type="text" id="editArrivalDate" placeholder="Arrival date time">
+                    <input type="text" id="editArrivalDate" ng-model="updtAppointement.arrivalDate" placeholder="Arrival date time">
                     <label ng-i18next="run:run.update.departure-user"></label>
-                    <select id="editDepartureUserId">
+                    <select id="editDepartureUserId" ng-model="updtAppointement.departureUser" ng-options="u.firstName for u in users">
                     </select>
                     <label ng-i18next="run:run.commons.departure-date"></label>
-                    <input type="text" id="editDepartureDate" placeholder="Departure date time">
+                    <input type="text" id="editDepartureDate"  ng-model="updtAppointement.departureDate"  placeholder="Departure date time">
                     <label ng-i18next="run:run.commons.kids"></label>
 
                     <div id="editKids">
@@ -83,8 +83,8 @@
                         </div>
                     </div>
                     <div>
-                        <a class="btn btn-primary" id="editSave" ng-i18next="commons:button.save"></a>
-                        <a class="btn btn-primary" id="editCancel" ng-i18next="commons:button.cancel"></a>
+                        <a class="btn btn-primary" id="editSave" ng-click="updateAppointment()" ng-i18next="commons:button.save"></a>
+                        <a class="btn btn-primary" id="editCancel" ng-click="cancelAppointment();" ng-i18next="commons:button.cancel"></a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                 <legend ng-i18next="run:run.search.legend"></legend>
                 <label ng-i18next="run:run.search.label"></label>
 
-                <p><select id="searchDate">
+                <p><select id="searchDate" ng-model="searchDate">
                     <option value="currentWeek" selected="true"
                             ng-i18next="run:run.search.options.current-week"></option>
                     <option value="lastWeek" ng-i18next="run:run.search.options.last-week"></option>
@@ -100,7 +100,7 @@
                     <option value="prevMonth" ng-i18next="run:run.search.options.previous-month"></option>
                     <option id="other" ng-i18next="run:run.search.options.other"></option>
                 </select>
-                    <a class="btn" id="search" ng-i18next="run:run.search.search-button"></a></p>
+                    <a class="btn" id="search" ng-click="listAppointments();" ng-i18next="run:run.search.search-button"></a></p>
                 <hr/>
                 <div id="appointmentResultList">
                     <table class="table table-striped appointmentsContent">
@@ -116,15 +116,15 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="app2 in requestAppointments">
-                            <td>{{app2.arrivalUserName}}</td>
+                            <td>{{app2.arrivalUser.firstName}}</td>
                             <td>{{app2.arrivalDate}}</td>
-                            <td>{{app2.departureUserName}}</td>
+                            <td>{{app2.departureUser.firstName}}</td>
                             <td>{{app2.departureDate}}</td>
                             <td>
                                 <img ng-repeat="c in app2.children" src="{{c.pictureUrl}}" class="small-picture" alt={{c.firstName}}/>
                             </td>
-                            <td><a class="edit" data-target="{{app2.appointmentId}}" href="#"><i class="icon-edit"></i></a>
-                                <a class="del" data-target="{{app2.appointmentId}}" href="#"><i class="icon-trash"></i></a></td>
+                            <td><a class="edit" data-target="{{app2.appointmentId}}" ng-click="prepareUpdateAppointment(app2);"><i class="icon-edit"></i></a>
+                                <a class="del" data-target="{{app2.appointmentId}}"  ng-click="delAppointment(app2);"><i class="icon-trash"></i></a></td>
                         </tr>
                         </tbody>
                     </table>
