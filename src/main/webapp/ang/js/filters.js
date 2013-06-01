@@ -7,4 +7,9 @@ angular.module('nounouApp.filters', []).
     return function(text) {
       return String(text).replace(/\%VERSION\%/mg, version);
     }
-  }]);
+  }]).
+  filter('translate', function() {
+          return function(text) {
+            return "test";
+          }
+  });

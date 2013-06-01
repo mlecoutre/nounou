@@ -3,7 +3,7 @@
 <h2 class="run" ng-i18next="run:run.title"></h2>
 
 <tabs ng-controller="RunCtrl">
-    <pane heading="run:run.tab.live" >
+    <pane heading="{{tabs[0].label}}" >
         <div class="row">
             <div class="span4 run">
 
@@ -60,7 +60,7 @@
         </div>
     </pane>
 
-    <pane heading="run:run.tab.update">
+    <pane heading="{{tabs[1].label}}">
         <div class="row">
             <div class="span4">
                 <div id="editUpdate" class="hide run">
@@ -92,8 +92,7 @@
                 <legend ng-i18next="run:run.search.legend"></legend>
                 <label ng-i18next="run:run.search.label"></label>
 
-                <p><select id="searchDate" ng-model="searchDate" ng-options="s.label for s in selectables">
-                </select>
+                <p><select ng-model="searchDate" ng-options="s.label for s in selectables"></select>
                     <a class="btn" id="search" ng-click="listAppointments();" ng-i18next="run:run.search.search-button"></a></p>
                 <hr/>
                 <div id="appointmentResultList">

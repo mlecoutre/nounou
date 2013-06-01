@@ -12,6 +12,17 @@ function RegistrationCtrl($scope, User, Nurse, Children, AppService) {
     $scope.child =  new Children({accountId: $scope.accountId});
     $scope.children = listChildren();
 
+        $scope.tabs = [{label: "registration:registration.tab.what-title"},
+           {label: "registration:registration.tab.you-title"},
+           {label: "registration:registration.tab.nurse-title"},
+           {label: "registration:registration.tab.kids-title"}];
+
+        i18n.init(function(t) {
+            angular.forEach($scope.tabs, function(s){
+                s.label = t(s.label);
+            });
+        });
+
     //MANAGE USERS ///////////
 
     $scope.addUser = function(){

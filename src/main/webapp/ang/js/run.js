@@ -15,16 +15,17 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     $scope.appointments;
     $scope.updtAppointement;
 
+    $scope.tabs = [{label: "run:run.tab.live"},{label: "run:run.tab.update"}];
 
     $scope.selectables = [  {label:"current-week", value:"currentWeek"},
                             {label:"current-month", value:"currentMonth"},
                             {label:"last-week", value:"lastWeek"},
                             {label:"previous-month", value:"lastMonth"},
                             {label:"all", value:"all"}];
-
+    initAppointment();
     $scope.searchDate = $scope.selectables[0];
 
-    initAppointment();
+
     //MANAGE Appointments ///////////
     function initAppointment(){
        console.log("init");
@@ -32,6 +33,10 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
         i18n.init(function(t) {
             angular.forEach($scope.selectables, function(s){
                   s.label = t("run:run.search.options." + s.label);
+            });
+
+            angular.forEach($scope.tabs, function(s){
+                s.label = t(s.label);
             });
         });
 

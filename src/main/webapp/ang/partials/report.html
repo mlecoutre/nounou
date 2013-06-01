@@ -4,13 +4,13 @@
 
 <div ng-controller="ReportCtrl">
     <tabs>
-        <pane heading="report:report.tab.title.chart">
+        <pane heading="{{tabs[0].label}}">
             <div class="tab-pane active" id="container">
 
             </div>
         </pane>
 
-        <pane heading="report:report.tab.title.table">
+        <pane heading="{{tabs[1].label}}">
             <legend class="app-template">{{totalDuration}}</legend>
             <table class="table table-striped app-template">
                 <thead>
@@ -44,7 +44,7 @@
         </pane>
 
 
-        <pane heading="report:report.tab.title.options">
+        <pane heading="{{tabs[2].label}}">
 
         </pane>
 

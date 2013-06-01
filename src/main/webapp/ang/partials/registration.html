@@ -4,7 +4,7 @@
     <h2 class="registration" ng-i18next="registration:registration.title"></h2>
 
     <tabs>
-        <pane heading="registration:registration.tab.what-title">
+        <pane heading="{{tabs[0].label}}">
             <p ng-i18next="registration:registration.what.introduce1"></p>
 
             <p ng-i18next="registration:registration.what.introduce2"></p>
@@ -14,7 +14,7 @@
                 <li ng-i18next="registration:registration.what.li3"></li>
             </ul>
         </pane>
-        <pane heading="registration:registration.tab.you-title">
+        <pane heading="{{tabs[1].label}}">
             <div class="row">
                 <form id="formUser" class="span4 registration">
                     <input type="hidden" id="editUserId"/>
@@ -84,7 +84,7 @@
             </div>
 
         </pane>
-        <pane heading="registration:registration.tab.nurse-title">
+        <pane heading="{{tabs[2].label}}">
             <div class="row">
                 <form id="formNurse" class="span4 registration">
                     <input type="hidden" id="editNurseId"/>
@@ -133,7 +133,7 @@
 
             </div>
         </pane>
-        <pane heading="registration:registration.tab.kids-title">
+        <pane heading="{{tabs[3].label}}">
 
             <div class="row">
                 <form id="formKid" class="span4 registration">

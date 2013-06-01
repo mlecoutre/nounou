@@ -4,6 +4,17 @@ function ReportCtrl($scope, Appointment, $filter) {
     $scope.appointments ;
     listAppointments();
 
+    $scope.tabs = [{label: "report:report.tab.title.chart"},
+       {label: "report:report.tab.title.table"},
+       {label: "report:report.tab.title.options"}];
+
+    i18n.init(function(t) {
+        angular.forEach($scope.tabs, function(s){
+            //console.log(">"+t(s.label));
+            s.label = t(s.label);
+        });
+    });
+
     function listAppointments() {
 
      Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: 'currentMonth'}, function(report, getResponseHeaders){
