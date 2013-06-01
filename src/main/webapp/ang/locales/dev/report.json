@@ -13,7 +13,7 @@
     }
   },
   "app-template":{
-    "total-duration": "Total Month: __totDuration__",
+    "total-duration": "Total Month: ",
     "arrival-user": "Arr. User",
     "arrival-date": "Arrival",
     "departure-user": "Dep. User",

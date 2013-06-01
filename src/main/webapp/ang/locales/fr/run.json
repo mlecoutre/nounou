@@ -32,7 +32,7 @@
             "last-week":"Semaine dernière",
             "current-month":"Mois courrant",
             "previous-month":"Mois précédent",
-            "other":"Autre"
+            "all":"Tous"
          }
       },
       "last5":{

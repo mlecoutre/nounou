@@ -15,12 +15,26 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     $scope.appointments;
     $scope.updtAppointement;
 
-    $scope.searchDate = "currentWeek";
 
-     initAppointment();
+    $scope.selectables = [  {label:"current-week", value:"currentWeek"},
+                            {label:"current-month", value:"currentMonth"},
+                            {label:"last-week", value:"lastWeek"},
+                            {label:"previous-month", value:"lastMonth"},
+                            {label:"all", value:"all"}];
+
+    $scope.searchDate = $scope.selectables[0];
+
+    initAppointment();
     //MANAGE Appointments ///////////
     function initAppointment(){
        console.log("init");
+
+        i18n.init(function(t) {
+            angular.forEach($scope.selectables, function(s){
+                  s.label = t("run:run.search.options." + s.label);
+            });
+        });
+
        last5Appointments();
     }
 
@@ -47,34 +61,32 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
         var index = 0;
         angular.forEach($scope.kids, function(kid) {
               if (kid.childId == child.childId){
-                //remove it
-                isToAdd = false;
-                var value = $scope.kids.splice( index, 1 );
-                console.log("Remove child ");
-                return;
+                return $scope.kids.splice( index, 1 );
               }
               index++;
         });
         if (isToAdd){
-            console.log("Add child");
             $scope.kids.push(child);
         }
-
     }
 
     $scope.prepareUpdateAppointment = function(a){
          console.log("prepareUpdate ");
          $scope.updtAppointement = a;
-          angular.forEach($scope.users, function(u) {
-            if(u.userId == a.arrivalUser.userId ) {
-                $scope.updtAppointement.arrivalUser = u;
-            }
-         });
-         angular.forEach($scope.users, function(u) {
-            if(u.userId == a.departureUser.userId ) {
-                 $scope.updtAppointement.departureUser = u;
-            }
-         });
+          if (a.departureUser != null){
+             angular.forEach($scope.users, function(u) {
+                if(u.userId == a.arrivalUser.userId ) {
+                    $scope.updtAppointement.arrivalUser = u;
+                }
+            });
+         }
+         if (a.departureUser != null){
+            angular.forEach($scope.users, function(u) {
+                if(u.userId == a.departureUser.userId ) {
+                    $scope.updtAppointement.departureUser = u;
+                }
+            });
+         }
          $("#editUpdate").show();
          //$("#cancelAppointment").show();
          //$("#addAppointment").hide();
@@ -83,9 +95,10 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
 
     $scope.updateAppointment = function(){
        $scope.appointment.$save({appointmentId: $scope.appointment.userId}, function(){
-               listAppointments();
+            AppService.displaySuccessMessage("Appointment successfully updated");
+            listAppointments();
        }, function(){
-        //error function
+            return AppService.displayErrorMessage("ERROR, Appointment unsuccessfully updated");
        });
 
        $("#updateAppointment").hide();
@@ -94,10 +107,11 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     }
 
     $scope.delAppointment = function(a){
-       a.$remove({appointmentId: a.appointmentId}, function(){
-             listAppointments();
+       Appointment.delete({appointmentId: a.appointmentId}, function(){
+            AppService.displaySuccessMessage("Appointment successfully deleted");
+            $scope.listAppointments ();
        }, function(){
-             //error function
+            return AppService.displayErrorMessage("ERROR, Appointment unsuccessfully deleted");
        });
     }
 
@@ -115,8 +129,8 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     }
 
     $scope.listAppointments =  function() {
-        console.log("listAppointments : "+$scope.searchDate);
-        Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: $scope.searchDate}, function(u, getResponseHeaders){
+        console.log("listAppointments : "+$scope.searchDate.value);
+        Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: $scope.searchDate.value}, function(u, getResponseHeaders){
             $scope.requestAppointments = u.appointments;
         });
     };

@@ -13,7 +13,7 @@
       }
    },
    "app-template":{
-      "total-duration":"Total mensuel: __totDuration__",
+      "total-duration":"Total mensuel: ",
       "arrival-user":"Accompagnant Arr.",
       "arrival-date":"Arrivée",
       "departure-user":"Accompagnant Dep.",

@@ -295,7 +295,7 @@ public class AppointmentService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public AppointmentVO registerAppointment(AppointmentVO appointment) {
+    public AppointmentVO registerAppointment(AppointmentVO appointment) throws Exception{
         logger.debug("register appointment " + appointment);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         Appointment entity = null;
@@ -339,7 +339,8 @@ public class AppointmentService {
             em.getTransaction().commit();
             appointment.setAppointmentId(entity.getAppointmentId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR in registerAppointment", e);
+            throw e;
         } finally {
             em.close();
         }
@@ -350,7 +351,7 @@ public class AppointmentService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{appointmentId}")
-    public AppointmentVO saveAppointment(@PathParam("appointmentId") Integer appointmentId, AppointmentVO appointment) {
+    public AppointmentVO saveAppointment(@PathParam("appointmentId") Integer appointmentId, AppointmentVO appointment) throws Exception{
         logger.debug("Update appointment " + appointment);
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
 
@@ -386,16 +387,23 @@ public class AppointmentService {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("ERROR in saveAppointment", e);
+            throw e;
         } finally {
             em.close();
         }
         return appointment;
     }
 
+    @DELETE
+    @Path("/{appointmentId}")
+    public Response deleteAppointmentById(@PathParam("appointmentId") Integer appointmentId) throws Exception{
+          return deleteById(appointmentId);
+    }
+
     @GET
     @Path("/delete/{appointmentId}")
-    public Response deleteById(@PathParam("appointmentId") Integer appointmentId) {
+    public Response deleteById(@PathParam("appointmentId") Integer appointmentId) throws Exception{
         EntityManager em = EntityManagerLoaderListener.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -404,6 +412,7 @@ public class AppointmentService {
             em.getTransaction().commit();
         } catch (Exception e) {
             logger.error("ERROR in deleteById", e);
+            throw e;
         } finally {
             em.close();
         }

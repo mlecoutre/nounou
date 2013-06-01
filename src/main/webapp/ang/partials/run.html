@@ -47,8 +47,8 @@
                         <td>{{app.departureUser.firstName}}</td>
                         <td>{{app.departureDate}}</td>
                         <td>
-                            <div ng-repeat="child in app.children" data-target="{{child.childId}}" class="liveKid">
-                                <img src="{{child.pictureUrl}}" style="width:50px; height:50px;" /><br/>{{child.firstName}}
+                            <div ng-repeat="child in app.children" data-target="{{child.childId}}" >
+                                <img src="{{child.pictureUrl}}" class="small-picture" />
                             </div>
                         </td>
                         <td>{{app.duration}}</td>
@@ -92,13 +92,7 @@
                 <legend ng-i18next="run:run.search.legend"></legend>
                 <label ng-i18next="run:run.search.label"></label>
 
-                <p><select id="searchDate" ng-model="searchDate">
-                    <option value="currentWeek" selected="true"
-                            ng-i18next="run:run.search.options.current-week"></option>
-                    <option value="lastWeek" ng-i18next="run:run.search.options.last-week"></option>
-                    <option value="currentMonth" ng-i18next="run:run.search.options.current-month"></option>
-                    <option value="prevMonth" ng-i18next="run:run.search.options.previous-month"></option>
-                    <option id="other" ng-i18next="run:run.search.options.other"></option>
+                <p><select id="searchDate" ng-model="searchDate" ng-options="s.label for s in selectables">
                 </select>
                     <a class="btn" id="search" ng-click="listAppointments();" ng-i18next="run:run.search.search-button"></a></p>
                 <hr/>

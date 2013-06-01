@@ -5,13 +5,13 @@
 <div ng-controller="ReportCtrl">
     <tabs>
         <pane heading="report:report.tab.title.chart">
-            <div class="tab-pane active" id="charts">
+            <div class="tab-pane active" id="container">
 
             </div>
         </pane>
 
         <pane heading="report:report.tab.title.table">
-            <legend class="app-template" ng-i18next="report:app-template.total-duration"></legend>
+            <legend class="app-template">{{totalDuration}}</legend>
             <table class="table table-striped app-template">
                 <thead>
                 <tr>
@@ -26,9 +26,9 @@
                 <tbody>
 
                 <tr ng-repeat="appointment in appointments">
-                    <td>{{appointment.arrivalUserName}}</td>
+                    <td>{{appointment.arrivalUser.firstName}}</td>
                     <td>{{appointment.arrivalDate}}</td>
-                    <td>{{appointment.departureUserName}}</td>
+                    <td>{{appointment.departureUser.firstName}}</td>
                     <td>{{appointment.departureDate}}</td>
                     <td>
                         <img ng-repeat="child in appointment.children" src="{{child.pictureUrl}}"
