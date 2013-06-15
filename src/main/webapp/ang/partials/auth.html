@@ -1,0 +1,12 @@
+<form ng-hide="logged">
+    <p class="navbar-text pull-right" id="authBox_request">
+        <input class="span2" ng-model="token.uid" type="text" id="uid" placeholder="Email">
+        <input class="span2" ng-model="token.password" type="password" id="password" placeholder="Password">
+        <button type="submit" ng-click="login()" class="btn sign-in" id="signIn"
+                ng-i18next="commons:auth.signin"></button>
+    </p>
+</form>
+
+<div  class="navbar-text pull-right" ng-hide="!logged">
+Logged in as <a href="#" class="navbar-link" ng-click="signOut()">{{token.userName}}</a>
+</div>

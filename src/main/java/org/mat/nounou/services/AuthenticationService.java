@@ -45,7 +45,7 @@ public class AuthenticationService {
             token.setPassword("");//reset pwd to avoid resend it to the browser
         } catch (NoResultException nre) {
             logger.error("Invalid credential for " + token.getUid());
-            return Response.status(500).build();
+            throw nre;
         } catch (Exception e) {
             logger.error("registerUser", e);
             return Response.status(500).build();

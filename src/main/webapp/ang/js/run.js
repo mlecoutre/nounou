@@ -1,7 +1,7 @@
 function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
 
 
-    $scope.accountId = 1;
+    $scope.token = AppService.getToken();
 
     $scope.children = listChildren();
     $scope.users    = listUsers();
@@ -11,7 +11,7 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
 
     $scope.requestAppointments;
 
-    $scope.appointment = Appointment.get({appointmentId:0, filter: 'account', value: $scope.accountId, filter2: 'user', value2:1});
+    $scope.appointment = Appointment.get({appointmentId:0, filter: 'account', value: $scope.token.accountId, filter2: 'user', value2:1});
     $scope.appointments;
     $scope.updtAppointement;
 
@@ -128,14 +128,14 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     }
 
     function last5Appointments(){
-        Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: 'last'}, function(u, getResponseHeaders){
+        Appointment.report({appointmentId:0, filter: 'account', value: $scope.token.accountId, filter2:'searchType', value2: 'last'}, function(u, getResponseHeaders){
           $scope.last5 = u.appointments;
         });
     }
 
     $scope.listAppointments =  function() {
         console.log("listAppointments : "+$scope.searchDate.value);
-        Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: $scope.searchDate.value}, function(u, getResponseHeaders){
+        Appointment.report({appointmentId:0, filter: 'account', value: $scope.token.accountId, filter2:'searchType', value2: $scope.searchDate.value}, function(u, getResponseHeaders){
             $scope.requestAppointments = u.appointments;
         });
     };
@@ -143,17 +143,17 @@ function RunCtrl($scope, User, Appointment, Children, Nurse, AppService) {
     //////// OTHER STUFFS ////////////////////
 
     function listChildren() {
-           return $scope.children  = Children.query({childId:0, filter: 'account', value: $scope.accountId}, function(){
+           return $scope.children  = Children.query({childId:0, filter: 'account', value: $scope.token.accountId}, function(){
                 //clone the kids list in order to init the selected list of current appointment
                 $scope.kids = $scope.children.slice(0);
            });
     };
 
     function listNurses() {
-          return $scope.nurses  = Nurse.query({nurseId:0, filter: 'account', value: $scope.accountId});
+          return $scope.nurses  = Nurse.query({nurseId:0, filter: 'account', value: $scope.token.accountId});
     };
 
     function listUsers() {
-          return $scope.users  = User.query({userId:0, filter: 'account', value: $scope.accountId});
+          return $scope.users  = User.query({userId:0, filter: 'account', value: $scope.token.accountId});
     };
 }

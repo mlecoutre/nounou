@@ -1,5 +1,4 @@
-function ReportCtrl($scope, Appointment, $filter) {
-    $scope.accountId = 1; 
+function ReportCtrl($scope, Appointment, $filter) { 
     $scope.totalDuration;
     $scope.appointments ;
     listAppointments();
@@ -17,7 +16,7 @@ function ReportCtrl($scope, Appointment, $filter) {
 
     function listAppointments() {
 
-     Appointment.report({appointmentId:0, filter: 'account', value: $scope.accountId, filter2:'searchType', value2: 'currentMonth'}, function(report, getResponseHeaders){
+     Appointment.report({appointmentId:0, filter: 'account', value:  $scope.token.accountId, filter2:'searchType', value2: 'currentMonth'}, function(report, getResponseHeaders){
        $scope.appointments = report.appointments;
 
        i18n.init(function(t) {

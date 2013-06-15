@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-angular.module('nounouApp', ['nounouApp.filters', 'nounouApp.services', 'nounouApp.directives','ui.bootstrap','i18next']).
+angular.module('nounouApp', ['nounouApp.filters', 'nounouApp.services', 'nounouApp.directives','ui.bootstrap','i18next','nounouApp.authService']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     	when('/index', {templateUrl: 'partials/index.html', controller: IndexCtrl}).
