@@ -2,9 +2,11 @@ package org.mat.nounou.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 import java.util.Set;
 
 /**

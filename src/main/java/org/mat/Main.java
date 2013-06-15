@@ -1,9 +1,5 @@
 package org.mat;
 
-import org.apache.catalina.startup.Tomcat;
-
-import java.io.File;
-
 /**
  * This class launches the web application in an embedded Jetty container.
  * This is the entry point to your application. The Java command that is used for
@@ -14,7 +10,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        String webappDirLocation = "src/main/webapp/";
+       /* String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
 
         //The port that we should run on can be set into an environment variable
@@ -29,7 +25,7 @@ public class Main {
         System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
 
         tomcat.start();
-        tomcat.getServer().await();
+        tomcat.getServer().await();*/
 
     }
 

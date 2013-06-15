@@ -1,6 +1,5 @@
 package org.mat.nounou.model;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

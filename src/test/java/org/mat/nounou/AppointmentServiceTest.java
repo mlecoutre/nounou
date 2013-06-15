@@ -14,6 +14,7 @@ import org.mat.nounou.services.AppointmentService;
 import org.mat.nounou.servlets.EntityManagerLoaderListener;
 import org.mat.nounou.vo.AppointmentVO;
 import org.mat.nounou.vo.ReportVO;
+import org.mat.nounou.vo.UserVO;
 
 import javax.persistence.EntityManager;
 import java.sql.Connection;
@@ -108,15 +109,19 @@ public class AppointmentServiceTest {
     public void testGetCurrentAppointment() {
         AppointmentService apps = new AppointmentService();
         AppointmentVO vo = apps.getCurrentAppointment(1, 1);
-        assertTrue("We should have one apps", vo.getCurrentUserName().equals("Richard Wright"));
+        assertTrue("We should have one apps", vo != null);
     }
 
     @Test
-    public void testRegisterAppointment() {
+    public void testRegisterAppointment() throws Exception{
         AppointmentService apps = new AppointmentService();
         AppointmentVO vo = new AppointmentVO();
         vo.setAccountId(1);
-        vo.setCurrentUserId(1);
+        UserVO user =new UserVO();
+        user.setUserId(1);  //we get an existing user
+
+        vo.setArrivalUser(user);
+        vo.setDepartureUser(user);
         List<Integer> kidIds = new ArrayList<Integer>();
         kidIds.add(1);
         kidIds.add(2);
@@ -137,7 +142,7 @@ public class AppointmentServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteById() throws Exception {
         AppointmentService apps = new AppointmentService();
         apps.deleteById(1);
         assertTrue("Appointment should be deleted", true);

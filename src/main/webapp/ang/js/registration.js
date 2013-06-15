@@ -50,8 +50,9 @@ function RegistrationCtrl($scope, User, Nurse, Children, AppService) {
     $scope.updateUser = function(){
        $scope.user.$save({userId: $scope.user.userId}, function(){
                listUsers();
+               AppService.displaySuccessMessage("User successfully updated");
        }, function(){
-        //error function
+               AppService.displaySuccessMessage("User unsuccessfully updated");
        });
 
        $("#updateUser").hide();
@@ -62,8 +63,9 @@ function RegistrationCtrl($scope, User, Nurse, Children, AppService) {
     $scope.delUser = function(u){
        u.$remove({userId: u.userId}, function(){
              listUsers();
+             AppService.displaySuccessMessage("User successfully deleted");
        }, function(){
-             //error function
+            AppService.displaySuccessMessage("User unsuccessfully deleted");
        });
     }
 
@@ -158,8 +160,9 @@ function RegistrationCtrl($scope, User, Nurse, Children, AppService) {
         $scope.updateChild = function(){
            $scope.child.$save({childId: $scope.child.childId}, function(){
                    listChildren();
+                   AppService.displaySuccessMessage("Child successfully updated");
            }, function(){
-            //error function
+                return AppService.displayErrorMessage("ERROR, child unsuccessfully updated");
            });
 
            $("#updateChild").hide();
@@ -170,8 +173,9 @@ function RegistrationCtrl($scope, User, Nurse, Children, AppService) {
         $scope.delChild= function(c){
            c.$remove({childId: c.childId}, function(){
                  listChildren();
+                 AppService.displaySuccessMessage("Child successfully deleted");
            }, function(){
-                 //error function
+                return AppService.displayErrorMessage("ERROR, child unsuccessfully deleted");
            });
         }
 

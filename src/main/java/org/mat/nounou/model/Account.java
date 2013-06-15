@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: mlecoutre

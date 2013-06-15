@@ -6,7 +6,7 @@
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular.module('nounouApp.services', ['ngResource']).
-  value('version', '0.1').
+  value('version', '1.0.0').
 factory('User', function ($resource) {
     return $resource('/nounou/services/users/:userId/:filter/:value', {
         userId: '@userId'

@@ -103,7 +103,7 @@ public class UserServiceTest {
     @Test
     public void testFindByAccountId() {
         UserService service = new UserService();
-        List<UserVO> vos = service.findByAccountId(1);
+        List<UserVO> vos = service.findByAccountId(0, 1);
         assertTrue("Should have at least one user in db with accoundId=1.", vos.size() > 0);
     }
 
